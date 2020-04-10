@@ -1,0 +1,70 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fcolumn}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{geometry}
+\geometry{letterpaper, margin=1in}
+
+
+\title{Balance Sheet}
+\author{Jason Paris}
+\date{April 2020}
+
+
+\begin{document}
+\begin{center}
+    {\huge Paris Family}
+
+    Balance Sheet as of 2020/2/28
+\end{center}
+
+\begin{table}[ht]
+    \center
+        \begin{tabular}{l l r}
+
+        \multicolumn{3}{l}{\large{\textbf{Assets}}}\\
+        \toprule
+        \multicolumn{3}{l}{\textbf{Current Assets}}\\
+        & Checking  & \VAR{checking} \\
+        & Savings  & \VAR{savings} \\
+
+        \midrule
+            \small{\emph{Total Current Assets}} & & \VAR{current_assets}\\
+        \midrule
+
+        \multicolumn{3}{l}{\textbf{Longterm Assets}} \\
+        & Escrow &  \VAR{escrow} \\
+        & Property &  \VAR{realestate} \\
+        & Investments &  \VAR{investments} \\
+        & Receivable &  \VAR{receivable} \\
+        \midrule
+        \emph{Total Longterm Assets} & & \VAR{longterm_assets}\\
+        \midrule
+        \textbf{Total Assets} & & \textbf{\VAR{total_assets}\\
+        \midrule
+
+        & &  \\
+
+        \multicolumn{3}{l}{\large{\textbf{Liabilities}}}\\
+        \toprule
+        \multicolumn{3}{l}{\textbf{Unsecured Liabilities}}\\
+        & Visa Card  & 8,302\\
+        & Wells Fargo  & 4,740 \\
+        & Google  & 325 \\
+        \midrule
+        \small{\emph{Total Unsecured Liabilities}} & & 13,367\\
+        \midrule
+        \multicolumn{3}{l}{\textbf{Secured Liabilities}} \\
+        & Van &  2,141 \\
+        & Mortgage &  110,556 \\
+        \midrule
+        \emph{Total Secured Liabilities} & & 112,698\\
+        \midrule
+
+        \textbf{Total Liabilities} \hspace{1.75in} & & \textbf{126,065}\\
+        \bottomrule
+
+    \end{tabular}
+\end{table}
+\end{document}
