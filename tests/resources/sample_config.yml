@@ -1,2 +1,2 @@
-  journal_file: "tests/ledger.ldg"
+  journal_file: "tests/resources/sample_ledger.ldg"
   effective: True
