@@ -1,0 +1,194 @@
+2020/02/01 * Opening Blanances
+    Assets:Current:Checking         $4,000.00
+    Assets:Current:Savings          $10,000.00
+    Assets:Noncurrent:Retirement:401k          $125,000.00
+    Liabilities:Visa                -$1,000.00
+    Liabilities:Auto Loan           -$10,000.00
+    Equity
+
+2020/02/01 * Opening Blanances
+    Assets:Noncurrent:Real Estate   $200,000.00
+    Liabilities:Mortgage            -$175,000.00
+    Equity 
+
+2020/02/02 * The Home Depot
+    Expenses:Household:Home Improvements      $52.38
+    Liabilities:Visa
+
+2020/02/03 * Lowes
+    Expenses:Household:Home Improvements      $32.04
+    Liabilities:Visa
+
+2020/02/03 * Wendy's
+    Expenses:Food:Dining                       $8.20
+    Assets:Current:Checking
+
+2020/02/03 * Hooper's Store
+    Expenses:Food:Grocery                    $158.39
+    Assets:Current:Checking
+
+2020/02/03 * Hooper's Store
+    Expenses:Food:Grocery                    $185.03
+    Assets:Current:Checking
+
+2020/02/03 * Bojangles
+    Expenses:Food:Dining                       $5.97
+    Assets:Current:Checking
+
+2020/02/03 * Dollar General
+    Expenses:Food:Grocery                     $14.89
+    Assets:Current:Checking
+
+2020/02/03 * Samsclub
+    Expenses:Food:Grocery                     $26.64
+    Assets:Current:Checking
+
+2020/02/03 * Lidl
+    Expenses:Food:Grocery                    $128.03
+    Assets:Current:Checking
+
+2020/02/04 * Biscuitville
+    Expenses:Food:Dining                      $13.89
+    Assets:Current:Checking
+
+2020/02/04 * Samsclub
+    Expenses:Food:Grocery                    $225.20
+    Assets:Current:Checking
+
+2020/02/05 * Checking Interest
+    Assets:Current:Checking               $10.00
+    Income:Interest                       
+
+2020/02/05 * Savings Interest
+    Assets:Current:Savings                $30.00
+    Income:Interest
+
+2020/02/06 * Papa John's 
+    Expenses:Food:Dining                      $37.42
+    Liabilities:Visa
+
+
+2020/02/06 * Acme Insurance
+    Expenses:Insurance:Life                   $65.12
+    Assets:Current:Checking
+
+2020/02/07 * Chick-Fil-A 
+    Assets:Reimbursements                      $9.10
+    Liabilities:Visa
+
+2020/02/07 * Bojangles
+    Expenses:Food:Dining                      $29.44
+    Assets:Current:Checking
+
+2020/02/08 * YMCA
+    Expenses:Personal Care                    $65.00
+    Liabilities:Visa
+
+2020/02/08 * Lowes
+    Expenses:Household:Home Improvements     $108.23
+    Liabilities:Visa
+
+2020/02/10 * Acme Insurance
+    Expenses:Insurance:Auto                  $109.93
+    Assets:Current:Checking
+
+2020/02/12 * BP
+    Expenses:Auto:Gas                         $43.13
+    Assets:Current:Checking
+
+2020/02/12 * Power Company
+    Expenses:Utilities:Power                 $182.71
+    Assets:Current:Checking
+
+2020/02/13 * Chick-Fil-A
+    Expenses:Food:Dining                       $7.05
+    Assets:Current:Checking
+
+
+2020/02/15 * Spotify
+    Expenses:Subscriptions                    $10.66
+    Liabilities:Visa
+
+2020/02/18 * Lowe'S Foods
+    Expenses:Food:Grocery                     $17.71
+    Assets:Current:Checking
+
+2020/02/18 * McDonald's Farm & CSA
+    Expenses:Food:Grocery                  $140.00  ; [=2020/02/18]
+    Expenses:Food:Grocery                  $140.00  ; [=2020/03/18]
+    Expenses:Food:Grocery                  $140.00  ; [=2020/04/18]
+    Assets:Current:Checking
+
+
+2020/02/19 * Acme Insurance
+    Expenses:Insurance:Life                   $64.24
+    Assets:Current:Checking
+
+2020/02/20 * Interest Charge On Purchases
+    Expenses:Interest:Visa                    $57.87
+    Liabilities:Visa
+
+2020/02/20 * Chick-Fil-A
+    Expenses:Food:Dining                       $7.05
+    Assets:Current:Checking
+
+2020/02/23 * Netflix.Com
+    Expenses:Subscriptions                    $13.87
+    Liabilities:Visa
+
+2020/02/24 * BP
+    Expenses:Auto:Gas                         $40.56
+    Assets:Current:Checking
+
+2020/02/24 * Water 
+    Expenses:Utilities:Water                  $55.77
+    Assets:Current:Checking
+
+2020/02/25 * Lowes
+    Expenses:Household:Home Improvements      $20.84
+    Assets:Current:Checking
+
+2020/02/26 * Lowe's Foods
+    Expenses:Food:Grocery                     $34.39
+    Assets:Current:Checking
+
+2020/02/27 * Company Inc.
+    Assets:Transfer                        $3,200.00
+    Assets:Noncurrent:Retirement:401k        $400.00
+    Expenses:Insurance:Health                $600.00
+    Expenses:Taxes:Social Security           $213.16
+    Expenses:Taxes:Medicare                   $49.85
+    Expenses:Taxes:State                     $150.00
+    Expenses:Taxes:Federal                   $300.00
+    Income:Salary                         
+
+2020/02/27 * Company Inc.
+    Assets:Current:Checking           $2,710.08
+    Assets:Transfer
+
+2020/02/27 * Dollar General
+    Expenses:Food:Grocery                      $9.61
+    Assets:Current:Checking
+
+2020/02/27 * Lowe'S Foods
+    Expenses:Food:Grocery                     $14.40
+    Assets:Current:Checking
+
+2020/02/28 * Amzn Digital
+    Expenses:Entertainment                     $24.26
+    Liabilities:Visa
+
+2020/02/28 * Papa John'S
+    Expenses:Food:Dining                      $37.42
+    Liabilities:Visa
+
+2020/02/28 * Auto Loan Payment
+    Liabilities:Auto Loan
+    Expenses:Interest:Auto Loan                      $7.78
+    Assets:Current:Checking            $-184.00
+
+2020/02/28 * Mortgage Payment
+    Liabilities:Mortgage
+    Assets:Noncurrent:Escrow            $175.97 
+    Expenses:Interest:Mortgage          $654.00
+    Assets:Current:Checking            $-1000.00
