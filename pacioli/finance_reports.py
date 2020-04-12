@@ -5,6 +5,8 @@ import re
 import jinja2
 from jinja2 import Template
 
+from config import Config
+
 
 class Reporter:
 
@@ -23,14 +25,13 @@ class Reporter:
             autoescape=False,
             loader=jinja2.FileSystemLoader(os.path.abspath(".")),
         )
-
-        self.file = "/home/jason/documents/finances/ledger/ledger.ldg"
+        
+        self.config = Config()
         self.date = "2020/3/31"
-        self.effective = "--effective"
 
     def get_balance(self, account):
         output = subprocess.run(["ledger", "-f",
-            self.file, "bal", account, "-e", self.date, self.effective], stdout=subprocess.PIPE)
+            self.config.file, "bal", account, "-e", self.date, self.confi.effective], stdout=subprocess.PIPE)
         output = output.stdout.decode('utf-8')
         output = output.replace(',', '')
         return round(float(re.search("\d+(?:.(\d+))?", output).group(0)))

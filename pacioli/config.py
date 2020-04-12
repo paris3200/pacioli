@@ -1,4 +1,5 @@
-""" Provides the configuration for the Pacaoli module. """ import errno
+""" Provides the configuration for the Pacaoli module. """ 
+import errno
 import json
 import os
 
@@ -13,11 +14,9 @@ class Config:
     ----------
     config_file: str
         File path of config file.
-    profile: str
-        Profile name from config file to be used
     """
 
-    def __init__(self, config_file=None, profile="default"):
+    def __init__(self, config_file=None):
 
         xdg_config = os.environ.get("XDG_CONFIG_HOME")
 
@@ -32,22 +31,16 @@ class Config:
         if not os.path.isfile(self.config_file):
             raise Exception("Config file not found")
 
-        self.parse_config(profile)
+        self.parse_config()
 
-    def parse_config(self, profile):
+    def parse_config(self):
         """
         Reads the config file and imports settings.
 
-        Parameters
-        ----------
-        profile: str
-            Profile name from config file to be used
         """
-
         with open(self.config_file) as config:
             data = yaml.load(config, Loader=yaml.FullLoader)
-            self.file = data["file"]
-            self.effective = data["effective"]
-            # TODO Catch NameError
-            if profile:
-                self.profile = data["profile"][profile]
+            self.journal_file = data["journal_file"]
+            effective = data["effective"]
+            if effective:
+                self.effective = "--effective"
