@@ -7,6 +7,7 @@ authors = ["Jason Paris <paris3200@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 pyyaml = "^5.3.1"
+jinja2 = "^2.11.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
