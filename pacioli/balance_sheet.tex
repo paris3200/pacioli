@@ -8,13 +8,12 @@
 
 
 \title{Balance Sheet}
-\author{Jason Paris}
 \date{April 2020}
 
 
 \begin{document}
 \begin{center}
-    {\huge Paris Family}
+    {\huge \VAR{title}}
 
     Balance Sheet as of 2020/2/28
 \end{center}
@@ -39,7 +38,7 @@
         & Investments &  \VAR{investments} \\
         & Receivable &  \VAR{receivable} \\
         \midrule
-        \emph{Total Longterm Assets} & & \VAR{longterm_assets}\\
+        \emph{Total Longterm Assets} & & \VAR{longterm_assets_total}\\
         \midrule
         \textbf{Total Assets} & & \textbf{\VAR{total_assets}\\
         \midrule
@@ -49,20 +48,19 @@
         \multicolumn{3}{l}{\large{\textbf{Liabilities}}}\\
         \toprule
         \multicolumn{3}{l}{\textbf{Unsecured Liabilities}}\\
-        & Visa Card  & 8,302\\
-        & Wells Fargo  & 4,740 \\
-        & Google  & 325 \\
+        & Visa Card  & \VAR{visa}\\
         \midrule
-        \small{\emph{Total Unsecured Liabilities}} & & 13,367\\
+        \small{\emph{Total Unsecured Liabilities}}
+        & & \VAR{unsecured_liabilites_total}
         \midrule
         \multicolumn{3}{l}{\textbf{Secured Liabilities}} \\
-        & Van &  2,141 \\
-        & Mortgage &  110,556 \\
+        & Auto Loan &  \VAR{auto_loan} \\
+        & Mortgage &  \VAR{mortgage} \\
         \midrule
-        \emph{Total Secured Liabilities} & & 112,698\\
+        \emph{Total Secured Liabilities} & & \VAR{secured_liabilities_total}\\
         \midrule
 
-        \textbf{Total Liabilities} \hspace{1.75in} & & \textbf{126,065}\\
+        \textbf{Total Liabilities} \hspace{1.75in} & & \textbf{\VAR{liabilites_total}\\
         \bottomrule
 
     \end{tabular}
