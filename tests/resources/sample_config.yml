@@ -1,5 +1,6 @@
   journal_file: "tests/resources/sample_ledger.ldg"
   effective: True
+  title: Acme LLC
   Current Assets:
       - Assets:Current:Checking
       - Assets:Current:Savings
@@ -9,3 +10,6 @@
       - Assets:Noncurrent:Retirement
   Unsecured Liabilities:
       - Liabilities:Visa
+  Secured Liabilities:
+      - Liabilities:Auto Loan
+      - Liabilities:Mortgage
