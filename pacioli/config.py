@@ -1,6 +1,4 @@
-""" Provides the configuration for the Pacaoli module. """ 
-import errno
-import json
+""" Provides the configuration for the Pacaoli module. """
 import os
 
 import yaml
@@ -44,3 +42,8 @@ class Config:
             effective = data["effective"]
             if effective:
                 self.effective = "--effective"
+
+            # Process account mappings
+            self.current_assets = data["Current Assets"]
+            self.longterm_assets = data["Longterm Assets"]
+            self.unsecured_liabilities = data["Unsecured Liabilities"]

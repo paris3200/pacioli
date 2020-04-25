@@ -1,2 +1,11 @@
   journal_file: "tests/resources/sample_ledger.ldg"
   effective: True
+  Current Assets:
+      - Assets:Current:Checking
+      - Assets:Current:Savings
+  Longterm Assets:
+      - Assets:Noncurrent:Escrow
+      - Assets:Noncurrent:Real Estate
+      - Assets:Noncurrent:Retirement
+  Unsecured Liabilities:
+      - Liabilities:Visa
