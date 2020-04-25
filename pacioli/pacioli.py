@@ -46,7 +46,12 @@ class Pacioli:
         Parameters
         ----------
         account: str
-            The account name in the ledger file.
+            The full account name in the ledger file.
+
+        Returns
+        -------
+        float
+            Rounded account balance
         """
         output = subprocess.run(
             [
@@ -65,10 +70,56 @@ class Pacioli:
         output = output.replace(",", "")
         return round(float(re.search("\d+(?:.(\d+))?", output).group(0)))
 
-    def compile_template(self, **kwargs):
+    def process_category(self, category, category_name):
+        """
+        Returns a dictionary of account names and values.
+
+        Parameters
+        ----------
+        category: list
+            List of account names in a category.
+        name: str
+            The parent acount name
+
+        Returns
+        -------
+        dict
+            Short account names and their balances.
+        """
+        total = 0
+        result = {}
+        for account in category:
+            name = self.get_account_name(account)
+            balance = self.get_balance(account)
+            total += balance
+            result[name] = balance
+
+        name = f"{category_name}_total"
+        result[name] = total
+        return result
+
+    def get_account_name(self, account):
+        """
+        Returns the short account name.
+
+        Parameters
+        ----------
+        account: str
+            Full account name
+
+        Returns
+        -------
+        str
+            Shortened account name.
+        """
+        name = account.split(":")[-1].lower()
+        return name.replace(" ", "_")
+
+    def compile_template(self, account_mappings):
         template = self.latex_jina_env.get_template("pacioli/balance_sheet.tex")
 
-        return template.render(kwargs)
+        print(template.render(account_mappings))
+        return template.render(account_mappings)
         # print(
         #    template.render(
         #        checking=checking,
