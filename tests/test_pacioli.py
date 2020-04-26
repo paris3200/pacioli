@@ -43,6 +43,18 @@ def test_account_name_with_spaces():
     assert name == "real_estate"
 
 
+def test_balance_sheet():
+    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
+
+    result = pacioli.balance_sheet()
+    assert "Acme LLC" in result
+    assert "& Checking  & 3648 \\" in result
+    assert "& Savings  & 10030 \\" in result
+    assert "{Total Longterm Assets} & & 325576" in result
+    assert "{Total Current Assets}} & & 13678\\" in result
+    assert "{Total Secured Liabilities} & & 184654\\" in result
+
+
 def test_compile_template():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
 

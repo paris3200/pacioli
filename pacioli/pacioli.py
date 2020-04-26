@@ -38,6 +38,32 @@ class Pacioli:
         self.config = Config(config_file)
         self.date = "2020/3/31"
 
+    def balance_sheet(self):
+        """
+        Generates the balance sheet.
+
+        Returns
+        -------
+        str
+            Balance sheet in tex format.
+        """
+        current_assets = self.config.current_assets
+        longterm_assets = self.config.longterm_assets
+        secured_liabilities = self.config.secured_liabilities
+        unsecured_liabilities = self.config.unsecured_liabilities
+
+        ledger = {}
+
+        ledger.update({"title": self.config.title})
+        ledger.update(self.process_category(current_assets, "current_assets"))
+        ledger.update(self.process_category(longterm_assets, "longterm_assets"))
+        ledger.update(self.process_category(secured_liabilities, "secured_liabilities"))
+        ledger.update(
+            self.process_category(unsecured_liabilities, "unsecured_liabilities")
+        )
+
+        return self.compile_template(ledger)
+
     def get_balance(self, account):
         """
         Get's the account balance from Ledger of account and rounds it to a

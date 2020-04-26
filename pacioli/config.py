@@ -47,3 +47,5 @@ class Config:
             self.current_assets = data["Current Assets"]
             self.longterm_assets = data["Longterm Assets"]
             self.unsecured_liabilities = data["Unsecured Liabilities"]
+            self.secured_liabilities = data["Secured Liabilities"]
+            self.title = data["title"]
