@@ -10,20 +10,19 @@ def test_entrypoint():
     assert exit_status == 0
 
 
-def test_config_file():
-    """
-    Config file can be passed via cli.
-    """
-    report = os.system("pacioli -c tests/resources/sample_config.yml")
-    assert report == 0
-
-
-def test_balance_sheet():
+def test_balance_sheet_outputs_to_standard_output():
     """
     Balance sheet returns a formatted report to standard output.
     """
     output = subprocess.run(
-        ["pacioli", "-c", "tests/resources/sample_config.yml", "--balance-sheet"],
+        [
+            "pacioli",
+            "-c",
+            "tests/resources/sample_config.yml",
+            "balance-sheet",
+            "--end-date",
+            "2020/3/31",
+        ],
         stdout=subprocess.PIPE,
     )
     report = output.stdout.decode()

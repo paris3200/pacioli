@@ -2,30 +2,35 @@ import click
 from pacioli.pacioli import Pacioli
 
 
-@click.command()
+@click.group()
 @click.option(
     "--config",
     "-c",
     default="~/.config/pacioli/config.yml",
     help="Path of config file.",
 )
-@click.option(
-    "--out-file", "-o", default="-", help="Path of file to write report results."
-)
-@click.option(
-    "--balance-sheet",
-    is_flag=True,
-    help="Run a balance report using the  account mappings defined in the config file.",
-)
-def cli(config, out_file, balance_sheet):
+@click.pass_context
+def cli(ctx, config):
     """
     Pacioli generates beautiful LaTeX financial reports from Ledger CLI journal
     files.
     """
-    pacioli = Pacioli(config_file=config)
+    ctx.ensure_object(dict)
+    ctx.obj["pacioli"] = Pacioli(config_file=config)
 
-    if balance_sheet:
-        click.echo(pacioli.balance_sheet(date="2020/3/31"))
+
+@cli.command()
+@click.option(
+    "--out-file", "-o", default="-", help="Path of file to write report results."
+)
+@click.option("--end-date", "-e", default="", help="End date for transactions.")
+@click.pass_context
+def balance_sheet(ctx, out_file, end_date):
+    """
+    Run a balance report using the  account mappings defined in the config file.
+    """
+    pacioli = ctx.obj["pacioli"]
+    click.echo(pacioli.balance_sheet(date=end_date))
 
 
 if __name__ == "__main__":
