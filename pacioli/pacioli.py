@@ -55,6 +55,7 @@ class Pacioli:
         ledger = {}
 
         ledger.update({"title": self.config.title})
+        ledger.update({"date": date})
         ledger.update(
             self.process_category(current_assets, "current_assets", date=date)
         )
