@@ -76,7 +76,7 @@ class Pacioli:
 
         Returns
         -------
-        float
+        int
             Rounded account balance
         """
         output = subprocess.run(
@@ -98,7 +98,8 @@ class Pacioli:
 
     def process_category(self, category, category_name):
         """
-        Returns a dictionary of account names and values.
+        Returns a dictionary of account names and their corresponding balances
+        along with the total value of category.
 
         Parameters
         ----------
@@ -126,17 +127,18 @@ class Pacioli:
 
     def get_account_name(self, account):
         """
-        Returns the short account name.
+        Returns the account name in lower case with spaces replaced with a
+        \'_\".
 
         Parameters
         ----------
         account: str
-            Full account name
+            Full account path
 
         Returns
         -------
         str
-            Shortened account name.
+            Account name
         """
         name = account.split(":")[-1].lower()
         return name.replace(" ", "_")
@@ -146,16 +148,3 @@ class Pacioli:
 
         print(template.render(account_mappings))
         return template.render(account_mappings)
-        # print(
-        #    template.render(
-        #        checking=checking,
-        #        savings=savings,
-        #        current_assets=current_assets,
-        #        escrow=escrow,
-        #        realestate=realestate,
-        #        investments=investments,
-        #        receivable=receivable,
-        #        longterm_assets=longterm_assets,
-        #        total_assets=total_assets,
-        #    )
-        # )
