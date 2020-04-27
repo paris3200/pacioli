@@ -27,7 +27,7 @@ class Config:
         # Get the absolute file path
         self.config_file = os.path.expanduser(config_file)
         if not os.path.isfile(self.config_file):
-            raise Exception("Config file not found")
+            raise Exception("Config file not found.")
 
         self.parse_config()
 
@@ -39,11 +39,10 @@ class Config:
         with open(self.config_file) as config:
             data = yaml.load(config, Loader=yaml.FullLoader)
             self.journal_file = data["journal_file"]
-            effective = data["effective"]
-            if effective:
+            if data["effective"]:
                 self.effective = "--effective"
 
-            # Process account mappings
+            # Process Balance Sheet account mappings
             self.current_assets = data["Current Assets"]
             self.longterm_assets = data["Longterm Assets"]
             self.unsecured_liabilities = data["Unsecured Liabilities"]
