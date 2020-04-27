@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 
 def test_entrypoint():
@@ -21,5 +22,14 @@ def test_balance_sheet():
     """
     Balance sheet returns a formatted report to standard output.
     """
-    report = os.system("pacioli -c tests/resources/sample_config.yml --balance-sheet")
-    assert report == 0
+    output = subprocess.run(
+        ["pacioli", "-c", "tests/resources/sample_config.yml", "--balance-sheet"],
+        stdout=subprocess.PIPE,
+    )
+    report = output.stdout.decode()
+    assert "Acme LLC" in report
+    assert "& Checking  & 3648 \\" in report
+    assert "& Savings  & 10030 \\" in report
+    assert "{Total Longterm Assets} & & 325576" in report
+    assert "{Total Current Assets}} & & 13678\\" in report
+    assert "{Total Secured Liabilities} & & 184654\\" in report

@@ -14,7 +14,7 @@ from pacioli.pacioli import Pacioli
 )
 @click.option(
     "--balance-sheet",
-    "-b",
+    is_flag=True,
     help="Run a balance report using the  account mappings defined in the config file.",
 )
 def cli(config, out_file, balance_sheet):
