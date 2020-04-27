@@ -38,7 +38,7 @@ class Pacioli:
         self.config = Config(config_file)
         self.date = "2020/3/31"
 
-    def balance_sheet(self):
+    def balance_sheet(self, date):
         """
         Generates the balance sheet.
 
@@ -55,16 +55,24 @@ class Pacioli:
         ledger = {}
 
         ledger.update({"title": self.config.title})
-        ledger.update(self.process_category(current_assets, "current_assets"))
-        ledger.update(self.process_category(longterm_assets, "longterm_assets"))
-        ledger.update(self.process_category(secured_liabilities, "secured_liabilities"))
         ledger.update(
-            self.process_category(unsecured_liabilities, "unsecured_liabilities")
+            self.process_category(current_assets, "current_assets", date=date)
+        )
+        ledger.update(
+            self.process_category(longterm_assets, "longterm_assets", date=date)
+        )
+        ledger.update(
+            self.process_category(secured_liabilities, "secured_liabilities", date=date)
+        )
+        ledger.update(
+            self.process_category(
+                unsecured_liabilities, "unsecured_liabilities", date=date
+            )
         )
 
         return self.compile_template(ledger)
 
-    def get_balance(self, account):
+    def get_balance(self, account, date):
         """
         Get's the account balance from Ledger of account and rounds it to a
         whole number.
@@ -73,6 +81,8 @@ class Pacioli:
         ----------
         account: str
             The full account name in the ledger file.
+        date: str
+            The end date for the balance.
 
         Returns
         -------
@@ -87,7 +97,7 @@ class Pacioli:
                 "bal",
                 account,
                 "-e",
-                self.date,
+                date,
                 self.config.effective,
             ],
             stdout=subprocess.PIPE,
@@ -96,7 +106,7 @@ class Pacioli:
         output = output.replace(",", "")
         return round(float(re.search("\d+(?:.(\d+))?", output).group(0)))
 
-    def process_category(self, category, category_name):
+    def process_category(self, category, category_name, date):
         """
         Returns a dictionary of account names and their corresponding balances
         along with the total value of category.
@@ -117,7 +127,7 @@ class Pacioli:
         result = {}
         for account in category:
             name = self.get_account_name(account)
-            balance = self.get_balance(account)
+            balance = self.get_balance(account, date)
             total += balance
             result[name] = balance
 

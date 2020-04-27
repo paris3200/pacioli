@@ -25,7 +25,7 @@ def cli(config, out_file, balance_sheet):
     pacioli = Pacioli(config_file=config)
 
     if balance_sheet:
-        click.echo(pacioli.balance_sheet())
+        click.echo(pacioli.balance_sheet(date="2020/3/31"))
 
 
 if __name__ == "__main__":

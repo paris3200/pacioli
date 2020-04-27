@@ -17,7 +17,7 @@ def test_ledger_available():
 def test_get_balance_returns_int():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
 
-    checking = pacioli.get_balance("Assets:Current:Checking")
+    checking = pacioli.get_balance("Assets:Current:Checking", date="2020/3/31")
     assert checking == 3648
 
 
@@ -28,7 +28,7 @@ def test_process_category():
         "checking": 3648,
         "savings": 10030,
         "current_assets_total": 13678,
-    } == pacioli.process_category(current_assets, "current_assets")
+    } == pacioli.process_category(current_assets, "current_assets", date="2020/3/31")
 
 
 def test_account_name():
@@ -46,7 +46,7 @@ def test_account_name_with_spaces():
 def test_balance_sheet():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
 
-    result = pacioli.balance_sheet()
+    result = pacioli.balance_sheet(date="2020/3/31")
     assert "Acme LLC" in result
     assert "& Checking  & 3648 \\" in result
     assert "& Savings  & 10030 \\" in result
@@ -63,8 +63,12 @@ def test_compile_template():
 
     ledger = {}
 
-    ledger.update(pacioli.process_category(current_assets, "current_assets"))
-    ledger.update(pacioli.process_category(longterm_assets, "longterm_assets"))
+    ledger.update(
+        pacioli.process_category(current_assets, "current_assets", date="2020/3/31")
+    )
+    ledger.update(
+        pacioli.process_category(longterm_assets, "longterm_assets", date="2020/3/31")
+    )
 
     result = pacioli.compile_template(ledger)
 
