@@ -175,6 +175,20 @@ class Pacioli:
         return name.replace(" ", "_")
 
     def compile_template(self, account_mappings):
+        """
+
+        Parameters
+        ----------
+        account_mappings: dict
+            The variable name in the template matched to the corresponding
+            account balance.
+
+        Returns
+        -------
+        str
+            Processed LaTeX document with account totals.
+
+        """
 
         template = self.latex_jina_env.get_template(self.config.balance_sheet_template)
         return template.render(account_mappings)
