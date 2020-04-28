@@ -20,14 +20,15 @@ def cli(ctx, config):
 
 
 @cli.command()
-@click.option(
-    "--out-file", "-o", default="-", help="Path of file to write report results."
-)
+@click.argument("out-file", type=click.Path(allow_dash=True))
 @click.option("--end-date", "-e", default="", help="End date for transactions.")
 @click.pass_context
 def balance_sheet(ctx, out_file, end_date):
     """
     Run a balance report using the  account mappings defined in the config file.
+
+    OUT_FILE is the path to the file to write the tex file.  Use '-' to print
+    to standard output.
     """
     pacioli = ctx.obj["pacioli"]
     click.echo(pacioli.balance_sheet(date=end_date))

@@ -20,6 +20,7 @@ def test_balance_sheet_outputs_to_standard_output():
             "-c",
             "tests/resources/sample_config.yml",
             "balance-sheet",
+            "-",
             "--end-date",
             "2020/3/31",
         ],
