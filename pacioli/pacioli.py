@@ -41,6 +41,11 @@ class Pacioli:
         """
         Generates the balance sheet.
 
+        Parameters
+        ----------
+        date: str
+            End date for ledger balances.
+
         Returns
         -------
         str
