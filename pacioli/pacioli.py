@@ -134,8 +134,10 @@ class Pacioli:
         ----------
         category: list
             List of account names in a category.
-        name: str
+        cateogry_name: str
             The parent acount name
+        date: str
+            The end date for the balance.
 
         Returns
         -------
