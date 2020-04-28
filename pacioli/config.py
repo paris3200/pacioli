@@ -39,6 +39,7 @@ class Config:
         with open(self.config_file) as config:
             data = yaml.load(config, Loader=yaml.FullLoader)
             self.journal_file = data["journal_file"]
+            self.balance_sheet_template = data["balance_sheet_template"]
             if data["effective"]:
                 self.effective = "--effective"
 

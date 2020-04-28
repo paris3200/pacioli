@@ -155,7 +155,7 @@ class Pacioli:
         return name.replace(" ", "_")
 
     def compile_template(self, account_mappings):
-        template = self.latex_jina_env.get_template("pacioli/balance_sheet.tex")
+        template = self.latex_jina_env.get_template(self.config.balance_sheet_template)
 
         print(template.render(account_mappings))
         return template.render(account_mappings)
