@@ -9,7 +9,7 @@
 2020/02/01 * Opening Blanances
     Assets:Noncurrent:Real Estate   $200,000.00
     Liabilities:Mortgage            -$175,000.00
-    Equity 
+    Equity
 
 2020/02/02 * The Home Depot
     Expenses:Household:Home Improvements      $52.38
@@ -57,13 +57,13 @@
 
 2020/02/05 * Checking Interest
     Assets:Current:Checking               $10.00
-    Income:Interest                       
+    Income:Interest
 
 2020/02/05 * Savings Interest
     Assets:Current:Savings                $30.00
     Income:Interest
 
-2020/02/06 * Papa John's 
+2020/02/06 * Papa John's
     Expenses:Food:Dining                      $37.42
     Liabilities:Visa
 
@@ -72,7 +72,7 @@
     Expenses:Insurance:Life                   $65.12
     Assets:Current:Checking
 
-2020/02/07 * Chick-Fil-A 
+2020/02/07 * Chick-Fil-A
     Assets:Reimbursements                      $9.10
     Liabilities:Visa
 
@@ -140,7 +140,7 @@
     Expenses:Auto:Gas                         $40.56
     Assets:Current:Checking
 
-2020/02/24 * Water 
+2020/02/24 * Water
     Expenses:Utilities:Water                  $55.77
     Assets:Current:Checking
 
@@ -153,18 +153,15 @@
     Assets:Current:Checking
 
 2020/02/27 * Company Inc.
-    Assets:Transfer                        $3,200.00
+    Assets:Current:Checking                  $3,200.00
     Assets:Noncurrent:Retirement:401k        $400.00
     Expenses:Insurance:Health                $600.00
     Expenses:Taxes:Social Security           $213.16
     Expenses:Taxes:Medicare                   $49.85
     Expenses:Taxes:State                     $150.00
     Expenses:Taxes:Federal                   $300.00
-    Income:Salary                         
+    Income:Salary
 
-2020/02/27 * Company Inc.
-    Assets:Current:Checking           $2,710.08
-    Assets:Transfer
 
 2020/02/27 * Dollar General
     Expenses:Food:Grocery                      $9.61
@@ -189,6 +186,6 @@
 
 2020/02/28 * Mortgage Payment
     Liabilities:Mortgage
-    Assets:Noncurrent:Escrow            $175.97 
+    Assets:Noncurrent:Escrow            $175.97
     Expenses:Interest:Mortgage          $654.00
     Assets:Current:Checking            $-1000.00

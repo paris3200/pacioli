@@ -28,8 +28,8 @@ def test_balance_sheet_outputs_to_standard_output():
     )
     report = output.stdout.decode()
     assert "Acme LLC" in report
-    assert "& Checking  & 3648 \\" in report
+    assert "& Checking  & 4138 \\" in report
     assert "& Savings  & 10030 \\" in report
     assert "{Total Longterm Assets} & & 325576" in report
-    assert "{Total Current Assets}} & & 13678\\" in report
+    assert "{Total Current Assets}} & & 14168\\" in report
     assert "{Total Secured Liabilities} & & 184654\\" in report

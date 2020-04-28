@@ -18,16 +18,16 @@ def test_get_balance_returns_int():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
 
     checking = pacioli.get_balance("Assets:Current:Checking", date="2020/3/31")
-    assert checking == 3648
+    assert checking == 4138
 
 
 def test_process_category():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     current_assets = pacioli.config.current_assets
     assert {
-        "checking": 3648,
+        "checking": 4138,
         "savings": 10030,
-        "current_assets_total": 13678,
+        "current_assets_total": 14168,
     } == pacioli.process_category(current_assets, "current_assets", date="2020/3/31")
 
 
@@ -48,11 +48,14 @@ def test_balance_sheet():
 
     result = pacioli.balance_sheet(date="2020/3/31")
     assert "Acme LLC" in result
-    assert "& Checking  & 3648 \\" in result
+    assert "& Checking  & 4138 \\" in result
     assert "& Savings  & 10030 \\" in result
     assert "{Total Longterm Assets} & & 325576" in result
-    assert "{Total Current Assets}} & & 13678\\" in result
+    assert "{Total Current Assets}} & & 14168\\" in result
+    assert "Total Assets} & & \\textbf{339744\\" in result
     assert "{Total Secured Liabilities} & & 184654\\" in result
+    assert "Total Liabilities}" in result
+    assert "{186102" in result  # Value of Total Liabilities
 
 
 def test_compile_template():
@@ -72,6 +75,6 @@ def test_compile_template():
 
     result = pacioli.compile_template(ledger)
 
-    assert "& Checking  & 3648 \\" in result
+    assert "& Checking  & 4138 \\" in result
     assert "& Savings  & 10030 \\" in result
-    assert "{Total Current Assets}} & & 13678\\" in result
+    assert "{Total Current Assets}} & & 14168\\" in result
