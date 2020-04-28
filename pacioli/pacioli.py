@@ -3,7 +3,6 @@ import subprocess
 import re
 import jinja2
 
-
 from pacioli.config import Config
 
 
@@ -47,29 +46,37 @@ class Pacioli:
         str
             Balance sheet in tex format.
         """
-        current_assets = self.config.current_assets
-        longterm_assets = self.config.longterm_assets
-        secured_liabilities = self.config.secured_liabilities
-        unsecured_liabilities = self.config.unsecured_liabilities
+        current_assets = self.process_category(
+            self.config.current_assets, "current_assets", date=date
+        )
+        longterm_assets = self.process_category(
+            self.config.longterm_assets, "longterm_assets", date=date
+        )
+        secured_liabilities = self.process_category(
+            self.config.secured_liabilities, "secured_liabilities", date=date
+        )
+        unsecured_liabilities = self.process_category(
+            self.config.unsecured_liabilities, "unsecured_liabilities", date=date
+        )
 
+        total_assets = (
+            current_assets["current_assets_total"]
+            + longterm_assets["longterm_assets_total"]
+        )
+        total_liabilities = (
+            secured_liabilities["secured_liabilities_total"]
+            + unsecured_liabilities["unsecured_liabilities_total"]
+        )
         ledger = {}
+        ledger.update({"total_assets": total_assets})
+        ledger.update({"total_liabilities": total_liabilities})
 
         ledger.update({"title": self.config.title})
         ledger.update({"date": date})
-        ledger.update(
-            self.process_category(current_assets, "current_assets", date=date)
-        )
-        ledger.update(
-            self.process_category(longterm_assets, "longterm_assets", date=date)
-        )
-        ledger.update(
-            self.process_category(secured_liabilities, "secured_liabilities", date=date)
-        )
-        ledger.update(
-            self.process_category(
-                unsecured_liabilities, "unsecured_liabilities", date=date
-            )
-        )
+        ledger.update(current_assets)
+        ledger.update(longterm_assets)
+        ledger.update(secured_liabilities)
+        ledger.update(unsecured_liabilities)
 
         return self.compile_template(ledger)
 
@@ -90,22 +97,28 @@ class Pacioli:
         int
             Rounded account balance
         """
-        output = subprocess.run(
-            [
-                "ledger",
-                "-f",
-                self.config.journal_file,
-                "bal",
-                account,
-                "-e",
-                date,
-                self.config.effective,
-            ],
-            stdout=subprocess.PIPE,
-        )
+
+        try:
+            output = subprocess.run(
+                [
+                    "ledger",
+                    "-f",
+                    self.config.journal_file,
+                    "bal",
+                    account,
+                    "-e",
+                    date,
+                    self.config.effective,
+                ],
+                stdout=subprocess.PIPE,
+            )
+        except subprocess.CalledProcessError as error:
+            print("error code", error.returncode, error.output)
         output = output.stdout.decode("utf-8")
         output = output.replace(",", "")
-        return round(float(re.search("\d+(?:.(\d+))?", output).group(0)))
+        if output != "":
+            return round(float(re.search("\d+(?:.(\d+))?", output).group(0)))
+        return 0
 
     def process_category(self, category, category_name, date):
         """
@@ -155,7 +168,6 @@ class Pacioli:
         return name.replace(" ", "_")
 
     def compile_template(self, account_mappings):
-        template = self.latex_jina_env.get_template(self.config.balance_sheet_template)
 
-        print(template.render(account_mappings))
+        template = self.latex_jina_env.get_template(self.config.balance_sheet_template)
         return template.render(account_mappings)
