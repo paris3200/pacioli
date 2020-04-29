@@ -85,6 +85,26 @@ class Pacioli:
 
         return self.compile_template(ledger)
 
+    def income_statement(self, start_date, end_date):
+        """
+        Returns an income statement for the period beginning on start_date and
+        ending on end_date.
+
+        Parameters
+        ----------
+        start_date: str
+            The start date of the time period.
+        end_date: str
+            The end date of the time period.
+
+        Returns
+        -------
+        str
+            The income statement in tex format.
+
+        """
+        pass
+
     def get_balance(self, account, date):
         """
         Get's the account balance from Ledger of account and rounds it to a
