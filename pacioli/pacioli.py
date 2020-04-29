@@ -39,7 +39,7 @@ class Pacioli:
 
     def balance_sheet(self, date):
         """
-        Generates the balance sheet.
+        Generates the balance sheet report as a tex file.
 
         Parameters
         ----------
@@ -93,7 +93,8 @@ class Pacioli:
         Parameters
         ----------
         account: str
-            The full account name in the ledger file.
+            The full account path (e.g. Assets:Current:Checking) of the ledger
+            account.
         date: str
             The end date for the balance.
 
@@ -127,15 +128,16 @@ class Pacioli:
 
     def process_category(self, category, category_name, date):
         """
+
         Returns a dictionary of account names and their corresponding balances
-        along with the total value of category.
+        as of the date along with the total value of category.
 
         Parameters
         ----------
         category: list
-            List of account names in a category.
+            List of full account names in a category.
         cateogry_name: str
-            The parent acount name
+            The parent acount name, i.e 'Current Assets'.
         date: str
             The end date for the balance.
 
@@ -158,8 +160,8 @@ class Pacioli:
 
     def get_account_name(self, account):
         """
-        Returns the account name in lower case with spaces replaced with a
-        \'_\".
+        Returns the account name from the full account path in lower case with
+        spaces replaced with a \'_\".
 
         Parameters
         ----------
@@ -189,6 +191,5 @@ class Pacioli:
             Processed LaTeX document with account totals.
 
         """
-
         template = self.latex_jina_env.get_template(self.config.balance_sheet_template)
         return template.render(account_mappings)
