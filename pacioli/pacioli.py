@@ -2,6 +2,7 @@ import os
 import subprocess
 import re
 import jinja2
+import logging
 
 from pacioli.config import Config
 
@@ -35,7 +36,9 @@ class Pacioli:
         )
 
         self.config = Config(config_file)
-        self.date = "2020/3/31"
+
+        if self.config.DEBUG:
+            logging.basicConfig(level=logging.DEBUG)
 
     def balance_sheet(self, date):
         """
@@ -124,6 +127,10 @@ class Pacioli:
             Rounded account balance
         """
 
+        logging.debug(
+            f"Running Ledger: ledger -f {self.config.journal_file} \
+                bal {account} -e {date} {self.config.effective}"
+        )
         try:
             output = subprocess.run(
                 [
