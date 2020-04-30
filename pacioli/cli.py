@@ -31,7 +31,12 @@ def balance_sheet(ctx, out_file, end_date):
     to standard output.
     """
     pacioli = ctx.obj["pacioli"]
-    click.echo(pacioli.balance_sheet(date=end_date))
+
+    if out_file != "-":
+        with click.open_file(out_file, "w") as f:
+            f.write(pacioli.balance_sheet(date=end_date))
+    else:
+        click.echo(pacioli.balance_sheet(date=end_date))
 
 
 if __name__ == "__main__":
