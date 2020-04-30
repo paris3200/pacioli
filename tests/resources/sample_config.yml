@@ -1,16 +1,17 @@
-  journal_file: "tests/resources/sample_ledger.ldg"
-  balance_sheet_template: "tests/resources/balance_sheet.tex"
-  effective: True
-  title: Acme LLC
-  Current Assets:
-      - Assets:Current:Checking
-      - Assets:Current:Savings
-  Longterm Assets:
-      - Assets:Noncurrent:Escrow
-      - Assets:Noncurrent:Real Estate
-      - Assets:Noncurrent:Retirement
-  Unsecured Liabilities:
-      - Liabilities:Visa
-  Secured Liabilities:
-      - Liabilities:Auto Loan
-      - Liabilities:Mortgage
+DEBUG: True
+journal_file: "tests/resources/sample_ledger.ldg"
+balance_sheet_template: "tests/resources/balance_sheet.tex"
+effective: True
+title: Acme LLC
+Current Assets:
+  - Assets:Current:Checking
+  - Assets:Current:Savings
+Longterm Assets:
+  - Assets:Noncurrent:Escrow
+  - Assets:Noncurrent:Real Estate
+  - Assets:Noncurrent:Retirement
+Unsecured Liabilities:
+  - Liabilities:Visa
+Secured Liabilities:
+  - Liabilities:Auto Loan
+  - Liabilities:Mortgage
