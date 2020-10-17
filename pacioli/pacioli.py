@@ -32,7 +32,9 @@ class Pacioli:
             line_comment_prefix="%#",
             trim_blocks=True,
             autoescape=False,
-            loader=jinja2.FileSystemLoader(os.path.abspath(".")),
+            loader=jinja2.FileSystemLoader(
+                [os.path.abspath("."), os.path.abspath("~/.config/pacioli/")]
+            ),
         )
 
         self.config = Config(config_file)
@@ -219,4 +221,5 @@ class Pacioli:
 
         """
         template = self.latex_jina_env.get_template(self.config.balance_sheet_template)
+
         return template.render(account_mappings)
