@@ -86,7 +86,7 @@ class Pacioli:
         ledger.update(secured_liabilities)
         ledger.update(unsecured_liabilities)
 
-        return self.compile_template(ledger)
+        return self.compile_template("balance", ledger)
 
     def income_statement(self, start_date, end_date):
         """
@@ -203,7 +203,7 @@ class Pacioli:
         name = account.split(":")[-1].lower()
         return name.replace(" ", "_")
 
-    def compile_template(self, account_mappings):
+    def compile_template(self, report_type, account_mappings):
         """
 
         Parameters
@@ -219,9 +219,14 @@ class Pacioli:
 
         """
         try:
-            template = self.latex_jina_env.get_template(
-                self.config.balance_sheet_template
-            )
+            if report_type == "balance":
+                template = self.latex_jina_env.get_template(
+                    self.config.balance_sheet_template
+                )
+            if report_type == "income":
+                template = self.latex_jina_env.get_template(
+                    self.config.income_sheet_template
+                )
         except jinja2.exceptions.TemplateNotFound as error:
             logging.error("Template Not Found", error)
             return None

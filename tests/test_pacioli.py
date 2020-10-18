@@ -73,7 +73,7 @@ def test_compile_template():
         pacioli.process_category(longterm_assets, "longterm_assets", date="2020/3/31")
     )
 
-    result = pacioli.compile_template(ledger)
+    result = pacioli.compile_template("balance", ledger)
 
     assert "& Checking  & 4138 \\" in result
     assert "& Savings  & 10030 \\" in result
