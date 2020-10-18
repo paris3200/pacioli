@@ -146,7 +146,7 @@ class Pacioli:
                 stdout=subprocess.PIPE,
             )
         except subprocess.CalledProcessError as error:
-            print("error code", error.returncode, error.output)
+            logging.error("error code", error.returncode, error.output)
         output = output.stdout.decode("utf-8")
         output = output.replace(",", "")
         if output != "":
@@ -218,6 +218,12 @@ class Pacioli:
             Processed LaTeX document with account totals.
 
         """
-        template = self.latex_jina_env.get_template(self.config.balance_sheet_template)
+        try:
+            template = self.latex_jina_env.get_template(
+                self.config.balance_sheet_template
+            )
+        except jinja2.exceptions.TemplateNotFound as error:
+            logging.error("Template Not Found", error)
+            return None
 
         return template.render(account_mappings)
