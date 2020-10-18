@@ -26,6 +26,8 @@ class Config:
 
         # Get the absolute file path
         self.config_file = os.path.expanduser(config_file)
+        self.template_dir = os.path.dirname(config_file)
+        print(self.template_dir)
         if not os.path.isfile(self.config_file):
             raise Exception("Config file not found.")
 
@@ -40,7 +42,10 @@ class Config:
             data = yaml.load(config, Loader=yaml.FullLoader)
             self.DEBUG = data["DEBUG"]
             self.journal_file = data["journal_file"]
-            self.balance_sheet_template = data["balance_sheet_template"]
+            self.balance_sheet_template = os.path.expanduser(
+                data["balance_sheet_template"]
+            )
+
             if data["effective"]:
                 self.effective = "--effective"
 

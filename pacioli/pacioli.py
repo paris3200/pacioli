@@ -21,6 +21,8 @@ class Pacioli:
 
     def __init__(self, config_file=None):
 
+        self.config = Config(config_file)
+
         self.latex_jina_env = jinja2.Environment(
             block_start_string="BLOCK{",
             block_end_string="}",
@@ -32,12 +34,8 @@ class Pacioli:
             line_comment_prefix="%#",
             trim_blocks=True,
             autoescape=False,
-            loader=jinja2.FileSystemLoader(
-                [os.path.abspath("."), os.path.abspath("~/.config/pacioli/")]
-            ),
+            loader=jinja2.FileSystemLoader(os.path.abspath(self.config.template_dir)),
         )
-
-        self.config = Config(config_file)
 
         if self.config.DEBUG:
             logging.basicConfig(level=logging.DEBUG)
