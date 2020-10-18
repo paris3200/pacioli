@@ -176,7 +176,7 @@ class Pacioli:
         total = 0
         result = {}
         for account in category:
-            name = self.get_account_name(account)
+            name = self.get_account_short_name(account)
             balance = self.get_balance(account, date)
             total += balance
             result[name] = balance
@@ -185,7 +185,7 @@ class Pacioli:
         result[name] = total
         return result
 
-    def get_account_name(self, account):
+    def get_account_short_name(self, account):
         """
         Returns the account name from the full account path in lower case with
         spaces replaced with a \'_\".

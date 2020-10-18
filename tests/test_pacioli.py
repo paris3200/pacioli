@@ -33,13 +33,13 @@ def test_process_category():
 
 def test_account_name():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
-    name = pacioli.get_account_name("Assets:Current:Checking")
+    name = pacioli.get_account_short_name("Assets:Current:Checking")
     assert name == "checking"
 
 
 def test_account_name_with_spaces():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
-    name = pacioli.get_account_name("Assets:Longterm:Real Estate")
+    name = pacioli.get_account_short_name("Assets:Longterm:Real Estate")
     assert name == "real_estate"
 
 
