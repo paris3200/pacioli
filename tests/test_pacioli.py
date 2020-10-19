@@ -21,14 +21,25 @@ def test_get_balance_returns_int():
     assert checking == 4138
 
 
-def test_process_category():
+def test_process_account_list():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     current_assets = pacioli.config.current_assets
     assert {
         "checking": 4138,
         "savings": 10030,
         "current_assets_total": 14168,
-    } == pacioli.process_category(current_assets, "current_assets", date="2020/3/31")
+    } == pacioli.process_account_list(
+        current_assets, "current_assets", date="2020/3/31"
+    )
+
+
+def test_process_account():
+    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
+    assert {
+        "Salary": 4913,
+        "Interest": 40,
+        "income_total": 4953,
+    } == pacioli.process_account("Income", start_date="2020/2/1", end_date="2020/3/31")
 
 
 def test_account_name():
@@ -58,6 +69,15 @@ def test_balance_sheet():
     assert "{186102" in result  # Value of Total Liabilities
 
 
+def test_income_statement():
+    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
+
+    result = pacioli.income_statement(start_date="2020/2/1", end_date="2020/2/28")
+
+    assert "Income Statement" in result
+    assert "{Total Income}} & & 4953 \\" in result
+
+
 def test_compile_template():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
 
@@ -67,10 +87,12 @@ def test_compile_template():
     ledger = {}
 
     ledger.update(
-        pacioli.process_category(current_assets, "current_assets", date="2020/3/31")
+        pacioli.process_account_list(current_assets, "current_assets", date="2020/3/31")
     )
     ledger.update(
-        pacioli.process_category(longterm_assets, "longterm_assets", date="2020/3/31")
+        pacioli.process_account_list(
+            longterm_assets, "longterm_assets", date="2020/3/31"
+        )
     )
 
     result = pacioli.compile_template("balance", ledger)

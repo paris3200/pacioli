@@ -1,6 +1,7 @@
 DEBUG: True
 journal_file: "tests/resources/sample_ledger.ldg"
 balance_sheet_template: "test_balance_sheet.tex"
+income_sheet_template: "test_income_sheet.tex"
 effective: True
 title: Acme LLC
 Current Assets:

@@ -39,5 +39,19 @@ def balance_sheet(ctx, out_file, end_date):
         click.echo(pacioli.balance_sheet(date=end_date))
 
 
+@cli.command()
+@click.option("--begin-date", "-b", default="", help="Begin date of time period.")
+@click.option("--end-date", "-e", default="", help="End date of time period.")
+@click.argument("out-file", type=click.Path(allow_dash=True))
+@click.pass_context
+def income_statement(ctx, begin_date, end_date, out_file):
+    pacioli = ctx.obj["pacioli"]
+    if out_file != "-":
+        with click.open_file(out_file, "w") as f:
+            f.write(pacioli.income_statement(begin_date, end_date))
+    else:
+        click.echo(pacioli.income_statement(begin_date, end_date))
+
+
 if __name__ == "__main__":
     cli()

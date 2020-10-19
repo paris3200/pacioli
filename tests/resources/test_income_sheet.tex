@@ -1,0 +1,53 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fcolumn}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{geometry}
+\geometry{letterpaper, margin=1in}
+
+
+\title{Income Satement}
+\date{April 2020}
+
+
+\begin{document}
+\begin{center}
+    {\huge \VAR{title}}
+
+    Income Statement for the period of \VAR{start_date} to \VAR{end_date}
+\end{center}
+
+\begin{table}[ht]
+    \center
+        \begin{tabular}{l l r}
+
+        \multicolumn{3}{l}{\large{\textbf{Income}}}\\
+        \toprule
+        BLOCK{ for account, balance in income.items() }
+            \VAR{account} & \VAR{balance} \\
+        BLOCK{ endfor }
+
+        \midrule
+            \small{\emph{Total Income}} & & \VAR{income_total} \\
+        \midrule
+
+        & &  \\
+
+        \multicolumn{3}{l}{\large{\textbf{Expenses}}}\\
+        \toprule
+        BLOCK{ for account, balance in expenses.items() }
+            \VAR{account} & \VAR{balance} \\
+        BLOCK{ endfor }
+
+        \midrule
+            \small{\emph{Total Expenses}} & & \VAR{expenses_total} \\
+        \midrule
+
+        \textbf{Net Gain} \hspace{1.75in} & &
+            \textbf{\VAR{net_gain}} \\
+        \bottomrule
+
+    \end{tabular}
+\end{table}
+\end{document}

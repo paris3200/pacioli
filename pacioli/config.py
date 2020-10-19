@@ -46,6 +46,9 @@ class Config:
                 data["balance_sheet_template"]
             )
 
+            self.income_sheet_template = os.path.expanduser(
+                data["income_sheet_template"]
+            )
             if data["effective"]:
                 self.effective = "--effective"
 

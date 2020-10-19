@@ -54,16 +54,16 @@ class Pacioli:
         str
             Balance sheet in tex format.
         """
-        current_assets = self.process_category(
+        current_assets = self.process_account_list(
             self.config.current_assets, "current_assets", date=date
         )
-        longterm_assets = self.process_category(
+        longterm_assets = self.process_account_list(
             self.config.longterm_assets, "longterm_assets", date=date
         )
-        secured_liabilities = self.process_category(
+        secured_liabilities = self.process_account_list(
             self.config.secured_liabilities, "secured_liabilities", date=date
         )
-        unsecured_liabilities = self.process_category(
+        unsecured_liabilities = self.process_account_list(
             self.config.unsecured_liabilities, "unsecured_liabilities", date=date
         )
 
@@ -106,7 +106,28 @@ class Pacioli:
             The income statement in tex format.
 
         """
-        pass
+        result = {}
+        result["title"] = self.config.title
+        result["start_date"] = start_date
+        result["end_date"] = end_date
+
+        income = self.process_account("Income", start_date, end_date)
+        result["income_total"] = income.pop("income_total")
+        result["income"] = income
+
+        expenses = self.process_account("Expenses", start_date, end_date)
+        result["expenses_total"] = expenses.pop("expenses_total")
+        result["expenses"] = expenses
+
+        net_gain = result["income_total"] - result["expenses_total"]
+
+        if net_gain < 0:
+            result["net_gain"] = "(" + str(abs(net_gain)) + ")"
+        else:
+            result["net_gain"] = net_gain
+
+        logging.debug(result)
+        return self.compile_template("income", result)
 
     def get_balance(self, account, date):
         """
@@ -142,6 +163,7 @@ class Pacioli:
                     "-e",
                     date,
                     self.config.effective,
+                    "--cleared",
                 ],
                 stdout=subprocess.PIPE,
             )
@@ -153,11 +175,72 @@ class Pacioli:
             return round(float(re.search("\d+(?:.(\d+))?", output).group(0)))
         return 0
 
-    def process_category(self, category, category_name, date):
+    def process_account(self, account, start_date, end_date):
+        """
+        Returns a dictionary of all sub account names and their corresponding
+        balances for the time period.
+
+        Parameters
+        ----------
+        account:str
+            Top level account name, i.e 'Income'.
+        start_date: str
+            The start date of the time period.
+        end_date: str
+            The end date of the time period.
+
+        Returns
+        -------
+        dict
+            Short account names and their balances.
+
+        """
+        try:
+            output = subprocess.run(
+                [
+                    "ledger",
+                    "-f",
+                    self.config.journal_file,
+                    "bal",
+                    account,
+                    "-b",
+                    start_date,
+                    "-e",
+                    end_date,
+                    self.config.effective,
+                    "--depth",
+                    "2",
+                    "--cleared",
+                ],
+                stdout=subprocess.PIPE,
+            )
+        except subprocess.CalledProcessError as error:
+            logging.error("error code", error.returncode, error.output)
+        account_name = account
+        output = output.stdout.decode("utf-8").splitlines()
+        result = {}
+        for i in output:
+            i = i.replace(",", "")
+            account = re.search("[a-zA-Z]+", i)
+            if account is not None:
+                if account.group(0) == account_name:
+                    result[account_name.lower() + "_total"] = round(
+                        float(re.search("\d+(?:.(\d+))?", i).group(0))
+                    )
+                else:
+                    account = account.group(0)
+                    result[account] = round(
+                        float(re.search("\d+(?:.(\d+))?", i).group(0))
+                    )
+
+        return result
+
+    def process_account_list(self, category, category_name, date):
         """
 
         Returns a dictionary of account names and their corresponding balances
-        as of the date along with the total value of category.
+        as of the date along with the total value of category from a known list
+        of accounts.
 
         Parameters
         ----------
@@ -170,8 +253,6 @@ class Pacioli:
 
         Returns
         -------
-        dict
-            Short account names and their balances.
         """
         total = 0
         result = {}
@@ -223,12 +304,12 @@ class Pacioli:
                 template = self.latex_jina_env.get_template(
                     self.config.balance_sheet_template
                 )
-            if report_type == "income":
+            elif report_type == "income":
                 template = self.latex_jina_env.get_template(
                     self.config.income_sheet_template
                 )
         except jinja2.exceptions.TemplateNotFound as error:
             logging.error("Template Not Found", error)
             return None
-
+        logging.debug("Rendering Template: %s", template)
         return template.render(account_mappings)
