@@ -75,12 +75,13 @@ class Pacioli:
             secured_liabilities["secured_liabilities_total"]
             + unsecured_liabilities["unsecured_liabilities_total"]
         )
-        ledger = {}
-        ledger.update({"total_assets": total_assets})
-        ledger.update({"total_liabilities": total_liabilities})
+        ledger = {
+            "total_assets": total_assets,
+            "total_liabilities": total_liabilities,
+            "title": self.config.title,
+            "date": date,
+        }
 
-        ledger.update({"title": self.config.title})
-        ledger.update({"date": date})
         ledger.update(current_assets)
         ledger.update(longterm_assets)
         ledger.update(secured_liabilities)
@@ -106,10 +107,11 @@ class Pacioli:
             The income statement in tex format.
 
         """
-        result = {}
-        result["title"] = self.config.title
-        result["start_date"] = start_date
-        result["end_date"] = end_date
+        result = {
+            "title": self.config.title,
+            "start_date": start_date,
+            "end_date": end_date,
+        }
 
         income = self.process_account("Income", start_date, end_date)
         result["income_total"] = income.pop("income_total")
