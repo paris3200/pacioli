@@ -42,13 +42,19 @@ def balance_sheet(ctx, out_file, end_date):
 
 
 @cli.command()
-@click.option("--begin-date", "-b", default="", help="Date transactions begin on.")
+@click.option("--begin-date", "-b", default="", help="Start date for transactions.")
 @click.option(
-    "--end-date", "-e", default="", help="Limit the report to transactions before date."
+    "--end-date", "-e", default="", help="Limit the report to transactions BEFORE date."
 )
 @click.argument("out-file", type=click.Path(allow_dash=True))
 @click.pass_context
 def income_statement(ctx, begin_date, end_date, out_file):
+    """
+    Run a income statement for a set time period.
+
+    OUT_FILE is the path to the file to write the tex file.  Use '-' to print
+    to standard output.
+    """
     pacioli = ctx.obj["pacioli"]
     if out_file != "-":
         with click.open_file(out_file, "w") as f:
