@@ -21,7 +21,9 @@ def cli(ctx, config):
 
 @cli.command()
 @click.argument("out-file", type=click.Path(allow_dash=True))
-@click.option("--end-date", "-e", default="", help="End date for transactions.")
+@click.option(
+    "--end-date", "-e", default="", help="Limit the report to transactions before date."
+)
 @click.pass_context
 def balance_sheet(ctx, out_file, end_date):
     """
@@ -40,8 +42,10 @@ def balance_sheet(ctx, out_file, end_date):
 
 
 @cli.command()
-@click.option("--begin-date", "-b", default="", help="Begin date of time period.")
-@click.option("--end-date", "-e", default="", help="End date of time period.")
+@click.option("--begin-date", "-b", default="", help="Date transactions begin on.")
+@click.option(
+    "--end-date", "-e", default="", help="Limit the report to transactions before date."
+)
 @click.argument("out-file", type=click.Path(allow_dash=True))
 @click.pass_context
 def income_statement(ctx, begin_date, end_date, out_file):
