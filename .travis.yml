@@ -1,0 +1,19 @@
+language: python
+
+python:
+  - "3.8"
+  - "3.7"
+  - "3.6"
+
+before_install:
+  - python --version
+  - pip install -U poetry
+
+# command to install dependencies
+install:
+  - poetry install
+# command to run tests
+script:
+  - pytest --cov=./
+after_success:
+  - codecov
