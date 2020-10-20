@@ -7,7 +7,7 @@
 Pacioli generates financial reports typeset with LaTeX from
 [Ledger](http://www.ledger-cli.org) journal files.  The reports can be processed into a PDF using a variety of tools, such as pdflatex.
 
-Reports are generated using customizable templates to meet a variety of needs.
+Reports are generated using customizable templates to meet a variety of needs.  An example Balance Sheet using the default template can be seen [here](https://github.com/paris3200/pacioli/blob/master/tests/resources/sample_balance_sheet.pdf)
 
 
 ## Usage example
@@ -27,7 +27,6 @@ Commands:
   income-statement  Run a income statement for a set time period.
 ```
 
-![Sample Balance Sheet](https://imgur.com/K9sHBIb.png)
 ## Development setup
 
 Pacioli uses [Poetry](https://python-poetry.org) to manage packaging and dependencies.  Install Poetry and then fork the project.  Pacioli and the required dependencies can be installed with poetry.
