@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/paris3200/pacioli.svg?branch=master)](https://travis-ci.org/paris3200/pacioli)
+[![Build Status](https://travis-ci.org/paris3200/pacioli.svg?branch=master)](https://travis-ci.org/paris3200/pacioli) [![codecov](https://codecov.io/gh/paris3200/pacioli/branch/master/graph/badge.svg?token=8JRRTMR6QO)](undefined)
+
 
 # Pacioli
 > Beautiful report creation for plain text accounting.
