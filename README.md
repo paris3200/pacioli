@@ -27,6 +27,7 @@ Commands:
   income-statement  Run a income statement for a set time period.
 ```
 
+![Sample Balance Sheet](https://imgur.com/a/s802UO9)
 
 ## Development setup
 
