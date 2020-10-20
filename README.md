@@ -35,6 +35,8 @@ poetry install
 
 ## Release History
 
+* 0.2.0
+    * Initial Release
 * 0.0.1
     * Work in progress
 
