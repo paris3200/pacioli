@@ -12,7 +12,7 @@ from pacioli.pacioli import Pacioli
 @click.pass_context
 def cli(ctx, config):
     """
-    Pacioli generates beautiful LaTeX financial reports from Ledger CLI journal
+    Pacioli generates LaTeX financial reports from Ledger CLI journal
     files.
     """
     ctx.ensure_object(dict)
