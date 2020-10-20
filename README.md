@@ -27,8 +27,7 @@ Commands:
   income-statement  Run a income statement for a set time period.
 ```
 
-![Sample Balance Sheet](https://imgur.com/K9sHBIb)
-
+![Sample Balance Sheet](https://imgur.com/K9sHBIb.png)
 ## Development setup
 
 Pacioli uses [Poetry](https://python-poetry.org) to manage packaging and dependencies.  Install Poetry and then fork the project.  Pacioli and the required dependencies can be installed with poetry.
