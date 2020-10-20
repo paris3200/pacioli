@@ -1,20 +1,36 @@
 # Pacioli
-> Beautiful report creation from plain text accounting.
+> Beautiful report creation for plain text accounting.
 
 Pacioli generates financial reports typeset with LaTeX from
-[Ledger](http://www.ledger-cli.org) journal files.
+[Ledger](http://www.ledger-cli.org) journal files.  The reports can be processed into a PDF using a variety of tools, such as pdflatex.
+
+Reports are generated using customizable templates to meet a variety of needs.
 
 
 ## Usage example
+```sh
+
+Usage: pacioli [OPTIONS] COMMAND [ARGS]...
+
+  Pacioli generates LaTeX financial reports from Ledger CLI
+  journal files.
+
+Options:
+  -c, --config TEXT  Path of config file.
+  --help             Show this message and exit.
+
+Commands:
+  balance-sheet     Run a balance report using the account mappings defined...
+  income-statement  Run a income statement for a set time period.
+```
 
 
 ## Development setup
 
-Describe how to install all development dependencies and how to run an automated test-suite of some kind. Potentially do this for multiple platforms.
+Pacioli uses [Poetry](https://python-poetry.org) to manage packaging and dependencies.  Install Poetry and then fork the project.  Pacioli and the required dependencies can be installed with poetry.
 
 ```sh
-make install
-npm test
+poetry install
 ```
 
 ## Release History
@@ -24,15 +40,13 @@ npm test
 
 ## Meta
 
-Your Name – [@YourTwitter](https://twitter.com/dbader_org) – YourEmail@example.com
+Jason Paris – paris3200@gamil.com
 
-Distributed under the XYZ license. See ``LICENSE`` for more information.
-
-[https://github.com/yourname/github-link](https://github.com/dbader/)
+Distributed under the MIT license. See ``LICENSE`` for more information.
 
 ## Contributing
 
-1. Fork it (<https://github.com/yourname/yourproject/fork>)
+1. Fork it
 2. Create your feature branch (`git checkout -b feature/fooBar`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
