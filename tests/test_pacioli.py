@@ -63,7 +63,7 @@ def test_balance_sheet():
     assert "& Savings  & 10030 \\" in result
     assert "{Total Longterm Assets} & & 325576" in result
     assert "{Total Current Assets}} & & 14168\\" in result
-    assert "Total Assets} & & \\textbf{339744\\" in result
+    assert "Total Assets} & & \\textbf{339744}\\" in result
     assert "{Total Secured Liabilities} & & 184654\\" in result
     assert "Total Liabilities}" in result
     assert "{186102" in result  # Value of Total Liabilities
