@@ -20,6 +20,7 @@ def test_get_balance_returns_int():
 
     checking = pacioli.get_balance("Assets:Current:Checking", date="2020/3/31")
     assert checking == 4138
+    assert isinstance(checking, int)
 
 
 def test_process_account_list():
@@ -43,13 +44,13 @@ def test_process_account():
     } == pacioli.process_account("Income", start_date="2020/2/1", end_date="2020/3/31")
 
 
-def test_account_name():
+def test_get_account_short_name_returns_account_name_from_full_account_listing():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     name = pacioli.get_account_short_name("Assets:Current:Checking")
     assert name == "checking"
 
 
-def test_account_name_with_spaces():
+def test_get_account_short_name_replaces_spaces_with_underscores():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     name = pacioli.get_account_short_name("Assets:Longterm:Real Estate")
     assert name == "real_estate"
@@ -57,7 +58,6 @@ def test_account_name_with_spaces():
 
 def test_balance_sheet():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
-
     locale.setlocale(locale.LC_ALL, "")
     checking = f"{int(4138):n}"
     savings = f"{int(10030):n}"
@@ -74,10 +74,8 @@ def test_balance_sheet():
 
 
 def test_income_statement():
-
     locale.setlocale(locale.LC_ALL, "")
     income = f"{int(4953):n}"
-
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     result = pacioli.income_statement(start_date="2020/2/1", end_date="2020/2/28")
 
@@ -85,7 +83,7 @@ def test_income_statement():
     assert "{Total Income}} & & %s \\" % income in result
 
 
-def test_formatter_dict_input():
+def test_format_balance_dict_input_returns_formatted_dict():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     locale.setlocale(locale.LC_ALL, "")
     checking = f"{11000:n}"
@@ -96,7 +94,7 @@ def test_formatter_dict_input():
     assert {"Checking": checking, "Savings": savings} == result
 
 
-def test_formatter_int_input():
+def test_format_balance_int_input_returns_formmated_str():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     locale.setlocale(locale.LC_ALL, "")
     checking = f"{11000:n}"
