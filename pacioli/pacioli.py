@@ -289,8 +289,7 @@ class Pacioli:
 
     def format_balance(self, int_balance):
         """
-        Returns the input data with the numbers formatted with the locale
-        seperator.
+        Formats balance using the locale seperators for numbers.
 
         Parameters
         ----------
