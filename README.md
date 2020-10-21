@@ -37,6 +37,8 @@ poetry install
 
 ## Release History
 
+* 0.3.0
+    * Add support for locale formatting of balances
 * 0.2.0
     * Initial Release
 * 0.0.1
