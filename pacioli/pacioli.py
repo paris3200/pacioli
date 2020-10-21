@@ -24,7 +24,7 @@ class Pacioli:
 
         self.config = Config(config_file)
 
-        self.latex_jina_env = jinja2.Environment(
+        self.latex_jinja_env = jinja2.Environment(
             block_start_string="BLOCK{",
             block_end_string="}",
             variable_start_string=r"\VAR{",
@@ -43,7 +43,8 @@ class Pacioli:
 
     def balance_sheet(self, date):
         """
-        Generates the balance sheet report as a tex file.
+        Generates the balance sheet from the category mappings in the config
+        file.
 
         Parameters
         ----------
@@ -88,7 +89,7 @@ class Pacioli:
         ledger.update(secured_liabilities)
         ledger.update(unsecured_liabilities)
 
-        return self.compile_template("balance", self.format_balance(ledger))
+        return self.render_template("balance", self.format_balance(ledger))
 
     def income_statement(self, start_date, end_date):
         """
@@ -130,12 +131,12 @@ class Pacioli:
             result["net_gain"] = net_gain
 
         logging.debug(result)
-        return self.compile_template("income", self.format_balance(result))
+        return self.render_template("income", self.format_balance(result))
 
     def get_balance(self, account, date):
         """
-        Get's the account balance from Ledger of account and rounds it to a
-        whole number.
+        Get's the account balance from Ledger of account and rounds it to an
+        int.
 
         Parameters
         ----------
@@ -315,11 +316,14 @@ class Pacioli:
 
         return int_balance
 
-    def compile_template(self, report_type, account_mappings):
+    def render_template(self, report_type, account_mappings):
         """
+        Executes the jinja template.
 
         Parameters
         ----------
+        report_type: str
+            (balance, income)
         account_mappings: dict
             The variable name in the template matched to the corresponding
             account balance.
@@ -332,11 +336,11 @@ class Pacioli:
         """
         try:
             if report_type == "balance":
-                template = self.latex_jina_env.get_template(
+                template = self.latex_jinja_env.get_template(
                     self.config.balance_sheet_template
                 )
             elif report_type == "income":
-                template = self.latex_jina_env.get_template(
+                template = self.latex_jinja_env.get_template(
                     self.config.income_sheet_template
                 )
         except jinja2.exceptions.TemplateNotFound as error:

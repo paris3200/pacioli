@@ -102,7 +102,7 @@ def test_format_balance_int_input_returns_formmated_str():
     assert checking == result
 
 
-def test_compile_template():
+def test_render_template():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
 
     current_assets = pacioli.config.current_assets
@@ -119,7 +119,7 @@ def test_compile_template():
         )
     )
 
-    result = pacioli.compile_template("balance", ledger)
+    result = pacioli.render_template("balance", ledger)
 
     assert "& Checking  & 4138 \\" in result
     assert "& Savings  & 10030 \\" in result
