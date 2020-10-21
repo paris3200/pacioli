@@ -3,6 +3,7 @@ import subprocess
 import re
 import jinja2
 import logging
+import locale
 
 from pacioli.config import Config
 
@@ -87,7 +88,7 @@ class Pacioli:
         ledger.update(secured_liabilities)
         ledger.update(unsecured_liabilities)
 
-        return self.compile_template("balance", ledger)
+        return self.compile_template("balance", self.format_balance(ledger))
 
     def income_statement(self, start_date, end_date):
         """
@@ -129,7 +130,7 @@ class Pacioli:
             result["net_gain"] = net_gain
 
         logging.debug(result)
-        return self.compile_template("income", result)
+        return self.compile_template("income", self.format_balance(result))
 
     def get_balance(self, account, date):
         """
@@ -285,6 +286,35 @@ class Pacioli:
         """
         name = account.split(":")[-1].lower()
         return name.replace(" ", "_")
+
+    def format_balance(self, int_balance):
+        """
+        Returns the input data with the numbers formatted with the locale
+        seperator.
+
+        Parameters
+        ----------
+        int_balance: (dict, int)
+
+
+        Returns
+        -------
+        (dict, int)
+           Balance formatted with locale seperator.
+        """
+        locale.setlocale(locale.LC_ALL, "")
+
+        if isinstance(int_balance, int):
+            return f"{int_balance:n}"
+
+        if isinstance(int_balance, dict):
+            for account, balance in int_balance.items():
+                if isinstance(balance, dict):
+                    self.format_balance(balance)
+                elif isinstance(balance, int):
+                    int_balance[account] = f"{balance:n}"
+
+        return int_balance
 
     def compile_template(self, report_type, account_mappings):
         """

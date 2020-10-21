@@ -1,5 +1,6 @@
 import os
 import subprocess
+import locale
 
 
 def test_entrypoint():
@@ -27,12 +28,15 @@ def test_balance_sheet_outputs_to_standard_output():
         stdout=subprocess.PIPE,
     )
     report = output.stdout.decode()
+
+    locale.setlocale(locale.LC_ALL, "")
+    checking = f"{int(4138):n}"
+    savings = f"{int(10030):n}"
+    total_longterm = f"{int(325576):n}"
     assert "Acme LLC" in report
-    assert "& Checking  & 4138 \\" in report
-    assert "& Savings  & 10030 \\" in report
-    assert "{Total Longterm Assets} & & 325576" in report
-    assert "{Total Current Assets}} & & 14168\\" in report
-    assert "{Total Secured Liabilities} & & 184654\\" in report
+    assert f"& Checking  & {checking} \\" in report
+    assert f"& Savings  & {savings} \\" in report
+    assert f"{{Total Longterm Assets}} & & {total_longterm}" in report
 
 
 def test_income_statement_outputs_to_standard_output():
@@ -53,11 +57,16 @@ def test_income_statement_outputs_to_standard_output():
         ],
         stdout=subprocess.PIPE,
     )
+    locale.setlocale(locale.LC_ALL, "")
+    salary = f"{int(4913):n}"
+    income = f"{int(4953):n}"
+    expenses = f"{int(4162):n}"
+
     report = output.stdout.decode()
     assert "Acme LLC" in report
-    assert "Salary & 4913 \\" in report
-    assert "{Total Income}} & & 4953" in report
-    assert "{Total Expenses}} & & 4162 \\" in report
+    assert f"Salary & {salary} \\" in report
+    assert "{Total Income}} & & %s" % income in report
+    assert "{Total Expenses}} & & %s \\" % expenses in report
 
 
 def test_balance_sheet_outputs_to_file(tmp_path):
@@ -83,13 +92,16 @@ def test_balance_sheet_outputs_to_file(tmp_path):
         ],
         stdout=subprocess.PIPE,
     )
+    locale.setlocale(locale.LC_ALL, "")
+    checking = f"{int(4138):n}"
+    savings = f"{int(10030):n}"
+    total_longterm = f"{int(325576):n}"
+
     report = output_file.read_text()
     assert "Acme LLC" in report
-    assert "& Checking  & 4138 \\" in report
-    assert "& Savings  & 10030 \\" in report
-    assert "{Total Longterm Assets} & & 325576" in report
-    assert "{Total Current Assets}} & & 14168\\" in report
-    assert "{Total Secured Liabilities} & & 184654\\" in report
+    assert f"& Checking  & {checking} \\" in report
+    assert f"& Savings  & {savings} \\" in report
+    assert f"{{Total Longterm Assets}} & & {total_longterm}" in report
 
 
 def test_income_statment_outputs_to_file(tmp_path):
@@ -118,7 +130,12 @@ def test_income_statment_outputs_to_file(tmp_path):
         stdout=subprocess.PIPE,
     )
     report = output_file.read_text()
+
+    locale.setlocale(locale.LC_ALL, "")
+    salary = f"{int(4913):n}"
+    income = f"{int(4953):n}"
+    expenses = f"{int(4162):n}"
     assert "Acme LLC" in report
-    assert "Salary & 4913 \\" in report
-    assert "{Total Income}} & & 4953" in report
-    assert "{Total Expenses}} & & 4162 \\" in report
+    assert f"Salary & {salary} \\" in report
+    assert "{Total Income}} & & %s" % income in report
+    assert "{Total Expenses}} & & %s \\" % expenses in report
