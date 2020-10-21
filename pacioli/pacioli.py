@@ -27,9 +27,9 @@ class Pacioli:
         self.latex_jina_env = jinja2.Environment(
             block_start_string="BLOCK{",
             block_end_string="}",
-            variable_start_string="\VAR{",
+            variable_start_string=r"\VAR{",
             variable_end_string="}",
-            comment_start_string="\#{",
+            comment_start_string=r"\#{",
             comment_end_string="}",
             line_statement_prefix="%%",
             line_comment_prefix="%#",
@@ -175,7 +175,7 @@ class Pacioli:
         output = output.stdout.decode("utf-8")
         output = output.replace(",", "")
         if output != "":
-            return round(float(re.search("\d+(?:.(\d+))?", output).group(0)))
+            return round(float(re.search(r"\d+(?:.(\d+))?", output).group(0)))
         return 0
 
     def process_account(self, account, start_date, end_date):
@@ -228,12 +228,12 @@ class Pacioli:
             if account is not None:
                 if account.group(0) == account_name:
                     result[account_name.lower() + "_total"] = round(
-                        float(re.search("\d+(?:.(\d+))?", i).group(0))
+                        float(re.search(r"\d+(?:.(\d+))?", i).group(0))
                     )
                 else:
                     account = account.group(0)
                     result[account] = round(
-                        float(re.search("\d+(?:.(\d+))?", i).group(0))
+                        float(re.search(r"\d+(?:.(\d+))?", i).group(0))
                     )
 
         return result
