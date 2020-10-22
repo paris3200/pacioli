@@ -3,6 +3,7 @@ import subprocess
 import re
 import jinja2
 import logging
+import locale
 
 from pacioli.config import Config
 
@@ -23,12 +24,12 @@ class Pacioli:
 
         self.config = Config(config_file)
 
-        self.latex_jina_env = jinja2.Environment(
+        self.latex_jinja_env = jinja2.Environment(
             block_start_string="BLOCK{",
             block_end_string="}",
-            variable_start_string="\VAR{",
+            variable_start_string=r"\VAR{",
             variable_end_string="}",
-            comment_start_string="\#{",
+            comment_start_string=r"\#{",
             comment_end_string="}",
             line_statement_prefix="%%",
             line_comment_prefix="%#",
@@ -42,7 +43,8 @@ class Pacioli:
 
     def balance_sheet(self, date):
         """
-        Generates the balance sheet report as a tex file.
+        Generates the balance sheet from the category mappings in the config
+        file.
 
         Parameters
         ----------
@@ -87,7 +89,7 @@ class Pacioli:
         ledger.update(secured_liabilities)
         ledger.update(unsecured_liabilities)
 
-        return self.compile_template("balance", ledger)
+        return self.render_template("balance", self.format_balance(ledger))
 
     def income_statement(self, start_date, end_date):
         """
@@ -129,12 +131,12 @@ class Pacioli:
             result["net_gain"] = net_gain
 
         logging.debug(result)
-        return self.compile_template("income", result)
+        return self.render_template("income", self.format_balance(result))
 
     def get_balance(self, account, date):
         """
-        Get's the account balance from Ledger of account and rounds it to a
-        whole number.
+        Get's the account balance from Ledger of account and rounds it to an
+        int.
 
         Parameters
         ----------
@@ -174,7 +176,7 @@ class Pacioli:
         output = output.stdout.decode("utf-8")
         output = output.replace(",", "")
         if output != "":
-            return round(float(re.search("\d+(?:.(\d+))?", output).group(0)))
+            return round(float(re.search(r"\d+(?:.(\d+))?", output).group(0)))
         return 0
 
     def process_account(self, account, start_date, end_date):
@@ -223,16 +225,16 @@ class Pacioli:
         result = {}
         for i in output:
             i = i.replace(",", "")
-            account = re.search("[a-zA-Z]+", i)
+            account = re.search(r"([a-zA-Z]+[a-zA-Z ]*[a-zA-Z])+", i)
             if account is not None:
                 if account.group(0) == account_name:
                     result[account_name.lower() + "_total"] = round(
-                        float(re.search("\d+(?:.(\d+))?", i).group(0))
+                        float(re.search(r"\d+(?:.(\d+))?", i).group(0))
                     )
                 else:
                     account = account.group(0)
                     result[account] = round(
-                        float(re.search("\d+(?:.(\d+))?", i).group(0))
+                        float(re.search(r"\d+(?:.(\d+))?", i).group(0))
                     )
 
         return result
@@ -286,11 +288,42 @@ class Pacioli:
         name = account.split(":")[-1].lower()
         return name.replace(" ", "_")
 
-    def compile_template(self, report_type, account_mappings):
+    def format_balance(self, int_balance):
         """
+        Formats balance using the locale seperators for numbers.
 
         Parameters
         ----------
+        int_balance: (dict, int)
+
+
+        Returns
+        -------
+        (dict, int)
+           Balance formatted with locale seperator.
+        """
+        locale.setlocale(locale.LC_ALL, "")
+
+        if isinstance(int_balance, int):
+            return f"{int_balance:n}"
+
+        if isinstance(int_balance, dict):
+            for account, balance in int_balance.items():
+                if isinstance(balance, dict):
+                    self.format_balance(balance)
+                elif isinstance(balance, int):
+                    int_balance[account] = f"{balance:n}"
+
+        return int_balance
+
+    def render_template(self, report_type, account_mappings):
+        """
+        Executes the jinja template.
+
+        Parameters
+        ----------
+        report_type: str
+            (balance, income)
         account_mappings: dict
             The variable name in the template matched to the corresponding
             account balance.
@@ -303,11 +336,11 @@ class Pacioli:
         """
         try:
             if report_type == "balance":
-                template = self.latex_jina_env.get_template(
+                template = self.latex_jinja_env.get_template(
                     self.config.balance_sheet_template
                 )
             elif report_type == "income":
-                template = self.latex_jina_env.get_template(
+                template = self.latex_jinja_env.get_template(
                     self.config.income_sheet_template
                 )
         except jinja2.exceptions.TemplateNotFound as error:

@@ -1,11 +1,12 @@
 import subprocess
+import locale
 
 from pacioli import __version__
 from pacioli.pacioli import Pacioli
 
 
 def test_version():
-    assert __version__ == "0.1.0"
+    assert __version__ == "0.3.1"
 
 
 def test_ledger_available():
@@ -19,6 +20,7 @@ def test_get_balance_returns_int():
 
     checking = pacioli.get_balance("Assets:Current:Checking", date="2020/3/31")
     assert checking == 4138
+    assert isinstance(checking, int)
 
 
 def test_process_account_list():
@@ -42,13 +44,13 @@ def test_process_account():
     } == pacioli.process_account("Income", start_date="2020/2/1", end_date="2020/3/31")
 
 
-def test_account_name():
+def test_get_account_short_name_returns_account_name_from_full_account_listing():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     name = pacioli.get_account_short_name("Assets:Current:Checking")
     assert name == "checking"
 
 
-def test_account_name_with_spaces():
+def test_get_account_short_name_replaces_spaces_with_underscores():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     name = pacioli.get_account_short_name("Assets:Longterm:Real Estate")
     assert name == "real_estate"
@@ -56,29 +58,53 @@ def test_account_name_with_spaces():
 
 def test_balance_sheet():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
+    locale.setlocale(locale.LC_ALL, "")
+    checking = f"{int(4138):n}"
+    savings = f"{int(10030):n}"
+    total_liabilities = f"{int(186102):n}"
+    assets = f"{int(339744):n}"
 
     result = pacioli.balance_sheet(date="2020/3/31")
     assert "Acme LLC" in result
-    assert "& Checking  & 4138 \\" in result
-    assert "& Savings  & 10030 \\" in result
-    assert "{Total Longterm Assets} & & 325576" in result
-    assert "{Total Current Assets}} & & 14168\\" in result
-    assert "Total Assets} & & \\textbf{339744}\\" in result
-    assert "{Total Secured Liabilities} & & 184654\\" in result
+    assert f"& Checking  & {checking} \\" in result
+    assert f"& Savings  & {savings} \\" in result
+    assert assets in result
     assert "Total Liabilities}" in result
-    assert "{186102" in result  # Value of Total Liabilities
+    assert total_liabilities in result  # Value of Total Liabilities
 
 
 def test_income_statement():
+    locale.setlocale(locale.LC_ALL, "")
+    income = f"{int(4953):n}"
+    personal = f"{int(65):n}"
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
-
     result = pacioli.income_statement(start_date="2020/2/1", end_date="2020/2/28")
 
     assert "Income Statement" in result
-    assert "{Total Income}} & & 4953 \\" in result
+    assert "{Total Income}} & & %s \\" % income in result
+    assert f"& Personal Care & {personal} \\" in result
 
 
-def test_compile_template():
+def test_format_balance_dict_input_returns_formatted_dict():
+    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
+    locale.setlocale(locale.LC_ALL, "")
+    checking = f"{11000:n}"
+    savings = f"{25000:n}"
+    test_numbers = {"Checking": 11000, "Savings": 25000}
+    result = pacioli.format_balance(test_numbers)
+
+    assert {"Checking": checking, "Savings": savings} == result
+
+
+def test_format_balance_int_input_returns_formmated_str():
+    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
+    locale.setlocale(locale.LC_ALL, "")
+    checking = f"{11000:n}"
+    result = pacioli.format_balance(11000)
+    assert checking == result
+
+
+def test_render_template():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
 
     current_assets = pacioli.config.current_assets
@@ -95,7 +121,7 @@ def test_compile_template():
         )
     )
 
-    result = pacioli.compile_template("balance", ledger)
+    result = pacioli.render_template("balance", ledger)
 
     assert "& Checking  & 4138 \\" in result
     assert "& Savings  & 10030 \\" in result

@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/paris3200/pacioli.svg?branch=master)](https://travis-ci.org/paris3200/pacioli) [![codecov](https://codecov.io/gh/paris3200/pacioli/branch/master/graph/badge.svg?token=8JRRTMR6QO)](undefined)
+[![Build Status](https://travis-ci.org/paris3200/pacioli.svg?branch=master)](https://travis-ci.org/paris3200/pacioli) [![codecov](https://codecov.io/gh/paris3200/pacioli/branch/master/graph/badge.svg?token=8JRRTMR6QO)](https://codecov.io/gh/paris3200/pacioli)
 
 
 # Pacioli
@@ -37,6 +37,10 @@ poetry install
 
 ## Release History
 
+* 0.3.1
+    * Add support for two word account names on the Income Statement
+* 0.3.0
+    * Add support for locale formatting of balances
 * 0.2.0
     * Initial Release
 * 0.0.1

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pacioli"
-version = "0.2.0"
+version = "0.3.1"
 description = ""
 authors = ["Jason Paris <paris3200@gmail.com>"]
 
