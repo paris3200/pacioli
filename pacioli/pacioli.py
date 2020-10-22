@@ -124,11 +124,7 @@ class Pacioli:
         result["expenses"] = expenses
 
         net_gain = result["income_total"] - result["expenses_total"]
-
-        if net_gain < 0:
-            result["net_gain"] = "(" + str(abs(net_gain)) + ")"
-        else:
-            result["net_gain"] = net_gain
+        result["net_gain"] = self.format_net_gain(net_gain)
 
         logging.debug(result)
         return self.render_template("income", self.format_balance(result))
@@ -315,6 +311,27 @@ class Pacioli:
                     int_balance[account] = f"{balance:n}"
 
         return int_balance
+
+    def format_net_gain(self, net_gain):
+        """
+        If the input_number is negative, it returns the absolute value of the
+        number as string enclosed in parenttheses.
+
+        Paramaters
+        ----------
+        net_gain: int
+            Number to be formatted
+
+
+        Returns
+        -------
+        Str
+            Net gain as a string.  If negative, enclosed in parentheses.
+        """
+        if net_gain < 0:
+            return "(" + self.format_balance(abs(net_gain)) + ")"
+
+        return self.format_balance(net_gain)
 
     def render_template(self, report_type, account_mappings):
         """

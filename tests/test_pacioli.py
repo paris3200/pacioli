@@ -78,7 +78,9 @@ def test_render_income_statement():
     income = f"{int(4953):n}"
     personal = f"{int(65):n}"
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
-    result = pacioli.render_income_statement(start_date="2020/2/1", end_date="2020/2/28")
+    result = pacioli.render_income_statement(
+        start_date="2020/2/1", end_date="2020/2/28"
+    )
 
     assert "Income Statement" in result
     assert "{Total Income}} & & %s \\" % income in result
@@ -102,6 +104,22 @@ def test_format_balance_int_input_returns_formmated_str():
     checking = f"{11000:n}"
     result = pacioli.format_balance(11000)
     assert checking == result
+
+
+def test_format_net_gain_returns_negative_number_in_parentheses():
+    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
+    net_gain = int(-100)
+    result = pacioli.format_net_gain(net_gain)
+    assert "(100)" == result
+
+
+def test_format_net_gain_returns_negative_number_in_parentheses_with_locale_formatting():
+    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
+    locale.setlocale(locale.LC_ALL, "")
+    net_gain = int(-1000)
+    net_gain_positive = net_gain * -1
+    result = pacioli.format_net_gain(net_gain)
+    assert f"({net_gain_positive:n})" == result
 
 
 def test_render_template():
