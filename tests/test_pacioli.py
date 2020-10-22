@@ -6,7 +6,7 @@ from pacioli.pacioli import Pacioli
 
 
 def test_version():
-    assert __version__ == "0.3.0"
+    assert __version__ == "0.3.1"
 
 
 def test_ledger_available():

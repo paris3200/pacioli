@@ -37,6 +37,8 @@ poetry install
 
 ## Release History
 
+* 0.3.1
+    * Add support for two word account names on the Income Statement
 * 0.3.0
     * Add support for locale formatting of balances
 * 0.2.0
