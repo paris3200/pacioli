@@ -225,7 +225,7 @@ class Pacioli:
         result = {}
         for i in output:
             i = i.replace(",", "")
-            account = re.search("[a-zA-Z]+", i)
+            account = re.search(r"([a-zA-Z]+[a-zA-Z ]*[a-zA-Z])+", i)
             if account is not None:
                 if account.group(0) == account_name:
                     result[account_name.lower() + "_total"] = round(

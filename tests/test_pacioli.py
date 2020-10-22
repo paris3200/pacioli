@@ -76,11 +76,13 @@ def test_balance_sheet():
 def test_income_statement():
     locale.setlocale(locale.LC_ALL, "")
     income = f"{int(4953):n}"
+    personal = f"{int(65):n}"
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     result = pacioli.income_statement(start_date="2020/2/1", end_date="2020/2/28")
 
     assert "Income Statement" in result
     assert "{Total Income}} & & %s \\" % income in result
+    assert f"& Personal Care & {personal} \\" in result
 
 
 def test_format_balance_dict_input_returns_formatted_dict():
