@@ -56,7 +56,7 @@ def test_get_account_short_name_replaces_spaces_with_underscores():
     assert name == "real_estate"
 
 
-def test_balance_sheet():
+def test_render_balance_sheet():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     locale.setlocale(locale.LC_ALL, "")
     checking = f"{int(4138):n}"
@@ -64,7 +64,7 @@ def test_balance_sheet():
     total_liabilities = f"{int(186102):n}"
     assets = f"{int(339744):n}"
 
-    result = pacioli.balance_sheet(date="2020/3/31")
+    result = pacioli.render_balance_sheet(date="2020/3/31")
     assert "Acme LLC" in result
     assert f"& Checking  & {checking} \\" in result
     assert f"& Savings  & {savings} \\" in result
@@ -73,12 +73,12 @@ def test_balance_sheet():
     assert total_liabilities in result  # Value of Total Liabilities
 
 
-def test_income_statement():
+def test_render_income_statement():
     locale.setlocale(locale.LC_ALL, "")
     income = f"{int(4953):n}"
     personal = f"{int(65):n}"
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
-    result = pacioli.income_statement(start_date="2020/2/1", end_date="2020/2/28")
+    result = pacioli.render_income_statement(start_date="2020/2/1", end_date="2020/2/28")
 
     assert "Income Statement" in result
     assert "{Total Income}} & & %s \\" % income in result

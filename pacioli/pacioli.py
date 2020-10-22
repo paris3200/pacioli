@@ -41,7 +41,7 @@ class Pacioli:
         if self.config.DEBUG:
             logging.basicConfig(level=logging.DEBUG)
 
-    def balance_sheet(self, date):
+    def render_balance_sheet(self, date):
         """
         Generates the balance sheet from the category mappings in the config
         file.
@@ -91,7 +91,7 @@ class Pacioli:
 
         return self.render_template("balance", self.format_balance(ledger))
 
-    def income_statement(self, start_date, end_date):
+    def render_income_statement(self, start_date, end_date):
         """
         Returns an income statement for the period beginning on start_date and
         ending on end_date.

@@ -36,9 +36,9 @@ def balance_sheet(ctx, out_file, end_date):
 
     if out_file != "-":
         with click.open_file(out_file, "w") as f:
-            f.write(pacioli.balance_sheet(date=end_date))
+            f.write(pacioli.render_balance_sheet(date=end_date))
     else:
-        click.echo(pacioli.balance_sheet(date=end_date))
+        click.echo(pacioli.render_balance_sheet(date=end_date))
 
 
 @cli.command()
@@ -58,9 +58,9 @@ def income_statement(ctx, begin_date, end_date, out_file):
     pacioli = ctx.obj["pacioli"]
     if out_file != "-":
         with click.open_file(out_file, "w") as f:
-            f.write(pacioli.income_statement(begin_date, end_date))
+            f.write(pacioli.render_income_statement(begin_date, end_date))
     else:
-        click.echo(pacioli.income_statement(begin_date, end_date))
+        click.echo(pacioli.render_income_statement(begin_date, end_date))
 
 
 if __name__ == "__main__":
