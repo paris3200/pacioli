@@ -20,14 +20,16 @@ def test_render_returns_report_formatted_as_tex():
     assert total_liabilities in result  # Value of Total Liabilities
 
 
-def test_process_account():
+def test_process_accounts_returns_dict_with_account_balances():
     report = BalanceSheet(config_file="tests/resources/sample_config.yml")
     current_assets = report.config.current_assets
+    result = report.process_accounts(current_assets, "current_assets", date="2020/3/31")
     assert {
         "checking": 4138,
         "savings": 10030,
         "current_assets_total": 14168,
-    } == report.process_accounts(current_assets, "current_assets", date="2020/3/31")
+    } == result
+    assert isinstance(result, dict)
 
 
 def test_render_template_returns_correct_data_in_template():
