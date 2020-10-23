@@ -27,7 +27,7 @@ class Config:
         # Get the absolute file path
         self.config_file = os.path.expanduser(config_file)
         self.template_dir = os.path.dirname(config_file)
-        print(self.template_dir)
+
         if not os.path.isfile(self.config_file):
             raise Exception("Config file not found.")
 
