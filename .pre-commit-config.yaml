@@ -33,3 +33,4 @@ repos:
         language: system
         always_run: true
         types: [python]
+        pass_filenames: false
