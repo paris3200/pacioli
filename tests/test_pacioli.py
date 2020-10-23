@@ -23,27 +23,6 @@ def test_get_balance_returns_int():
     assert isinstance(checking, int)
 
 
-def test_process_account_list():
-    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
-    current_assets = pacioli.config.current_assets
-    assert {
-        "checking": 4138,
-        "savings": 10030,
-        "current_assets_total": 14168,
-    } == pacioli.process_account_list(
-        current_assets, "current_assets", date="2020/3/31"
-    )
-
-
-def test_process_account():
-    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
-    assert {
-        "Salary": 4913,
-        "Interest": 40,
-        "income_total": 4953,
-    } == pacioli.process_account("Income", start_date="2020/2/1", end_date="2020/3/31")
-
-
 def test_get_account_short_name_returns_account_name_from_full_account_listing():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     name = pacioli.get_account_short_name("Assets:Current:Checking")
@@ -54,37 +33,6 @@ def test_get_account_short_name_replaces_spaces_with_underscores():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     name = pacioli.get_account_short_name("Assets:Longterm:Real Estate")
     assert name == "real_estate"
-
-
-def test_render_balance_sheet():
-    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
-    locale.setlocale(locale.LC_ALL, "")
-    checking = f"{int(4138):n}"
-    savings = f"{int(10030):n}"
-    total_liabilities = f"{int(186102):n}"
-    assets = f"{int(339744):n}"
-
-    result = pacioli.render_balance_sheet(date="2020/3/31")
-    assert "Acme LLC" in result
-    assert f"& Checking  & {checking} \\" in result
-    assert f"& Savings  & {savings} \\" in result
-    assert assets in result
-    assert "Total Liabilities}" in result
-    assert total_liabilities in result  # Value of Total Liabilities
-
-
-def test_render_income_statement():
-    locale.setlocale(locale.LC_ALL, "")
-    income = f"{int(4953):n}"
-    personal = f"{int(65):n}"
-    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
-    result = pacioli.render_income_statement(
-        start_date="2020/2/1", end_date="2020/2/28"
-    )
-
-    assert "Income Statement" in result
-    assert "{Total Income}} & & %s \\" % income in result
-    assert f"& Personal Care & {personal} \\" in result
 
 
 def test_format_balance_dict_input_returns_formatted_dict():
@@ -120,27 +68,3 @@ def test_format_net_gain_returns_negative_number_in_parentheses_with_locale_form
     net_gain_positive = net_gain * -1
     result = pacioli.format_net_gain(net_gain)
     assert f"({net_gain_positive:n})" == result
-
-
-def test_render_template():
-    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
-
-    current_assets = pacioli.config.current_assets
-    longterm_assets = pacioli.config.longterm_assets
-
-    ledger = {}
-
-    ledger.update(
-        pacioli.process_account_list(current_assets, "current_assets", date="2020/3/31")
-    )
-    ledger.update(
-        pacioli.process_account_list(
-            longterm_assets, "longterm_assets", date="2020/3/31"
-        )
-    )
-
-    result = pacioli.render_template("balance", ledger)
-
-    assert "& Checking  & 4138 \\" in result
-    assert "& Savings  & 10030 \\" in result
-    assert "{Total Current Assets}} & & 14168\\" in result
