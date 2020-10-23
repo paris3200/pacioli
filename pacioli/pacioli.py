@@ -163,7 +163,7 @@ class Pacioli:
                     "-e",
                     date,
                     self.config.effective,
-                    "--cleared",
+                    self.config.cleared,
                 ],
                 stdout=subprocess.PIPE,
             )
@@ -210,12 +210,13 @@ class Pacioli:
                     self.config.effective,
                     "--depth",
                     "2",
-                    "--cleared",
+                    self.config.cleared,
                 ],
                 stdout=subprocess.PIPE,
             )
         except subprocess.CalledProcessError as error:
             logging.error("error code", error.returncode, error.output)
+
         account_name = account
         output = output.stdout.decode("utf-8").splitlines()
         result = {}
