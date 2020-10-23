@@ -24,7 +24,17 @@ class Pacioli:
 
         self.config = Config(config_file)
 
-        self.latex_jinja_env = jinja2.Environment(
+        self.title = self.config.title
+        self.effective = self.config.effective
+        self.cleared = self.config.cleared
+        self.journal_file = self.config.journal_file
+        self.latex_jinja_env = self.setup_jinja_env()
+
+        if self.config.DEBUG:
+            self.setup_log("debug")
+
+    def setup_jinja_env(self):
+        return jinja2.Environment(
             block_start_string="BLOCK{",
             block_end_string="}",
             variable_start_string=r"\VAR{",
@@ -38,8 +48,18 @@ class Pacioli:
             loader=jinja2.FileSystemLoader(os.path.abspath(self.config.template_dir)),
         )
 
-        if self.config.DEBUG:
+    def setup_log(self, log_level):
+        if log_level == "debug":
             logging.basicConfig(level=logging.DEBUG)
+
+    def run_system_command(self, command):
+        try:
+            output = subprocess.run(command, stdout=subprocess.PIPE,)
+        except subprocess.CalledProcessError as error:
+            logging.error("error code", error.returncode, error.output)
+
+        logging.debug(f"System Command:  {command}")
+        return output.stdout.decode("utf-8")
 
     def render_balance_sheet(self, date):
         """
@@ -80,7 +100,7 @@ class Pacioli:
         ledger = {
             "total_assets": total_assets,
             "total_liabilities": total_liabilities,
-            "title": self.config.title,
+            "title": self.title,
             "date": date,
         }
 
@@ -110,7 +130,7 @@ class Pacioli:
 
         """
         result = {
-            "title": self.config.title,
+            "title": self.title,
             "start_date": start_date,
             "end_date": end_date,
         }
@@ -176,9 +196,7 @@ class Pacioli:
         account:str
             Top level account name, i.e 'Income'.
         start_date: str
-            The start date of the time period.
         end_date: str
-            The end date of the time period.
 
         Returns
         -------
@@ -255,7 +273,7 @@ class Pacioli:
     def get_account_short_name(self, account):
         """
         Returns the account name from the full account path in lower case with
-        spaces replaced with a \'_\".
+        spaces replaced with a \"_\".
 
         Parameters
         ----------
@@ -308,7 +326,6 @@ class Pacioli:
         net_gain: int
             Number to be formatted
 
-
         Returns
         -------
         Str
@@ -351,12 +368,3 @@ class Pacioli:
             return None
         logging.debug("Rendering Template: %s", template)
         return template.render(account_mappings)
-    def run_system_command(self, command):
-        try:
-            output = subprocess.run(command, stdout=subprocess.PIPE,)
-        except subprocess.CalledProcessError as error:
-            logging.error("error code", error.returncode, error.output)
-
-        logging.debug(f"System Command:  {command}")
-        return output.stdout.decode("utf-8")
-
