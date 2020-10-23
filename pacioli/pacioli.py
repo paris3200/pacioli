@@ -148,28 +148,19 @@ class Pacioli:
             Rounded account balance
         """
 
-        logging.debug(
-            f"Running Ledger: ledger -f {self.config.journal_file} \
-                bal {account} -e {date} {self.config.effective}"
-        )
-        try:
-            output = subprocess.run(
-                [
-                    "ledger",
-                    "-f",
-                    self.config.journal_file,
-                    "bal",
-                    account,
-                    "-e",
-                    date,
-                    self.config.effective,
-                    self.config.cleared,
-                ],
-                stdout=subprocess.PIPE,
-            )
-        except subprocess.CalledProcessError as error:
-            logging.error("error code", error.returncode, error.output)
-        output = output.stdout.decode("utf-8")
+        ledger_command = [
+            "ledger",
+            "-f",
+            self.journal_file,
+            "bal",
+            account,
+            "--end",
+            date,
+            self.effective,
+            self.cleared,
+        ]
+
+        output = self.run_system_command(ledger_command)
         output = output.replace(",", "")
         if output != "":
             return round(float(re.search(r"\d+(?:.(\d+))?", output).group(0)))
@@ -195,30 +186,24 @@ class Pacioli:
             Short account names and their balances.
 
         """
-        try:
-            output = subprocess.run(
-                [
-                    "ledger",
-                    "-f",
-                    self.config.journal_file,
-                    "bal",
-                    account,
-                    "-b",
-                    start_date,
-                    "-e",
-                    end_date,
-                    self.config.effective,
-                    "--depth",
-                    "2",
-                    self.config.cleared,
-                ],
-                stdout=subprocess.PIPE,
-            )
-        except subprocess.CalledProcessError as error:
-            logging.error("error code", error.returncode, error.output)
+        ledger_command = [
+            "ledger",
+            "-f",
+            self.journal_file,
+            "bal",
+            account,
+            "-b",
+            start_date,
+            "-e",
+            end_date,
+            self.effective,
+            "--depth",
+            "2",
+            self.cleared,
+        ]
 
+        output = self.run_system_command(ledger_command).splitlines()
         account_name = account
-        output = output.stdout.decode("utf-8").splitlines()
         result = {}
         for i in output:
             i = i.replace(",", "")
@@ -366,3 +351,12 @@ class Pacioli:
             return None
         logging.debug("Rendering Template: %s", template)
         return template.render(account_mappings)
+    def run_system_command(self, command):
+        try:
+            output = subprocess.run(command, stdout=subprocess.PIPE,)
+        except subprocess.CalledProcessError as error:
+            logging.error("error code", error.returncode, error.output)
+
+        logging.debug(f"System Command:  {command}")
+        return output.stdout.decode("utf-8")
+
