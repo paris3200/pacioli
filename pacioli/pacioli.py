@@ -133,25 +133,27 @@ class Pacioli:
         locale.setlocale(locale.LC_ALL, "")
 
         if isinstance(int_balance, int):
-            return f"{int_balance:n}"
+            balance = self.format_negative_numbers(int_balance)
+            return f"{balance:n}"
 
         if isinstance(int_balance, dict):
             for account, balance in int_balance.items():
                 if isinstance(balance, dict):
                     self.format_balance(balance)
                 elif isinstance(balance, int):
+                    balance = self.format_negative_numbers(balance)
                     int_balance[account] = f"{balance:n}"
 
         return int_balance
 
-    def format_net_gain(self, net_gain):
+    def format_negative_numbers(self, number):
         """
         If the input_number is negative, it returns the absolute value of the
         number as string enclosed in parenttheses.
 
         Paramaters
         ----------
-        net_gain: int
+        number: int
             Number to be formatted
 
         Returns
@@ -159,7 +161,7 @@ class Pacioli:
         Str
             Net gain as a string.  If negative, enclosed in parentheses.
         """
-        if net_gain < 0:
-            return "(" + self.format_balance(abs(net_gain)) + ")"
+        if number < 0:
+            return "(" + self.format_balance(abs(number)) + ")"
 
-        return self.format_balance(net_gain)
+        return number

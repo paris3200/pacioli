@@ -38,8 +38,7 @@ class IncomeStatement(Pacioli):
         result["expenses_total"] = expenses.pop("expenses_total")
         result["expenses"] = expenses
 
-        net_gain = result["income_total"] - result["expenses_total"]
-        result["net_gain"] = self.format_net_gain(net_gain)
+        result["net_gain"] = result["income_total"] - result["expenses_total"]
 
         logging.debug(result)
         return self.render_template(self.format_balance(result))

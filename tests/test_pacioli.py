@@ -54,17 +54,17 @@ def test_format_balance_int_input_returns_formmated_str():
     assert checking == result
 
 
-def test_format_net_gain_returns_negative_number_in_parentheses():
+def test_format_negative_numbers_returns_negative_number_in_parentheses():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
-    net_gain = int(-100)
-    result = pacioli.format_net_gain(net_gain)
+    n = int(-100)
+    result = pacioli.format_negative_numbers(n)
     assert "(100)" == result
 
 
 def test_format_net_gain_returns_negative_number_in_parentheses_with_locale_formatting():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     locale.setlocale(locale.LC_ALL, "")
-    net_gain = int(-1000)
-    net_gain_positive = net_gain * -1
-    result = pacioli.format_net_gain(net_gain)
-    assert f"({net_gain_positive:n})" == result
+    n = int(-1000)
+    n_positive = n * -1
+    result = pacioli.format_negative_numbers(n)
+    assert f"({n_positive:n})" == result

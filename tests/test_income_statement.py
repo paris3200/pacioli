@@ -29,8 +29,7 @@ def test_render_template_returns():
     accounts["expenses_total"] = expenses.pop("expenses_total")
     accounts["expenses"] = expenses
 
-    net_gain = accounts["income_total"] - accounts["expenses_total"]
-    accounts["net_gain"] = report.format_net_gain(net_gain)
+    accounts["net_gain"] = accounts["income_total"] - accounts["expenses_total"]
 
     result = report.render_template(report.format_balance(accounts))
 
