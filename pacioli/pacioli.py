@@ -144,7 +144,8 @@ class Pacioli:
 
     def format_balance(self, int_balance):
         """
-        Formats balance using the locale seperators for numbers.
+        Formats balance using the locale seperators for numbers.  Removes
+        negative signs and instead encloses negative balances in parentheses.
 
         Parameters
         ----------
@@ -185,7 +186,7 @@ class Pacioli:
         Returns
         -------
         Str
-            Net gain as a string.  If negative, enclosed in parentheses.
+            Number as a string, if negative enclosed in parentheses.
         """
         if number < 0:
             return "(" + self.format_balance(abs(number)) + ")"
