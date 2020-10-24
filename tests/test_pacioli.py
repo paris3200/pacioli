@@ -1,3 +1,4 @@
+import pytest
 import subprocess
 import locale
 
@@ -68,3 +69,9 @@ def test_format_net_gain_returns_negative_number_in_parentheses_with_locale_form
     n_positive = n * -1
     result = pacioli.format_negative_numbers(n)
     assert f"({n_positive:n})" == result
+
+
+def test_run_system_command_raises_error_on_invalid_command():
+    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
+    with pytest.raises(Exception):
+        pacioli.run_system_command(["foobar"])

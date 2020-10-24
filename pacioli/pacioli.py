@@ -57,6 +57,7 @@ class Pacioli:
             output = subprocess.run(command, stdout=subprocess.PIPE,)
         except subprocess.CalledProcessError as error:
             logging.error("error code", error.returncode, error.output)
+            raise
 
         logging.debug(f"System Command:  {command}")
         return output.stdout.decode("utf-8")

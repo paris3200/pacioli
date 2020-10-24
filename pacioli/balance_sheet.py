@@ -1,10 +1,11 @@
 import jinja2
 
-from pacioli.pacioli import Pacioli, logging
+from pacioli.pacioli import Pacioli
 
 
 class BalanceSheet(Pacioli):
     def __init__(self, config_file):
+
         Pacioli.__init__(self, config_file)
 
     def print_report(self, date):
@@ -108,7 +109,6 @@ class BalanceSheet(Pacioli):
                 self.config.balance_sheet_template
             )
         except jinja2.exceptions.TemplateNotFound as error:
-            logging.error("Template Not Found", error)
-            return None
-        logging.debug("Rendering Template: %s", template)
+            raise FileNotFoundError("Template not Found: ", error)
+
         return template.render(account_mappings)
