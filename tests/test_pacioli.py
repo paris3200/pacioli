@@ -75,3 +75,9 @@ def test_run_system_command_raises_error_on_invalid_command():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     with pytest.raises(Exception):
         pacioli.run_system_command(["foobar"])
+
+
+def test_render_template_raises_error_on_template_not_found():
+    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
+    with pytest.raises(FileNotFoundError):
+        pacioli.render_template("foo.tex", {"Checking": 100})
