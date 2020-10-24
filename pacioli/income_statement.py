@@ -1,5 +1,4 @@
 import re
-import jinja2
 
 from pacioli.pacioli import Pacioli, logging
 
@@ -7,6 +6,7 @@ from pacioli.pacioli import Pacioli, logging
 class IncomeStatement(Pacioli):
     def __init__(self, config_file):
         Pacioli.__init__(self, config_file)
+        self.template = self.config.income_sheet_template
 
     def print_report(self, start_date, end_date):
         """
@@ -41,7 +41,7 @@ class IncomeStatement(Pacioli):
         result["net_gain"] = result["income_total"] - result["expenses_total"]
 
         logging.debug(result)
-        return self.render_template(self.format_balance(result))
+        return self.render_template(self.template, self.format_balance(result))
 
     def process_accounts(self, account, start_date, end_date):
         """
@@ -95,29 +95,3 @@ class IncomeStatement(Pacioli):
                     )
 
         return result
-
-    def render_template(self, account_mappings):
-        """
-        Executes the jinja template.
-
-        Parameters
-        ----------
-        account_mappings: dict
-            The variable name in the template matched to the corresponding
-            account balance.
-
-        Returns
-        -------
-        str
-            Processed LaTeX document with account totals.
-
-        """
-        try:
-            template = self.latex_jinja_env.get_template(
-                self.config.income_sheet_template
-            )
-        except jinja2.exceptions.TemplateNotFound as error:
-            logging.error("Template Not Found", error)
-            return None
-        logging.debug("Rendering Template: %s", template)
-        return template.render(account_mappings)

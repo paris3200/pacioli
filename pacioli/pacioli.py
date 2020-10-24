@@ -62,6 +62,31 @@ class Pacioli:
         logging.debug(f"System Command:  {command}")
         return output.stdout.decode("utf-8")
 
+    def render_template(self, template, account_mappings):
+        """
+        Executes the jinja template.
+
+        Parameters
+        ----------
+        template: str
+            Path to template file.
+        account_mappings: dict
+            The variable name in the template matched to the corresponding
+            account balance.
+
+        Returns
+        -------
+        str
+            Processed LaTeX document with account totals.
+
+        """
+        try:
+            template = self.latex_jinja_env.get_template(template)
+        except jinja2.exceptions.TemplateNotFound as error:
+            raise FileNotFoundError("Template not Found: ", error)
+
+        return template.render(account_mappings)
+
     def get_balance(self, account, date):
         """
         Get's the account balance from Ledger of account and rounds it to an

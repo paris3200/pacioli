@@ -47,7 +47,7 @@ def test_render_template_returns_correct_data_in_template():
         report.process_accounts(longterm_assets, "longterm_assets", date="2020/3/31")
     )
 
-    result = report.render_template(ledger)
+    result = report.render_template(report.template, ledger)
 
     assert "Checking" in result
     assert "4138" in result  # Checking Balance

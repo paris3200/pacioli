@@ -31,7 +31,7 @@ def test_render_template_returns():
 
     accounts["net_gain"] = accounts["income_total"] - accounts["expenses_total"]
 
-    result = report.render_template(report.format_balance(accounts))
+    result = report.render_template(report.template, report.format_balance(accounts))
 
     locale.setlocale(locale.LC_ALL, "")
     salary = f"{int(4913):n}"

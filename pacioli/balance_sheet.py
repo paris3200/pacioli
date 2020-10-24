@@ -1,5 +1,3 @@
-import jinja2
-
 from pacioli.pacioli import Pacioli
 
 
@@ -7,6 +5,7 @@ class BalanceSheet(Pacioli):
     def __init__(self, config_file):
 
         Pacioli.__init__(self, config_file)
+        self.template = self.config.balance_sheet_template
 
     def print_report(self, date):
         """
@@ -56,7 +55,7 @@ class BalanceSheet(Pacioli):
         ledger.update(secured_liabilities)
         ledger.update(unsecured_liabilities)
 
-        return self.render_template(self.format_balance(ledger))
+        return self.render_template(self.template, self.format_balance(ledger))
 
     def process_accounts(self, category, category_name, date):
         """
@@ -87,28 +86,3 @@ class BalanceSheet(Pacioli):
         name = f"{category_name}_total"
         result[name] = total
         return result
-
-    def render_template(self, account_mappings):
-        """
-        Executes the jinja template.
-
-        Parameters
-        ----------
-        account_mappings: dict
-            The variable name in the template matched to the corresponding
-            account balance.
-
-        Returns
-        -------
-        str
-            Processed LaTeX document with account totals.
-
-        """
-        try:
-            template = self.latex_jinja_env.get_template(
-                self.config.balance_sheet_template
-            )
-        except jinja2.exceptions.TemplateNotFound as error:
-            raise FileNotFoundError("Template not Found: ", error)
-
-        return template.render(account_mappings)
