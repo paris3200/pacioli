@@ -48,7 +48,7 @@ poetry install
 
 ## Meta
 
-Jason Paris – paris3200@gamil.com
+Jason Paris – paris3200@gmail.com
 
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
