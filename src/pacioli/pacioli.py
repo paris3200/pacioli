@@ -1,9 +1,10 @@
-import os
-import subprocess
-import re
-import jinja2
-import logging
 import locale
+import logging
+import os
+import re
+import subprocess
+
+import jinja2
 
 from pacioli.config import Config
 
@@ -54,7 +55,10 @@ class Pacioli:
 
     def run_system_command(self, command):
         try:
-            output = subprocess.run(command, stdout=subprocess.PIPE,)
+            output = subprocess.run(
+                command,
+                stdout=subprocess.PIPE,
+            )
         except subprocess.CalledProcessError as error:
             logging.error("error code", error.returncode, error.output)
             raise

@@ -1,4 +1,5 @@
 import click
+
 from pacioli.balance_sheet import BalanceSheet
 from pacioli.income_statement import IncomeStatement
 
