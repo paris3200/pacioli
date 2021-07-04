@@ -1,0 +1,9 @@
+[flake8]
+docstring-convention = numpy
+select = ANN,B,D,I
+max-complexity = 10
+ignore = ANN201,E203,E501,W503, D100,D104
+max-line-length = 100
+per-file-ignores =
+    tests/*:S101
+    src/pacioli/cli.py:D205, D400
