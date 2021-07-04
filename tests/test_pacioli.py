@@ -1,22 +1,27 @@
-import pytest
-import subprocess
+"""Tests Pacioli."""
+
 import locale
+import subprocess
+
+import pytest
 
 from pacioli import __version__
 from pacioli.pacioli import Pacioli
 
 
 def test_version():
+    """Tests the version number."""
     assert __version__ == "0.3.1"
 
 
 def test_ledger_available():
-    "Verify ledger is availabe on the system"
+    """Verify ledger is availabe on the system."""
     output = subprocess.run(["ledger", "--version"], capture_output=True)
     assert output.returncode == 0
 
 
 def test_get_balance_returns_int():
+    """It returns an int."""
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
 
     checking = pacioli.get_balance("Assets:Current:Checking", date="2020/3/31")
@@ -25,18 +30,21 @@ def test_get_balance_returns_int():
 
 
 def test_get_account_short_name_returns_account_name_from_full_account_listing():
+    """It maps long account names to short account names."""
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     name = pacioli.get_account_short_name("Assets:Current:Checking")
     assert name == "checking"
 
 
 def test_get_account_short_name_replaces_spaces_with_underscores():
+    """It replaces spaces in account short names with underscores."""
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     name = pacioli.get_account_short_name("Assets:Longterm:Real Estate")
     assert name == "real_estate"
 
 
 def test_format_balance_dict_input_returns_formatted_dict():
+    """It returns a formatted dictionary."""
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     locale.setlocale(locale.LC_ALL, "")
     checking = f"{11000:n}"
@@ -48,6 +56,7 @@ def test_format_balance_dict_input_returns_formatted_dict():
 
 
 def test_format_balance_int_input_returns_formmated_str():
+    """It returns a formatted str."""
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     locale.setlocale(locale.LC_ALL, "")
     checking = f"{11000:n}"
@@ -56,6 +65,7 @@ def test_format_balance_int_input_returns_formmated_str():
 
 
 def test_format_negative_numbers_returns_negative_number_in_parentheses():
+    """It returns negative numbers in parentheses."""
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     n = int(-100)
     result = pacioli.format_negative_numbers(n)
@@ -63,6 +73,7 @@ def test_format_negative_numbers_returns_negative_number_in_parentheses():
 
 
 def test_format_net_gain_returns_negative_number_in_parentheses_with_locale_formatting():
+    """It formats negative number with locacle formatting."""
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     locale.setlocale(locale.LC_ALL, "")
     n = int(-1000)
@@ -72,12 +83,14 @@ def test_format_net_gain_returns_negative_number_in_parentheses_with_locale_form
 
 
 def test_run_system_command_raises_error_on_invalid_command():
+    """It raises an error on invalid command."""
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     with pytest.raises(Exception):
         pacioli.run_system_command(["foobar"])
 
 
 def test_render_template_raises_error_on_template_not_found():
+    """It raises FileNotFoundError when template not found.."""
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     with pytest.raises(FileNotFoundError):
         pacioli.render_template("foo.tex", {"Checking": 100})

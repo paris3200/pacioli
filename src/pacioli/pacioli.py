@@ -10,19 +10,21 @@ from pacioli.config import Config
 
 
 class Pacioli:
-    """
+    """Creates beautiful finacial reports.
+
     Pacioli converts a ledger journal file data into a finacial reports
     formatted with LaTex.  The LaTeX reports can then be piped into a LaTeX to
     pdf convertor inorder to generate beautiful, accurate reports.
-
-    Paramaters
-    ----------
-    config_file: str
-        Path to the config file.
     """
 
     def __init__(self, config_file=None):
+        """Set configuration from Config.
 
+        Paramaters
+        ----------
+        config_file: str
+            Path to the config file.
+        """
         self.config = Config(config_file)
 
         self.title = self.config.title
@@ -35,6 +37,7 @@ class Pacioli:
             self.setup_log("debug")
 
     def setup_jinja_env(self):
+        """Create jinja2 environment."""
         return jinja2.Environment(
             block_start_string="BLOCK{",
             block_end_string="}",
@@ -50,10 +53,18 @@ class Pacioli:
         )
 
     def setup_log(self, log_level):
+        """Configure logger."""
         if log_level == "debug":
             logging.basicConfig(level=logging.DEBUG)
 
     def run_system_command(self, command):
+        """Run a system command.
+
+        Parameters
+        ----------
+        command: str
+            System command to be run.
+        """
         try:
             output = subprocess.run(
                 command,
@@ -67,8 +78,7 @@ class Pacioli:
         return output.stdout.decode("utf-8")
 
     def render_template(self, template, account_mappings):
-        """
-        Executes the jinja template.
+        """Execute the jinja template.
 
         Parameters
         ----------
@@ -92,9 +102,7 @@ class Pacioli:
         return template.render(account_mappings)
 
     def get_balance(self, account, date):
-        """
-        Get's the account balance from Ledger of account and rounds it to an
-        int.
+        """Return account balance as rounded int.
 
         Parameters
         ----------
@@ -109,7 +117,6 @@ class Pacioli:
         int
             Rounded account balance
         """
-
         ledger_command = [
             "ledger",
             "-f",
@@ -129,9 +136,10 @@ class Pacioli:
         return 0
 
     def get_account_short_name(self, account):
-        """
+        """Get the short account name.
+
         Returns the account name from the full account path in lower case with
-        spaces replaced with a \"_\".
+        spaces replaced with a '_'.
 
         Parameters
         ----------
@@ -147,7 +155,8 @@ class Pacioli:
         return name.replace(" ", "_")
 
     def format_balance(self, int_balance):
-        """
+        """Format balance.
+
         Formats balance using the locale seperators for numbers.  Removes
         negative signs and instead encloses negative balances in parentheses.
 
@@ -178,9 +187,7 @@ class Pacioli:
         return int_balance
 
     def format_negative_numbers(self, number):
-        """
-        If the input_number is negative, it returns the absolute value of the
-        number as string enclosed in parenttheses.
+        """Return the absolute value of a number and wrap in parentheses if negative.
 
         Paramaters
         ----------

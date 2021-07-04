@@ -1,20 +1,18 @@
+"""Tests for cli."""
+
+import locale
 import os
 import subprocess
-import locale
 
 
 def test_entrypoint():
-    """
-    Is entrypoint script installed? (setup.py)
-    """
+    """Is entrypoint script installed? (setup.py)."""
     exit_status = os.system("pacioli --help")
     assert exit_status == 0
 
 
 def test_balance_sheet_outputs_to_standard_output():
-    """
-    Balance sheet returns a formatted report to standard output.
-    """
+    """Balance sheet returns a formatted report to standard output."""
     output = subprocess.run(
         [
             "pacioli",
@@ -40,9 +38,7 @@ def test_balance_sheet_outputs_to_standard_output():
 
 
 def test_income_statement_outputs_to_standard_output():
-    """
-    Balance sheet returns a formatted report to standard output.
-    """
+    """Balance sheet returns a formatted report to standard output."""
     output = subprocess.run(
         [
             "pacioli",
@@ -70,10 +66,7 @@ def test_income_statement_outputs_to_standard_output():
 
 
 def test_balance_sheet_outputs_to_file(tmp_path):
-    """
-    Balance sheet writes to file.
-    """
-
+    """Balance sheet writes to file."""
     # Create a temp directory
     d = tmp_path / "report"
     d.mkdir()
@@ -105,10 +98,7 @@ def test_balance_sheet_outputs_to_file(tmp_path):
 
 
 def test_income_statment_outputs_to_file(tmp_path):
-    """
-    Balance sheet writes to file.
-    """
-
+    """Balance sheet writes to file."""
     # Create a temp directory
     d = tmp_path / "report"
     d.mkdir()

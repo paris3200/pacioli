@@ -2,13 +2,28 @@ from pacioli.pacioli import Pacioli
 
 
 class BalanceSheet(Pacioli):
-    def __init__(self, config_file):
+    """Creates the Balance Sheet for Pacioli.
 
+    Methods
+    -------
+    print_report:
+        Creates tex formated report.
+    """
+
+    def __init__(self, config_file):
+        """Load Config.
+
+        Parameters
+        ----------
+        config_file: str
+            Path to config file.
+        """
         Pacioli.__init__(self, config_file)
         self.template = self.config.balance_sheet_template
 
     def print_report(self, date):
-        """
+        """Generate the balance sheet.
+
         Generates the balance sheet from the category mappings in the config
         file.
 
@@ -58,8 +73,9 @@ class BalanceSheet(Pacioli):
         return self.render_template(self.template, self.format_balance(ledger))
 
     def process_accounts(self, category, category_name, date):
-        """
-        Returns a dictionary of account names and their corresponding balances
+        """Process account names and balances.
+
+        Returns a dictionary of account short names and their corresponding balances
         as of the date along with the total value of category from a known list
         of accounts.
 
@@ -74,6 +90,8 @@ class BalanceSheet(Pacioli):
 
         Returns
         -------
+        dict
+            account short names and corresponding balances
         """
         total = 0
         result = {}

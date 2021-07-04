@@ -1,8 +1,12 @@
-from pacioli.income_statement import IncomeStatement
+"""Tests for income statement."""
+
 import locale
+
+from pacioli.income_statement import IncomeStatement
 
 
 def test_process_account():
+    """It returns a dict with the short names and balances."""
     report = IncomeStatement(config_file="tests/resources/sample_config.yml")
     assert {
         "Salary": 4913,
@@ -12,6 +16,7 @@ def test_process_account():
 
 
 def test_render_template_returns():
+    """It returns a rendered template."""
     report = IncomeStatement(config_file="tests/resources/sample_config.yml")
     start_date = "2020/2/1"
     end_date = "2020/2/28"

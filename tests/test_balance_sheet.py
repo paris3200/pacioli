@@ -1,9 +1,12 @@
+"""Tests for the blance sheet."""
+
 import locale
 
 from pacioli.balance_sheet import BalanceSheet
 
 
 def test_render_returns_report_formatted_as_tex():
+    """It returns report formatted as tex."""
     report = BalanceSheet(config_file="tests/resources/sample_config.yml")
     locale.setlocale(locale.LC_ALL, "")
     checking = f"{int(4138):n}"
@@ -21,6 +24,7 @@ def test_render_returns_report_formatted_as_tex():
 
 
 def test_process_accounts_returns_dict_with_account_balances():
+    """It returns account balances in a dict."""
     report = BalanceSheet(config_file="tests/resources/sample_config.yml")
     current_assets = report.config.current_assets
     result = report.process_accounts(current_assets, "current_assets", date="2020/3/31")
@@ -33,6 +37,7 @@ def test_process_accounts_returns_dict_with_account_balances():
 
 
 def test_render_template_returns_correct_data_in_template():
+    """It returns correct data in template."""
     report = BalanceSheet(config_file="tests/resources/sample_config.yml")
 
     current_assets = report.config.current_assets

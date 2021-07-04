@@ -1,15 +1,40 @@
+"""
+The income_statement module process the data into a formatted Income Statement.
+
+Classes
+-------
+IncomeStatement
+"""
+
 import re
 
 from pacioli.pacioli import Pacioli, logging
 
 
 class IncomeStatement(Pacioli):
+    """
+    A class to create the Income Statement.
+
+    Methods
+    -------
+    print_report(start_date, end_date)
+        Returns income state for the time period specified.
+    """
+
     def __init__(self, config_file):
+        """Read template path from config file.
+
+        Parameters
+        ----------
+        config_file: str
+            Path to config file.
+        """
         Pacioli.__init__(self, config_file)
         self.template = self.config.income_sheet_template
 
     def print_report(self, start_date, end_date):
-        """
+        """Generate the income statment.
+
         Returns an income statement for the period beginning on start_date and
         up to, but not including transactions on the end_date.
 
@@ -44,8 +69,9 @@ class IncomeStatement(Pacioli):
         return self.render_template(self.template, self.format_balance(result))
 
     def process_accounts(self, account, start_date, end_date):
-        """
-        Returns a dictionary of all sub account names and their corresponding
+        """Proccess acount balances within time period.
+
+        Return a dictionary of all sub account names and their corresponding
         balances for the time period.
 
         Parameters
