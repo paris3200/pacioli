@@ -17,9 +17,7 @@ jobs:
       - run: pip install nox
       - run: pip install nox-poetry
       - run: pip install poetry
-      - run: nox -s tests
-      - name: Upload Coverage to Codecov
-        uses: codecov/codecov-action@v1
+      - run: nox -s tests coverage
 
   lint:
     runs-on: ubuntu-latest
