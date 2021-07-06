@@ -20,6 +20,12 @@ def test_ledger_available():
     assert output.returncode == 0
 
 
+def test_loglevel_is_debug_if_set_in_config():
+    """Verify log level is set."""
+    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
+    assert pacioli.logger.level == 10
+
+
 def test_get_balance_returns_int():
     """It returns an int."""
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")

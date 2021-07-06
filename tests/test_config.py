@@ -12,6 +12,7 @@ def test_profile_set():
     assert config.journal_file == "tests/resources/sample_ledger.ldg"
     assert config.balance_sheet_template == "test_balance_sheet.tex"
     assert config.income_sheet_template == "test_income_sheet.tex"
+    assert config.DEBUG == True
 
 
 def test_exceptin_raised():

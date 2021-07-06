@@ -34,7 +34,7 @@ class Pacioli:
         self.latex_jinja_env = self.setup_jinja_env()
 
         if self.config.DEBUG:
-            self.setup_log("debug")
+            self.setup_log("DEBUG")
 
     def setup_jinja_env(self):
         """Create jinja2 environment."""
@@ -54,8 +54,8 @@ class Pacioli:
 
     def setup_log(self, log_level):
         """Configure logger."""
-        if log_level == "debug":
-            logging.basicConfig(level=logging.DEBUG)
+        self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(log_level)
 
     def run_system_command(self, command):
         """Run a system command.
