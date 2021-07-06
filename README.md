@@ -36,6 +36,8 @@ poetry install
 
 ## Release History
 
+* 0.3.2
+    * Code refactoring with increased documentation.
 * 0.3.1
     * Add support for two word account names on the Income Statement
 * 0.3.0
