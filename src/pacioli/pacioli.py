@@ -53,7 +53,13 @@ class Pacioli:
         )
 
     def setup_log(self, log_level):
-        """Configure logger."""
+        """Create and configure logger.
+
+        Parameters
+        ----------
+        log_level: str
+            Log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+        """
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(log_level)
 
@@ -71,10 +77,10 @@ class Pacioli:
                 stdout=subprocess.PIPE,
             )
         except subprocess.CalledProcessError as error:
-            logging.error("error code", error.returncode, error.output)
+            self.logger.error("error code", error.returncode, error.output)
             raise
 
-        logging.debug(f"System Command:  {command}")
+        self.logger.debug(f"System Command:  {command}")
         return output.stdout.decode("utf-8")
 
     def render_template(self, template, account_mappings):
