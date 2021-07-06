@@ -1,5 +1,7 @@
 import click
-from pacioli.pacioli import Pacioli
+
+from pacioli.balance_sheet import BalanceSheet
+from pacioli.income_statement import IncomeStatement
 
 
 @click.group()
@@ -16,7 +18,8 @@ def cli(ctx, config):
     files.
     """
     ctx.ensure_object(dict)
-    ctx.obj["pacioli"] = Pacioli(config_file=config)
+    ctx.obj["balance_sheet"] = BalanceSheet(config_file=config)
+    ctx.obj["income_statement"] = IncomeStatement(config_file=config)
 
 
 @cli.command()
@@ -32,13 +35,13 @@ def balance_sheet(ctx, out_file, end_date):
     OUT_FILE is the path to the file to write the tex file.  Use '-' to print
     to standard output.
     """
-    pacioli = ctx.obj["pacioli"]
+    balance_sheet = ctx.obj["balance_sheet"]
 
     if out_file != "-":
         with click.open_file(out_file, "w") as f:
-            f.write(pacioli.balance_sheet(date=end_date))
+            f.write(balance_sheet.print_report(date=end_date))
     else:
-        click.echo(pacioli.balance_sheet(date=end_date))
+        click.echo(balance_sheet.print_report(date=end_date))
 
 
 @cli.command()
@@ -55,12 +58,12 @@ def income_statement(ctx, begin_date, end_date, out_file):
     OUT_FILE is the path to the file to write the tex file.  Use '-' to print
     to standard output.
     """
-    pacioli = ctx.obj["pacioli"]
+    income_statement = ctx.obj["income_statement"]
     if out_file != "-":
         with click.open_file(out_file, "w") as f:
-            f.write(pacioli.income_statement(begin_date, end_date))
+            f.write(income_statement.print_report(begin_date, end_date))
     else:
-        click.echo(pacioli.income_statement(begin_date, end_date))
+        click.echo(income_statement.print_report(begin_date, end_date))
 
 
 if __name__ == "__main__":

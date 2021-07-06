@@ -3,7 +3,7 @@
 repos:
 
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.5.0
+    rev: v3.4.0
     hooks:
     -   id: trailing-whitespace
     -   id: end-of-file-fixer
@@ -13,12 +13,12 @@ repos:
 
 
 -   repo: https://github.com/ambv/black
-    rev: stable
+    rev: 20.8b1
     hooks:
     - id: black
 
 -   repo: https://gitlab.com/pycqa/flake8
-    rev: 3.7-maintenance
+    rev: 3.9.0
     hooks:
     -  id: flake8
        args: [--max-line-length=90, --extend-ignore=W605, tests/resources/]
@@ -33,3 +33,4 @@ repos:
         language: system
         always_run: true
         types: [python]
+        pass_filenames: false

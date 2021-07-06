@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/paris3200/pacioli.svg?branch=master)](https://travis-ci.org/paris3200/pacioli) [![codecov](https://codecov.io/gh/paris3200/pacioli/branch/master/graph/badge.svg?token=8JRRTMR6QO)](https://codecov.io/gh/paris3200/pacioli)
-
+![Build Status](https://github.com/paris3200/pacioli/actions/workflows/main.yml/badge.svg) [![codecov](https://codecov.io/gh/paris3200/pacioli/branch/master/graph/badge.svg?token=8JRRTMR6QO)](https://codecov.io/gh/paris3200/pacioli)
 
 # Pacioli
 > Beautiful report creation for plain text accounting.
@@ -48,7 +47,7 @@ poetry install
 
 ## Meta
 
-Jason Paris – paris3200@gamil.com
+Jason Paris – paris3200@gmail.com
 
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
