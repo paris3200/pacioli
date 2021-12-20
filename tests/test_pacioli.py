@@ -11,7 +11,7 @@ from pacioli.pacioli import Pacioli
 
 def test_version():
     """Tests the version number."""
-    assert __version__ == "0.3.2"
+    assert __version__ == "0.3.3"
 
 
 def test_ledger_available():
