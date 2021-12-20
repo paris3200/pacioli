@@ -36,6 +36,8 @@ poetry install
 
 ## Release History
 
+* 0.3.3
+    * Add support for Python 3.10
 * 0.3.2
     * Code refactoring with increased documentation.
 * 0.3.1
