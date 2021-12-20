@@ -14,7 +14,7 @@ jinja2 = "^2.11.2"
 click = "^8.0.1"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^6.2.5"
 flake8 = "^3.7.9"
 pre-commit = "^2.2.0"
 pytest-cov = "^2.10.1"

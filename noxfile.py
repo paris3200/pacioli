@@ -10,14 +10,14 @@ nox.options.sessions = "lint", "mypy", "pytype", "safety", "tests"
 package = "pacioli"
 
 
-@session(python=["3.7", "3.8", "3.9"])
+@session(python=["3.7", "3.8", "3.9", "3.10"])
 def tests(session: Session) -> None:
     """Run the test suite."""
     session.install("pytest", "pytest-cov", ".")
     session.run("pytest", "--cov=pacioli")
 
 
-@session(python=["3.8", "3.9"])
+@session(python=["3.8", "3.9", "3.10"])
 def lint(session: Session) -> None:
     """Run the lint session."""
     args = session.posargs or locations
@@ -30,7 +30,7 @@ def lint(session: Session) -> None:
     session.run("flake8", *args)
 
 
-@session(python="3.9")
+@session(python=["3.9", "3.10"])
 def black(session: Session) -> None:
     """Run black session."""
     args = session.posargs or locations
@@ -38,7 +38,7 @@ def black(session: Session) -> None:
     session.run("black", *args)
 
 
-@session(python="3.9")
+@session(python=["3.9", "3.10"])
 def safety(session: Session) -> None:
     """Run the safety session."""
     with tempfile.NamedTemporaryFile() as requirements:
@@ -55,7 +55,7 @@ def safety(session: Session) -> None:
         session.run("safety", "check", f"--file={requirements.name}", "--full-report")
 
 
-@session(python="3.9")
+@session(python=["3.9", "3.10"])
 def mypy(session: Session) -> None:
     """Type-check using mypy."""
     args = session.posargs or locations
@@ -63,7 +63,7 @@ def mypy(session: Session) -> None:
     session.run("mypy", *args)
 
 
-@session(python="3.8")
+@session(python="3.9")
 def pytype(session: Session) -> None:
     """Run the static type checker."""
     args = session.posargs or ["--disable=import-error", *locations]
@@ -80,7 +80,7 @@ def xdoctest(session: Session) -> None:
     session.run("python", "-m", "xdoctest", package, *args)
 
 
-@session(python="3.9")
+@session(python="3.10")
 def docs(session: Session) -> None:
     """Build the documentation."""
     session.run("poetry", "install", "--no-dev", external=True)
@@ -88,7 +88,7 @@ def docs(session: Session) -> None:
     session.run("sphinx-build", "docs", "docs/_build")
 
 
-@nox.session(python="3.9")
+@session(python=["3.9", "3.10"])
 def coverage(session: Session) -> None:
     """Upload coverage data."""
     session.install("coverage[toml]", "codecov")
