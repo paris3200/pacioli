@@ -10,7 +10,7 @@ Reports are generated using customizable templates to meet a variety of needs.  
 
 
 ## Usage example
-```sh
+```
 
 Usage: pacioli [OPTIONS] COMMAND [ARGS]...
 
