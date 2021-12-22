@@ -131,9 +131,13 @@ class Pacioli:
             account,
             "--end",
             date,
-            self.effective,
-            self.cleared,
         ]
+
+        if self.effective:
+            ledger_command.append("--effective")
+
+        if self.cleared:
+            ledger_command.append("--cleared")
 
         output = self.run_system_command(ledger_command)
         output = output.replace(",", "")

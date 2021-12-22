@@ -35,6 +35,15 @@ def test_get_balance_returns_int():
     assert isinstance(checking, int)
 
 
+def test_get_balance_returns_int_pending():
+    """It returns the correct balance if pending charges are included in report."""
+    pacioli = Pacioli(config_file="tests/resources/sample_config_pending.yml")
+
+    checking = pacioli.get_balance("Assets:Current:Checking", date="2020/3/31")
+    assert checking == 4088
+    assert isinstance(checking, int)
+
+
 def test_get_account_short_name_returns_account_name_from_full_account_listing():
     """It maps long account names to short account names."""
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")

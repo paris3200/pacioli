@@ -52,9 +52,13 @@ class Config:
             )
             if data["effective"]:
                 self.effective = "--effective"
+            else:
+                self.effective = None
 
             if data["cleared"]:
                 self.cleared = "--cleared"
+            else:
+                self.cleared = None
 
             # Process Balance Sheet account mappings
             self.current_assets = data["Current Assets"]
