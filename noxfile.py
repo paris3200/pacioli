@@ -55,7 +55,7 @@ def safety(session: Session) -> None:
         session.run("safety", "check", f"--file={requirements.name}", "--full-report")
 
 
-@session(python=["3.9", "3.10"])
+@session(python=["3.8"])
 def mypy(session: Session) -> None:
     """Type-check using mypy."""
     args = session.posargs or locations
