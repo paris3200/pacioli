@@ -70,6 +70,11 @@ class Pacioli:
         ----------
         command: str
             System command to be run.
+
+
+        Returns
+        -------
+        str: The output of the command.
         """
         try:
             output = subprocess.run(
