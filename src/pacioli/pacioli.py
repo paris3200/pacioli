@@ -63,7 +63,7 @@ class Pacioli:
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(log_level)
 
-    def run_system_command(self, command):
+    def run_system_command(self, command) -> str:
         """Run a system command.
 
         Parameters
