@@ -87,6 +87,9 @@ class IncomeStatement(Pacioli):
             Short account names and their balances.
 
         """
+        if self.cleared is not None:
+            cleared = "--cleared"
+
         ledger_command = [
             "ledger",
             "-f",
@@ -100,8 +103,9 @@ class IncomeStatement(Pacioli):
             self.effective,
             "--depth",
             "2",
-            self.cleared,
         ]
+        if self.cleared is not None:
+            ledger_command.append("--cleared")
 
         output = self.run_system_command(ledger_command).splitlines()
         account_name = account
