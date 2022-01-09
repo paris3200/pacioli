@@ -1,4 +1,5 @@
 from pacioli.pacioli import Pacioli
+from typing import Dict
 
 
 class BalanceSheet(Pacioli):
@@ -10,7 +11,7 @@ class BalanceSheet(Pacioli):
         Creates tex formated report.
     """
 
-    def __init__(self, config_file):
+    def __init__(self, config_file) -> None:
         """Load Config.
 
         Parameters
@@ -21,7 +22,7 @@ class BalanceSheet(Pacioli):
         Pacioli.__init__(self, config_file)
         self.template = self.config.balance_sheet_template
 
-    def print_report(self, date):
+    def print_report(self, date) -> str:
         """Generate the balance sheet.
 
         Generates the balance sheet from the category mappings in the config
@@ -72,7 +73,7 @@ class BalanceSheet(Pacioli):
 
         return self.render_template(self.template, self.format_balance(ledger))
 
-    def process_accounts(self, category, category_name, date):
+    def process_accounts(self, category, category_name, date) -> Dict[(str, int)]:
         """Process account names and balances.
 
         Returns a dictionary of account short names and their corresponding balances

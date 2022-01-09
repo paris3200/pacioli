@@ -17,7 +17,7 @@ class Pacioli:
     pdf convertor inorder to generate beautiful, accurate reports.
     """
 
-    def __init__(self, config_file=None):
+    def __init__(self, config_file=None) -> None:
         """Set configuration from Config.
 
         Paramaters
@@ -52,7 +52,7 @@ class Pacioli:
             loader=jinja2.FileSystemLoader(os.path.abspath(self.config.template_dir)),
         )
 
-    def setup_log(self, log_level):
+    def setup_log(self, log_level) -> None:
         """Create and configure logger.
 
         Parameters
@@ -63,13 +63,18 @@ class Pacioli:
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(log_level)
 
-    def run_system_command(self, command):
+    def run_system_command(self, command) -> str:
         """Run a system command.
 
         Parameters
         ----------
         command: str
             System command to be run.
+
+
+        Returns
+        -------
+        str: The output of the command.
         """
         try:
             output = subprocess.run(
@@ -83,7 +88,7 @@ class Pacioli:
         self.logger.debug(f"System Command:  {command}")
         return output.stdout.decode("utf-8")
 
-    def render_template(self, template, account_mappings):
+    def render_template(self, template, account_mappings) -> str:
         """Execute the jinja template.
 
         Parameters
@@ -107,7 +112,7 @@ class Pacioli:
 
         return template.render(account_mappings)
 
-    def get_balance(self, account, date):
+    def get_balance(self, account, date) -> int:
         """Return account balance as rounded int.
 
         Parameters
@@ -145,7 +150,7 @@ class Pacioli:
             return round(float(re.search(r"\d+(?:.(\d+))?", output).group(0)))
         return 0
 
-    def get_account_short_name(self, account):
+    def get_account_short_name(self, account) -> str:
         """Get the short account name.
 
         Returns the account name from the full account path in lower case with
@@ -192,11 +197,14 @@ class Pacioli:
                     self.format_balance(balance)
                 elif isinstance(balance, int):
                     balance = self.format_negative_numbers(balance)
-                    int_balance[account] = f"{balance:n}"
+                    if isinstance(balance, str):
+                        int_balance[account] = balance
+                    else:
+                        int_balance[account] = f"{balance:n}"
 
         return int_balance
 
-    def format_negative_numbers(self, number):
+    def format_negative_numbers(self, number) -> str:
         """Return the absolute value of a number and wrap in parentheses if negative.
 
         Paramaters

@@ -21,7 +21,7 @@ class IncomeStatement(Pacioli):
         Returns income state for the time period specified.
     """
 
-    def __init__(self, config_file):
+    def __init__(self, config_file) -> None:
         """Read template path from config file.
 
         Parameters
@@ -32,7 +32,7 @@ class IncomeStatement(Pacioli):
         Pacioli.__init__(self, config_file)
         self.template = self.config.income_sheet_template
 
-    def print_report(self, start_date, end_date):
+    def print_report(self, start_date, end_date) -> str:
         """Generate the income statment.
 
         Returns an income statement for the period beginning on start_date and
