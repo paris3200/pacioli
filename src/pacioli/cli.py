@@ -11,7 +11,7 @@ from pacioli.income_statement import IncomeStatement
     help="Path of config file.",
 )
 @click.pass_context
-def cli(ctx, config):
+def cli(ctx, config) -> None:
     """
     Pacioli generates LaTeX financial reports from Ledger CLI journal
     files.
@@ -27,7 +27,7 @@ def cli(ctx, config):
     "--end-date", "-e", default="", help="Limit the report to transactions before date."
 )
 @click.pass_context
-def balance_sheet(ctx, out_file, end_date):
+def balance_sheet(ctx, out_file, end_date) -> None:
     """
     Run a balance report using the  account mappings defined in the config file.
 
@@ -50,7 +50,7 @@ def balance_sheet(ctx, out_file, end_date):
 )
 @click.argument("out-file", type=click.Path(allow_dash=True))
 @click.pass_context
-def income_statement(ctx, begin_date, end_date, out_file):
+def income_statement(ctx, begin_date, end_date, out_file) -> None:
     """
     Run a income statement for a set time period.
 
