@@ -5,10 +5,10 @@ Classes
 -------
 IncomeStatement
 """
-
 import re
 
-from pacioli.pacioli import Pacioli, logging
+from pacioli.pacioli import logging
+from pacioli.pacioli import Pacioli
 
 
 class IncomeStatement(Pacioli):

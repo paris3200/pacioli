@@ -1,5 +1,4 @@
 """Tests for income statement."""
-
 import locale
 
 from pacioli.income_statement import IncomeStatement

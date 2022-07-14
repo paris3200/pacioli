@@ -5,7 +5,6 @@ import re
 import subprocess
 
 import jinja2
-
 from pacioli.config import Config
 
 

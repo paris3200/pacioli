@@ -1,10 +1,8 @@
 """Tests Pacioli."""
-
 import locale
 import subprocess
 
 import pytest
-
 from pacioli import __version__
 from pacioli.pacioli import Pacioli
 

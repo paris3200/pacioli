@@ -1,5 +1,6 @@
-from pacioli.pacioli import Pacioli
 from typing import Dict
+
+from pacioli.pacioli import Pacioli
 
 
 class BalanceSheet(Pacioli):
