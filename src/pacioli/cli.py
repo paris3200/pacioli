@@ -1,6 +1,7 @@
 import click
 from pacioli.balance_sheet import BalanceSheet
 from pacioli.income_statement import IncomeStatement
+from pacioli.utils import month_to_dates
 
 
 @click.group()
@@ -48,9 +49,10 @@ def balance_sheet(ctx, out_file, end_date) -> None:
 @click.option(
     "--end-date", "-e", default="", help="Limit the report to transactions BEFORE date."
 )
+@click.option("--month", "-m", default="", help="Limit report to month.")
 @click.argument("out-file", type=click.Path(allow_dash=True))
 @click.pass_context
-def income_statement(ctx, begin_date, end_date, out_file) -> None:
+def income_statement(ctx, begin_date, end_date, month, out_file) -> None:
     """
     Run a income statement for a set time period.
 
@@ -58,11 +60,20 @@ def income_statement(ctx, begin_date, end_date, out_file) -> None:
     to standard output.
     """
     income_statement = ctx.obj["income_statement"]
+
+    if begin_date == end_date == month == "":
+        raise click.UsageError(
+            "Please enter a valid begin-date and end-date or a valid month."
+        )
+    elif month != "":
+        begin_date, end_date = month_to_dates(month)
+
+    report = income_statement.print_report(begin_date, end_date)
     if out_file != "-":
         with click.open_file(out_file, "w") as f:
-            f.write(income_statement.print_report(begin_date, end_date))
+            f.write(report)
     else:
-        click.echo(income_statement.print_report(begin_date, end_date))
+        click.echo(report)
 
 
 if __name__ == "__main__":
