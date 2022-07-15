@@ -1,13 +1,15 @@
 import calendar
 import datetime
 
+import click
 
-def month_timeframe(month_str: str) -> list[str, str]:
+
+def month_to_dates(month_str: str) -> list[str, str]:
     year = datetime.datetime.now().year
     try:
         month_num = list(calendar.month_name).index(month_str)
     except ValueError:
-        print(f"{month_str} is not a valid month name.")
+        raise click.UsageError(f"{month_str} is not a valid month name.")
 
     begin_date = f"{year}/{month_num}/1"
 
