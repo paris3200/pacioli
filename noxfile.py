@@ -44,7 +44,7 @@ def safety(session: Session) -> None:
         session.run(
             "poetry",
             "export",
-            "--dev",
+            "--with" "dev",
             "--format=requirements.txt",
             "--without-hashes",
             f"--output={requirements.name}",
@@ -74,7 +74,7 @@ def pytype(session: Session) -> None:
 def xdoctest(session: Session) -> None:
     """Run examples with xdoctest."""
     args = session.posargs or ["all"]
-    session.run("poetry", "install", "--no-dev", external=True)
+    session.run("poetry", "install", "--without dev", external=True)
     session.install("xdoctest")
     session.run("python", "-m", "xdoctest", package, *args)
 
@@ -82,7 +82,7 @@ def xdoctest(session: Session) -> None:
 @session(python="3.10")
 def docs(session: Session) -> None:
     """Build the documentation."""
-    session.run("poetry", "install", "--no-dev", external=True)
+    session.run("poetry", "install", "--without dev", external=True)
     session.install("sphinx", "sphinx-autodoc-typehints")
     session.run("sphinx-build", "docs", "docs/_build")
 
