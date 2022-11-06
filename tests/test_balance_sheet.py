@@ -1,6 +1,7 @@
 """Tests for the blance sheet."""
 import locale
 
+import pytest
 from pacioli.balance_sheet import BalanceSheet
 
 
@@ -10,7 +11,7 @@ def test_render_returns_report_formatted_as_tex():
     locale.setlocale(locale.LC_ALL, "")
     checking = f"{int(4138):n}"
     savings = f"{int(10030):n}"
-    total_liabilities = f"{int(186102):n}"
+    total_liabilities = f"{int(186202):n}"
     assets = f"{int(339744):n}"
 
     result = report.print_report(date="2020/3/31")
@@ -59,3 +60,12 @@ def test_render_template_returns_correct_data_in_template():
     assert "10030" in result  # Savings Balance
     assert "Total Current Assets" in result
     assert "14168" in result  # Total Current Assets Balance
+
+
+@pytest.mark.skip("Not Implemented")
+def test_positive_liability_balance_is_displayed_as_negative():
+    report = BalanceSheet(config_file="tests/resources/sample_config.yml")
+    result = report.print_report(date="2020/3/31")
+
+    assert "Prepay" in result
+    assert "(100)" in result

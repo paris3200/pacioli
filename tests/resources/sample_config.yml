@@ -14,6 +14,7 @@ Longterm Assets:
   - Assets:Noncurrent:Retirement
 Unsecured Liabilities:
   - Liabilities:Visa
+  - Liabilities:Prepay
 Secured Liabilities:
   - Liabilities:Auto Loan
   - Liabilities:Mortgage
