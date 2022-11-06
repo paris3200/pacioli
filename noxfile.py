@@ -10,14 +10,14 @@ nox.options.sessions = "lint", "mypy", "pytype", "safety", "tests"
 package = "pacioli"
 
 
-@session(python=["3.7", "3.8", "3.9", "3.10"])
+@session(python=["3.9", "3.10"])
 def tests(session: Session) -> None:
     """Run the test suite."""
     session.install("pytest", "pytest-cov", ".")
     session.run("pytest", "--cov=pacioli")
 
 
-@session(python=["3.8", "3.9", "3.10"])
+@session(python=["3.9", "3.10"])
 def lint(session: Session) -> None:
     """Run the lint session."""
     args = session.posargs or locations
@@ -54,7 +54,7 @@ def safety(session: Session) -> None:
         session.run("safety", "check", f"--file={requirements.name}", "--full-report")
 
 
-@session(python=["3.8"])
+@session(python=["3.10"])
 def mypy(session: Session) -> None:
     """Type-check using mypy."""
     args = session.posargs or locations
@@ -62,7 +62,7 @@ def mypy(session: Session) -> None:
     session.run("mypy", *args)
 
 
-@session(python="3.9")
+@session(python="3.10")
 def pytype(session: Session) -> None:
     """Run the static type checker."""
     args = session.posargs or ["--disable=import-error", *locations]
