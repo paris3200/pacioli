@@ -5,6 +5,17 @@ import click
 
 
 def month_to_dates(month_str: str) -> list[str, str]:
+    """Convert month to a start and end dates in YYYY/MM/DD format.
+
+    Parameters
+    ----------
+    month_str: str
+        Name of Month
+
+    Returns
+    -------
+        list[begin_date, end_date]
+    """
     year = datetime.datetime.now().year
     try:
         month_num = list(calendar.month_name).index(month_str)
