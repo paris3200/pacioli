@@ -4,7 +4,7 @@ import datetime
 import click
 
 
-def month_to_dates(month_str: str) -> list[str, str]:
+def month_to_dates(month_str: str) -> list[str]:
     """Convert month to a start and end dates in YYYY/MM/DD format.
 
     Parameters
