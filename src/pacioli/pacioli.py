@@ -112,7 +112,7 @@ class Pacioli:
         return template.render(account_mappings)
 
     def get_balance(self, account, date) -> int:
-        """Return account balance as rounded int.
+        """Return account balance as rounded, signed int.
 
         Parameters
         ----------
@@ -145,9 +145,13 @@ class Pacioli:
 
         output = self.run_system_command(ledger_command)
         output = output.replace(",", "")
-        if output != "":
-            return round(float(re.search(r"\d+(?:.(\d+))?", output).group(0)))
-        return 0
+        if output == "":
+            bal = 0
+        else:
+            bal = round(float(re.search(r"\d+(?:.(\d+))?", output).group(0)))
+            if "$-" in output:
+                bal = int(f"-{bal}")
+        return bal
 
     def get_account_short_name(self, account) -> str:
         """Get the short account name.

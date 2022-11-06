@@ -33,6 +33,15 @@ def test_get_balance_returns_int():
     assert isinstance(checking, int)
 
 
+def test_get_balance_returns_signed_int():
+    """It returns an negative int."""
+    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
+
+    visa = pacioli.get_balance("Liabilities:Visa", date="2020/3/31")
+    assert visa == -1448
+    assert isinstance(visa, int)
+
+
 def test_get_balance_returns_int_pending():
     """It returns the correct balance if pending charges are included in report."""
     pacioli = Pacioli(config_file="tests/resources/sample_config_pending.yml")
@@ -75,14 +84,6 @@ def test_format_balance_int_input_returns_formmated_str():
     checking = f"{11000:n}"
     result = pacioli.format_balance(11000)
     assert checking == result
-
-
-def test_format_negative_numbers_returns_negative_number_in_parentheses():
-    """It returns negative numbers in parentheses."""
-    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
-    n = int(-100)
-    result = pacioli.format_negative_numbers(n)
-    assert "(100)" == result
 
 
 def test_format_net_gain_returns_negative_number_in_parentheses_with_locale_formatting():

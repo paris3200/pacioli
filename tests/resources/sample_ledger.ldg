@@ -3,6 +3,7 @@
     Assets:Current:Savings                          $10,000.00
     Assets:Noncurrent:Retirement:401k              $125,000.00
     Liabilities:Visa                                -$1,000.00
+    Liabilities:Prepay                                 $100.00
     Liabilities:Auto Loan                          -$10,000.00
     Equity
 

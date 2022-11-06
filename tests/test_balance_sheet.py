@@ -1,7 +1,9 @@
 """Tests for the blance sheet."""
 import locale
 
+import pytest
 from pacioli.balance_sheet import BalanceSheet
+from pacioli.utils import reverse_sign
 
 
 def test_render_returns_report_formatted_as_tex():
@@ -10,7 +12,7 @@ def test_render_returns_report_formatted_as_tex():
     locale.setlocale(locale.LC_ALL, "")
     checking = f"{int(4138):n}"
     savings = f"{int(10030):n}"
-    total_liabilities = f"{int(186102):n}"
+    total_liabilities = f"{int(186002):n}"
     assets = f"{int(339744):n}"
 
     result = report.print_report(date="2020/3/31")
@@ -41,6 +43,7 @@ def test_render_template_returns_correct_data_in_template():
 
     current_assets = report.config.current_assets
     longterm_assets = report.config.longterm_assets
+    unsecured_liabilities = report.config.unsecured_liabilities
 
     ledger = {}
 
@@ -50,6 +53,13 @@ def test_render_template_returns_correct_data_in_template():
     ledger.update(
         report.process_accounts(longterm_assets, "longterm_assets", date="2020/3/31")
     )
+    ledger.update(
+        reverse_sign(
+            report.process_accounts(
+                unsecured_liabilities, "unsecured_liabilities", date="2020/3/31"
+            )
+        )
+    )
 
     result = report.render_template(report.template, ledger)
 
@@ -57,5 +67,15 @@ def test_render_template_returns_correct_data_in_template():
     assert "4138" in result  # Checking Balance
     assert "Savings" in result
     assert "10030" in result  # Savings Balance
+    assert "Visa" in result
+    assert "1448" in result  # Visa Balance
+    assert "-1448" not in result  # Visa Balance
     assert "Total Current Assets" in result
     assert "14168" in result  # Total Current Assets Balance
+
+
+def test_positive_liability_balance_is_displayed_as_negative():
+    report = BalanceSheet(config_file="tests/resources/sample_config.yml")
+    result = report.print_report(date="2020/3/31")
+    assert "Prepay" in result
+    assert "(100)" in result
