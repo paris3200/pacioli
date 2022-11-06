@@ -36,6 +36,11 @@ poetry install
 
 ## Release History
 
+* 0.3.4
+    * Fix issue with effective and cleared flags not working when false.
+    * Fix template not found error.
+    * Fix issue with liability accounts with a positive balance being displayed as negative balance.
+    * Add feature to use month names for balance sheet time period.
 * 0.3.3
     * Add support for Python 3.10
 * 0.3.2
