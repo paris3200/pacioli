@@ -35,6 +35,19 @@ def month_to_dates(month_str: str) -> list[str]:
 
 
 def reverse_sign(accounts: dict) -> dict:
+    """Reverse the sign of the account balance and format it.
+
+    Parameters
+    ----------
+    accouts: dict
+        [account:  bal]
+
+    Returns
+    -------
+    Dict
+        [Account Name: bal]
+
+    """
     for acc in accounts.copy():
         accounts[acc] = format_negative_numbers(accounts[acc] * -1)
     return accounts

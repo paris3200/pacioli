@@ -75,6 +75,7 @@ def test_render_template_returns_correct_data_in_template():
 
 
 def test_positive_liability_balance_is_displayed_as_negative():
+    """A postive liability balance is displayed as a negative balance."""
     report = BalanceSheet(config_file="tests/resources/sample_config.yml")
     result = report.print_report(date="2020/3/31")
     assert "Prepay" in result
