@@ -30,7 +30,7 @@ class Config:
 
         # Get the absolute file path
         self.config_file = os.path.expanduser(config_file)
-        self.template_dir = os.path.dirname(config_file)
+        self.template_dir = os.path.dirname(self.config_file)
 
         if not os.path.isfile(self.config_file):
             raise Exception("Config file not found.")
@@ -52,9 +52,13 @@ class Config:
             )
             if data["effective"]:
                 self.effective = "--effective"
+            else:
+                self.effective = None
 
             if data["cleared"]:
                 self.cleared = "--cleared"
+            else:
+                self.cleared = None
 
             # Process Balance Sheet account mappings
             self.current_assets = data["Current Assets"]

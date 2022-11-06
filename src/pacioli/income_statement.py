@@ -5,10 +5,10 @@ Classes
 -------
 IncomeStatement
 """
-
 import re
 
-from pacioli.pacioli import Pacioli, logging
+from pacioli.pacioli import logging
+from pacioli.pacioli import Pacioli
 
 
 class IncomeStatement(Pacioli):
@@ -21,7 +21,7 @@ class IncomeStatement(Pacioli):
         Returns income state for the time period specified.
     """
 
-    def __init__(self, config_file):
+    def __init__(self, config_file) -> None:
         """Read template path from config file.
 
         Parameters
@@ -32,7 +32,7 @@ class IncomeStatement(Pacioli):
         Pacioli.__init__(self, config_file)
         self.template = self.config.income_sheet_template
 
-    def print_report(self, start_date, end_date):
+    def print_report(self, start_date, end_date) -> str:
         """Generate the income statment.
 
         Returns an income statement for the period beginning on start_date and
@@ -87,6 +87,9 @@ class IncomeStatement(Pacioli):
             Short account names and their balances.
 
         """
+        if self.cleared is not None:
+            cleared = "--cleared"
+
         ledger_command = [
             "ledger",
             "-f",
@@ -100,8 +103,9 @@ class IncomeStatement(Pacioli):
             self.effective,
             "--depth",
             "2",
-            self.cleared,
         ]
+        if self.cleared is not None:
+            ledger_command.append("--cleared")
 
         output = self.run_system_command(ledger_command).splitlines()
         account_name = account

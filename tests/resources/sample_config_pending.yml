@@ -3,7 +3,7 @@ journal_file: "tests/resources/sample_ledger.ldg"
 balance_sheet_template: "test_balance_sheet.tex"
 income_sheet_template: "test_income_sheet.tex"
 effective: True
-cleared: True
+cleared: False
 title: Acme LLC
 Current Assets:
   - Assets:Current:Checking
@@ -14,7 +14,6 @@ Longterm Assets:
   - Assets:Noncurrent:Retirement
 Unsecured Liabilities:
   - Liabilities:Visa
-  - Liabilities:Prepay
 Secured Liabilities:
   - Liabilities:Auto Loan
   - Liabilities:Mortgage

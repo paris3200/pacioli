@@ -1,4 +1,7 @@
+from typing import Dict
+
 from pacioli.pacioli import Pacioli
+from pacioli.utils import reverse_sign
 
 
 class BalanceSheet(Pacioli):
@@ -10,7 +13,7 @@ class BalanceSheet(Pacioli):
         Creates tex formated report.
     """
 
-    def __init__(self, config_file):
+    def __init__(self, config_file) -> None:
         """Load Config.
 
         Parameters
@@ -21,7 +24,7 @@ class BalanceSheet(Pacioli):
         Pacioli.__init__(self, config_file)
         self.template = self.config.balance_sheet_template
 
-    def print_report(self, date):
+    def print_report(self, date) -> str:
         """Generate the balance sheet.
 
         Generates the balance sheet from the category mappings in the config
@@ -43,11 +46,16 @@ class BalanceSheet(Pacioli):
         longterm_assets = self.process_accounts(
             self.config.longterm_assets, "longterm_assets", date=date
         )
-        secured_liabilities = self.process_accounts(
-            self.config.secured_liabilities, "secured_liabilities", date=date
+        secured_liabilities = reverse_sign(
+            self.process_accounts(
+                self.config.secured_liabilities, "secured_liabilities", date=date
+            )
         )
-        unsecured_liabilities = self.process_accounts(
-            self.config.unsecured_liabilities, "unsecured_liabilities", date=date
+
+        unsecured_liabilities = reverse_sign(
+            self.process_accounts(
+                self.config.unsecured_liabilities, "unsecured_liabilities", date=date
+            )
         )
 
         total_assets = (
@@ -72,7 +80,7 @@ class BalanceSheet(Pacioli):
 
         return self.render_template(self.template, self.format_balance(ledger))
 
-    def process_accounts(self, category, category_name, date):
+    def process_accounts(self, category, category_name, date) -> Dict[(str, int)]:
         """Process account names and balances.
 
         Returns a dictionary of account short names and their corresponding balances

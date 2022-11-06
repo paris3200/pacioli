@@ -1,5 +1,4 @@
 """Tests for cli."""
-
 import locale
 import os
 import subprocess
