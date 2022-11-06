@@ -1,6 +1,7 @@
 import datetime
 
 import pytest
+from pacioli.utils import format_negative_numbers
 from pacioli.utils import month_to_dates
 
 
@@ -21,6 +22,13 @@ def test_month_to_dates_december() -> None:
 def test_month_to_dates_invalid_month() -> None:
     with pytest.raises(Exception):
         month_to_dates("foo")
+
+
+def test_format_negative_numbers_returns_negative_number_in_parentheses():
+    """It returns negative numbers in parentheses."""
+    n = int(-100)
+    result = format_negative_numbers(n)
+    assert "(100)" == result
 
 
 @pytest.mark.skip("Not implemented")

@@ -1,6 +1,7 @@
 from typing import Dict
 
 from pacioli.pacioli import Pacioli
+from pacioli.utils import reverse_sign
 
 
 class BalanceSheet(Pacioli):
@@ -45,11 +46,16 @@ class BalanceSheet(Pacioli):
         longterm_assets = self.process_accounts(
             self.config.longterm_assets, "longterm_assets", date=date
         )
-        secured_liabilities = self.process_accounts(
-            self.config.secured_liabilities, "secured_liabilities", date=date
+        secured_liabilities = reverse_sign(
+            self.process_accounts(
+                self.config.secured_liabilities, "secured_liabilities", date=date
+            )
         )
-        unsecured_liabilities = self.process_accounts(
-            self.config.unsecured_liabilities, "unsecured_liabilities", date=date
+
+        unsecured_liabilities = reverse_sign(
+            self.process_accounts(
+                self.config.unsecured_liabilities, "unsecured_liabilities", date=date
+            )
         )
 
         total_assets = (
