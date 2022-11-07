@@ -9,6 +9,7 @@ import re
 
 from pacioli.pacioli import logging
 from pacioli.pacioli import Pacioli
+from pacioli.utils import format_balance
 
 
 class IncomeStatement(Pacioli):
@@ -66,7 +67,7 @@ class IncomeStatement(Pacioli):
         result["net_gain"] = result["income_total"] - result["expenses_total"]
 
         logging.debug(result)
-        return self.render_template(self.template, self.format_balance(result))
+        return self.render_template(self.template, format_balance(result))
 
     def process_accounts(self, account, start_date, end_date):
         """Proccess acount balances within time period.

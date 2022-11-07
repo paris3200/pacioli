@@ -1,6 +1,7 @@
 from typing import Dict
 
 from pacioli.pacioli import Pacioli
+from pacioli.utils import format_balance
 from pacioli.utils import reverse_sign
 
 
@@ -78,7 +79,7 @@ class BalanceSheet(Pacioli):
         ledger.update(secured_liabilities)
         ledger.update(unsecured_liabilities)
 
-        return self.render_template(self.template, self.format_balance(ledger))
+        return self.render_template(self.template, format_balance(ledger))
 
     def process_accounts(self, category, category_name, date) -> Dict[(str, int)]:
         """Process account names and balances.
