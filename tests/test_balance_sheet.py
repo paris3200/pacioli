@@ -1,9 +1,7 @@
 """Tests for the blance sheet."""
 import locale
 
-import pytest
 from pacioli.balance_sheet import BalanceSheet
-from pacioli.utils import reverse_sign
 
 
 def test_render_returns_report_formatted_as_tex():
