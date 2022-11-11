@@ -20,13 +20,8 @@ class Config:
         config_file: str
             File path of config file.
         """
-        xdg_config = os.environ.get("XDG_CONFIG_HOME")
-
         if not config_file:
-            if not xdg_config:
-                config_file = "~/.config/pacioli/config.yml"
-            else:
-                config_file = xdg_config + "/pacioli/config.yml"
+            config_file = self.get_config_path()
 
         # Get the absolute file path
         self.config_file = os.path.expanduser(config_file)
@@ -36,6 +31,25 @@ class Config:
             raise Exception("Config file not found.")
 
         self.parse_config()
+
+    @staticmethod
+    def get_config_path() -> str:
+        """Get the config file path based on XDG_CONFIG_HOME.
+
+        If XDG_CONFIG_HOME not set defaults to ~/.config/pacioli/config.yml.
+
+        Return
+        ------
+        str
+            File path of config file.
+        """
+        xdg_config = os.environ.get("XDG_CONFIG_HOME")
+        if not xdg_config:
+            config_file = "~/.config/pacioli/config.yml"
+        else:
+            config_file = xdg_config + "/pacioli/config.yml"
+
+        return config_file
 
     def parse_config(self):
         """Read the config file and import settings."""
