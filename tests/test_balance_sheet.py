@@ -38,40 +38,24 @@ def test_process_accounts_returns_dict_with_account_balances():
 
 
 def test_render_template_returns_correct_data_in_template():
-    """It returns correct data in template."""
+    """It returns correct data in template which matches the ledger values."""
     report = BalanceSheet(config_file="tests/resources/sample_config.yml")
+    result = report.print_report(date="2020/3/31")
 
-    current_assets = report.config.current_assets
-    longterm_assets = report.config.longterm_assets
-    unsecured_liabilities = report.config.unsecured_liabilities
-
-    ledger = {}
-
-    ledger.update(
-        report.process_accounts(current_assets, "current_assets", date="2020/3/31")
-    )
-    ledger.update(
-        report.process_accounts(longterm_assets, "longterm_assets", date="2020/3/31")
-    )
-    ledger.update(
-        reverse_sign(
-            report.process_accounts(
-                unsecured_liabilities, "unsecured_liabilities", date="2020/3/31"
-            )
-        )
-    )
-
-    result = report.render_template(report.template, ledger)
+    locale.setlocale(locale.LC_ALL, "")
+    checking = f"{int(4138):n}"
+    savings = f"{int(10030):n}"
+    visa = f"{int(1448):n}"
+    assets = f"{int(339744):n}"
 
     assert "Checking" in result
-    assert "4138" in result  # Checking Balance
+    assert checking in result
     assert "Savings" in result
-    assert "10030" in result  # Savings Balance
+    assert savings in result  # Savings Balance
     assert "Visa" in result
-    assert "1448" in result  # Visa Balance
-    assert "-1448" not in result  # Visa Balance
+    assert visa in result  # Visa Balance
     assert "Total Current Assets" in result
-    assert "14168" in result  # Total Current Assets Balance
+    assert assets in result  # Total Current Assets Balance
 
 
 def test_positive_liability_balance_is_displayed_as_negative():
@@ -80,3 +64,4 @@ def test_positive_liability_balance_is_displayed_as_negative():
     result = report.print_report(date="2020/3/31")
     assert "Prepay" in result
     assert "(100)" in result
+    assert "-100" not in result
