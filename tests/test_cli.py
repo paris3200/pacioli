@@ -106,6 +106,8 @@ def test_income_statment_outputs_to_file(tmp_path):
 def test_income_statement_displays_error_without_dates_or_month() -> None:
     """A error is displayed if a valid month or begin/end date not defined."""
     runner = CliRunner()
-    result = runner.invoke(cli, "income-statement - ")
+    result = runner.invoke(
+        cli, "-c tests/resources/sample_config.yml income-statement - "
+    )
     expected = "Error: Please enter a valid begin-date and end-date or a valid month."
     assert expected in result.output
