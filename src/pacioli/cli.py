@@ -74,7 +74,3 @@ def income_statement(ctx, begin_date, end_date, month, out_file) -> None:
             f.write(report)
     else:
         click.echo(report)
-
-
-if __name__ == "__main__":
-    cli()
