@@ -1,0 +1,223 @@
+.TH PACIOLI 1 "2025-12-31" "pacioli 0.4.0" "User Commands"
+.SH NAME
+pacioli \- generate LaTeX financial reports from Ledger CLI journal files
+.SH SYNOPSIS
+.B pacioli
+[\fB\-c\fR \fICONFIG\fR]
+\fICOMMAND\fR
+[\fIOPTIONS\fR]
+[\fIARGS\fR]
+.SH DESCRIPTION
+.B Pacioli
+transforms Ledger CLI journal files into professionally typeset financial statements using LaTeX. Named after Luca Pacioli, the father of accounting and double-entry bookkeeping, it generates publication-ready balance sheets, income statements, and cash flow reports with customizable templates.
+.PP
+Reports are generated using customizable Jinja2 templates with special delimiters designed for LaTeX compatibility. The tool executes Ledger CLI commands via subprocess and formats the output into structured financial statements.
+.SH OPTIONS
+.TP
+.BR \-c ", " \-\-config " " \fIPATH\fR
+Specify path to configuration file.
+.br
+Default: \fI~/.config/pacioli/config.yml\fR
+.TP
+.BR \-h ", " \-\-help
+Show help message and exit.
+.SH COMMANDS
+.SS "balance-sheet"
+Run a balance sheet report using the account mappings defined in the config file. Generates a point-in-time snapshot of assets, liabilities, and equity.
+.PP
+.B pacioli
+balance-sheet
+[\fB\-e\fR \fIDATE\fR]
+\fIOUT_FILE\fR
+.PP
+.B Arguments:
+.RS
+.TP
+.I OUT_FILE
+Path to write the LaTeX file. Use '\fB-\fR' to print to standard output.
+.RE
+.PP
+.B Options:
+.RS
+.TP
+.BR \-e ", " \-\-end-date " " \fIDATE\fR
+Limit the report to transactions before the specified date.
+.RE
+.SS "income-statement"
+Run an income statement for a set time period. Generates a period-based revenue and expense summary.
+.PP
+.B pacioli
+income-statement
+[\fB\-b\fR \fIDATE\fR]
+[\fB\-e\fR \fIDATE\fR]
+[\fB\-m\fR \fIMONTH\fR]
+\fIOUT_FILE\fR
+.PP
+.B Arguments:
+.RS
+.TP
+.I OUT_FILE
+Path to write the LaTeX file. Use '\fB-\fR' to print to standard output.
+.RE
+.PP
+.B Options:
+.RS
+.TP
+.BR \-b ", " \-\-begin-date " " \fIDATE\fR
+Start date for transactions.
+.TP
+.BR \-e ", " \-\-end-date " " \fIDATE\fR
+Limit the report to transactions before the specified date.
+.TP
+.BR \-m ", " \-\-month " " \fIMONTH\fR
+Limit report to a specific month. When specified, overrides begin-date and end-date.
+.RE
+.PP
+.B Note:
+At least one of --begin-date/--end-date or --month must be specified.
+.SS "cash-flow-statement"
+Run a cash flow statement for a set time period using the direct method. Generates a cash-basis report of inflows and outflows.
+.PP
+.B pacioli
+cash-flow-statement
+[\fB\-b\fR \fIDATE\fR]
+[\fB\-e\fR \fIDATE\fR]
+[\fB\-m\fR \fIMONTH\fR]
+\fIOUT_FILE\fR
+.PP
+.B Arguments:
+.RS
+.TP
+.I OUT_FILE
+Path to write the LaTeX file. Use '\fB-\fR' to print to standard output.
+.RE
+.PP
+.B Options:
+.RS
+.TP
+.BR \-b ", " \-\-begin-date " " \fIDATE\fR
+Start date for transactions.
+.TP
+.BR \-e ", " \-\-end-date " " \fIDATE\fR
+Limit the report to transactions before the specified date.
+.TP
+.BR \-m ", " \-\-month " " \fIMONTH\fR
+Limit report to a specific month. When specified, overrides begin-date and end-date.
+.RE
+.PP
+.B Note:
+At least one of --begin-date/--end-date or --month must be specified.
+.PP
+The cash flow statement uses the \fBdirect method\fR and leverages Ledger's \fB--related\fR flag to ensure only cash-basis transactions are included. This means credit card purchases (liabilities) are excluded, and only transactions that directly affect cash accounts are included. The statement reconciles: Beginning Cash + Net Change = Ending Cash.
+.PP
+The statement categorizes cash flows into three activities:
+.RS
+.IP \(bu 3
+\fBOperating Activities\fR: Day-to-day business operations (income and expenses)
+.IP \(bu 3
+\fBInvesting Activities\fR: Long-term asset purchases and sales
+.IP \(bu 3
+\fBFinancing Activities\fR: Debt and equity transactions
+.RE
+.SH CONFIGURATION
+Pacioli uses YAML configuration files to define report settings. The default location is
+.IR ~/.config/pacioli/config.yml
+(respects
+.IR XDG_CONFIG_HOME ).
+.PP
+Configuration files define:
+.RS
+.IP \(bu 3
+Journal file path
+.IP \(bu 3
+Template paths for reports
+.IP \(bu 3
+Account category mappings (Current Assets, Long-term Assets, Secured/Unsecured Liabilities)
+.IP \(bu 3
+Title and behavior flags
+.RE
+.SH TEMPLATES
+Reports are generated using Jinja2 templates with custom delimiters for LaTeX compatibility:
+.RS
+.IP \(bu 3
+Block: \fBBLOCK{...}\fR
+.IP \(bu 3
+Variable: \fB\\VAR{...}\fR
+.IP \(bu 3
+Comment: \fB\\#{...}\fR
+.IP \(bu 3
+Line statement: \fB%%\fR
+.RE
+.PP
+Templates receive dictionaries with account short names (derived from the final segment of the account path) and formatted balances.
+.SH EXAMPLES
+.PP
+Generate a balance sheet for year-end:
+.RS
+.nf
+pacioli balance-sheet -e 2024-12-31 balance_sheet.tex
+.fi
+.RE
+.PP
+Generate an income statement for a specific month:
+.RS
+.nf
+pacioli income-statement -m January balance_sheet.tex income.tex
+.fi
+.RE
+.PP
+Generate an income statement for a date range:
+.RS
+.nf
+pacioli income-statement -b 2024-01-01 -e 2024-12-31 income.tex
+.fi
+.RE
+.PP
+Generate a cash flow statement and output to stdout:
+.RS
+.nf
+pacioli cash-flow-statement -m December - | pdflatex
+.fi
+.RE
+.PP
+Use a custom configuration file:
+.RS
+.nf
+pacioli -c ~/my-config.yml balance-sheet balance_sheet.tex
+.fi
+.RE
+.SH FILES
+.TP
+.I ~/.config/pacioli/config.yml
+Default configuration file location
+.SH DEPENDENCIES
+.TP
+.B Ledger CLI
+Required for processing journal files. Must be installed and accessible in PATH.
+.TP
+.B LaTeX
+Required for rendering the generated .tex files to PDF format.
+.SH EXIT STATUS
+.TP
+.B 0
+Success
+.TP
+.B 1
+General error (invalid arguments, missing configuration, etc.)
+.SH BUGS
+Report bugs at:
+.UR https://github.com/paris3200/pacioli/issues
+.UE
+.SH AUTHOR
+Written by Jason Paris.
+.SH COPYRIGHT
+Copyright \(co 2025 Jason Paris.
+.br
+License: MIT License
+.SH SEE ALSO
+.BR ledger (1),
+.BR pdflatex (1)
+.PP
+Full documentation and examples:
+.UR https://github.com/paris3200/pacioli
+.UE

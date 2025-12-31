@@ -33,6 +33,21 @@ Commands:
   cash-flow-statement  Run a cash flow statement for a set time period.
 ```
 
+For detailed documentation, a comprehensive man page is included in the repository. To install it:
+```sh
+# From the repository directory
+sudo cp man/pacioli.1 /usr/local/share/man/man1/
+sudo mandb
+man pacioli
+```
+
+Or view it directly without installation:
+```sh
+man ./man/pacioli.1
+```
+
+Note: Man pages are not automatically installed by pip. Distribution packages (Debian, Homebrew, etc.) typically handle man page installation.
+
 ### Cash Flow Statement
 
 The cash flow statement uses the **direct method** and leverages Ledger's `--related` flag to ensure only **cash-basis transactions** are included. This means:
