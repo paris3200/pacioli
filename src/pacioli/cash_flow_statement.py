@@ -181,12 +181,14 @@ class CashFlowStatement(Pacioli):
                         continue
 
                     name = self.get_account_short_name(account)
+                    # Convert underscores to spaces for display
+                    display_name = name.replace("_", " ")
 
                     # Reverse sign for cash flow presentation
                     # Related accounts show the opposite side of the transaction
                     cash_flow = -amount
 
-                    result[name] = cash_flow
+                    result[display_name] = cash_flow
                     total += cash_flow
                     break
 
