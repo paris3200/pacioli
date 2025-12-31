@@ -2,6 +2,7 @@ DEBUG: True
 journal_file: "tests/resources/sample_ledger.ldg"
 balance_sheet_template: "test_balance_sheet.tex"
 income_sheet_template: "test_income_sheet.tex"
+cash_flow_template: "test_cash_flow_statement.tex"
 effective: True
 cleared: True
 title: Acme LLC
@@ -18,3 +19,14 @@ Unsecured Liabilities:
 Secured Liabilities:
   - Liabilities:Auto Loan
   - Liabilities:Mortgage
+Cash Accounts:
+  - Assets:Current:Checking
+  - Assets:Current:Savings
+Operating Activities:
+  - Income:Salary
+  - Expenses:Food
+Investing Activities:
+  - Assets:Noncurrent:Retirement
+Financing Activities:
+  - Liabilities:Mortgage
+  - Liabilities:Auto Loan

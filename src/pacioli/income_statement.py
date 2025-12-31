@@ -118,13 +118,9 @@ class IncomeStatement(Pacioli):
             if account is not None:
                 balance_match = re.search(r"\d+(?:.(\d+))?", i)
                 if not balance_match:
-                    raise ValueError(
-                        f"Unable to parse balance from ledger output line: {i}"
-                    )
+                    raise ValueError(f"Unable to parse balance from ledger output line: {i}")
                 if account.group(0) == account_name:
-                    result[account_name.lower() + "_total"] = round(
-                        float(balance_match.group(0))
-                    )
+                    result[account_name.lower() + "_total"] = round(float(balance_match.group(0)))
                 else:
                     account = account.group(0)
                     result[account] = round(float(balance_match.group(0)))

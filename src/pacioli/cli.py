@@ -1,5 +1,6 @@
 import click
 from pacioli.balance_sheet import BalanceSheet
+from pacioli.cash_flow_statement import CashFlowStatement
 from pacioli.income_statement import IncomeStatement
 from pacioli.utils import month_to_dates
 
@@ -20,6 +21,7 @@ def cli(ctx, config) -> None:
     ctx.ensure_object(dict)
     ctx.obj["balance_sheet"] = BalanceSheet(config_file=config)
     ctx.obj["income_statement"] = IncomeStatement(config_file=config)
+    ctx.obj["cash_flow_statement"] = CashFlowStatement(config_file=config)
 
 
 @cli.command()
@@ -63,6 +65,34 @@ def income_statement(ctx, begin_date, end_date, month, out_file) -> None:
         begin_date, end_date = month_to_dates(month)
 
     report = income_statement.print_report(begin_date, end_date)
+    if out_file != "-":
+        with click.open_file(out_file, "w") as f:
+            f.write(report)
+    else:
+        click.echo(report)
+
+
+@cli.command()
+@click.option("--begin-date", "-b", default="", help="Start date for transactions.")
+@click.option("--end-date", "-e", default="", help="Limit the report to transactions BEFORE date.")
+@click.option("--month", "-m", default="", help="Limit report to month.")
+@click.argument("out-file", type=click.Path(allow_dash=True))
+@click.pass_context
+def cash_flow_statement(ctx, begin_date, end_date, month, out_file) -> None:
+    """
+    Run a cash flow statement for a set time period.
+
+    OUT_FILE is the path to the file to write the tex file.  Use '-' to print
+    to standard output.
+    """
+    cash_flow_statement = ctx.obj["cash_flow_statement"]
+
+    if begin_date == end_date == month == "":
+        raise click.UsageError("Please enter a valid begin-date and end-date or a valid month.")
+    elif month != "":
+        begin_date, end_date = month_to_dates(month)
+
+    report = cash_flow_statement.print_report(begin_date, end_date)
     if out_file != "-":
         with click.open_file(out_file, "w") as f:
             f.write(report)

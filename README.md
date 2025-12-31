@@ -6,6 +6,11 @@
 Pacioli generates financial reports typeset with LaTeX from
 [Ledger](http://www.ledger-cli.org) journal files.  The reports can be processed into a PDF using a variety of tools, such as pdflatex.
 
+Pacioli supports three core financial statements:
+- **Balance Sheet** - Point-in-time snapshot of assets, liabilities, and equity
+- **Income Statement** - Period-based revenue and expense summary
+- **Cash Flow Statement** - Cash-basis cash inflows and outflows using the direct method
+
 Reports are generated using customizable templates to meet a variety of needs.  An example Balance Sheet using the default template can be seen [here](https://github.com/paris3200/pacioli/blob/master/tests/resources/sample_balance_sheet.pdf)
 
 
@@ -22,9 +27,25 @@ Options:
   --help             Show this message and exit.
 
 Commands:
-  balance-sheet     Run a balance report using the account mappings defined...
-  income-statement  Run a income statement for a set time period.
+  balance-sheet        Run a balance report using the account mappings defined...
+  income-statement     Run a income statement for a set time period.
+  cash-flow-statement  Run a cash flow statement for a set time period.
 ```
+
+### Cash Flow Statement
+
+The cash flow statement uses the **direct method** and leverages Ledger's `--related` flag to ensure only **cash-basis transactions** are included. This means:
+
+- Credit card purchases are excluded (they're liabilities, not cash flows)
+- Only transactions that directly affect your cash accounts are included
+- The statement reconciles: Beginning Cash + Net Change = Ending Cash
+
+The statement categorizes cash flows into three activities:
+- **Operating Activities**: Day-to-day business operations (income and expenses)
+- **Investing Activities**: Long-term asset purchases and sales
+- **Financing Activities**: Debt and equity transactions
+
+Configure these categories in your config file by specifying which accounts belong to each category.
 
 ## Development setup
 
@@ -36,6 +57,11 @@ poetry install
 
 ## Release History
 
+* 0.4.0
+    * Add Cash Flow Statement support using the direct method
+    * Leverage Ledger's --related flag for true cash-basis reporting
+    * Add comprehensive test coverage (97% overall)
+    * Support Python 3.10, 3.11, 3.12, and 3.13
 * 0.3.4
     * Fix issue with effective and cleared flags not working when false.
     * Fix template not found error.

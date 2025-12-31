@@ -61,6 +61,7 @@ class Config:
             self.balance_sheet_template = os.path.expanduser(data["balance_sheet_template"])
 
             self.income_sheet_template = os.path.expanduser(data["income_sheet_template"])
+            self.cash_flow_template = os.path.expanduser(data["cash_flow_template"])
             if data["effective"]:
                 self.effective = "--effective"
             else:
@@ -76,4 +77,11 @@ class Config:
             self.longterm_assets = data["Longterm Assets"]
             self.unsecured_liabilities = data["Unsecured Liabilities"]
             self.secured_liabilities = data["Secured Liabilities"]
+
+            # Process Cash Flow Statement account mappings
+            self.cash_accounts = data["Cash Accounts"]
+            self.operating_activities = data["Operating Activities"]
+            self.investing_activities = data["Investing Activities"]
+            self.financing_activities = data["Financing Activities"]
+
             self.title = data["title"]

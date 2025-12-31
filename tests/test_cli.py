@@ -116,3 +116,48 @@ def test_income_statement_displays_error_without_dates_or_month() -> None:
     result = runner.invoke(cli, "-c tests/resources/sample_config.yml income-statement - ")
     expected = "Error: Please enter a valid begin-date and end-date or a valid month."
     assert expected in result.output
+
+
+def test_cash_flow_statement_outputs_to_standard_output():
+    """Cash flow statement returns a formatted report to standard output."""
+    runner = CliRunner()
+    report = runner.invoke(
+        cli,
+        "-c tests/resources/sample_config.yml cash-flow-statement --begin-date 2020/2/1 --end-date 2020/3/31 -",
+    )
+
+    assert report.exit_code == 0
+    assert "Acme LLC" in report.output
+    assert "Cash Flow Statement" in report.output
+    assert "OPERATING ACTIVITIES" in report.output
+    assert "INVESTING ACTIVITIES" in report.output
+    assert "FINANCING ACTIVITIES" in report.output
+    assert "Net Change in Cash" in report.output
+
+
+def test_cash_flow_statement_outputs_to_file(tmp_path):
+    """Cash flow statement writes to file."""
+    d = tmp_path / "report"
+    d.mkdir()
+    output_file = d / "cash_flow.tex"
+
+    runner = CliRunner()
+    result = runner.invoke(
+        cli,
+        f"-c tests/resources/sample_config.yml cash-flow-statement --begin-date 2020/2/1 --end-date 2020/3/31 {output_file}",
+    )
+
+    assert result.exit_code == 0
+    report = output_file.read_text()
+
+    assert "Acme LLC" in report
+    assert "OPERATING ACTIVITIES" in report
+    assert "Beginning Cash Balance" in report
+
+
+def test_cash_flow_statement_requires_dates():
+    """Cash flow statement displays error without dates."""
+    runner = CliRunner()
+    result = runner.invoke(cli, "-c tests/resources/sample_config.yml cash-flow-statement -")
+    expected = "Error: Please enter a valid begin-date and end-date or a valid month."
+    assert expected in result.output
