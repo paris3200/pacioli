@@ -150,6 +150,77 @@ Line statement: \fB%%\fR
 .RE
 .PP
 Templates receive dictionaries with account short names (derived from the final segment of the account path) and formatted balances.
+.SH SHELL COMPLETION
+Pacioli includes shell completion support for both Bash and Zsh. Completions provide tab completion for subcommands, options, and file paths.
+.PP
+.B Installation for Bash:
+.PP
+Dynamic completion (add to
+.IR ~/.bashrc ):
+.RS
+.nf
+eval "$(_PACIOLI_COMPLETE=bash_source pacioli)"
+.fi
+.RE
+.PP
+Static completion (user-level):
+.RS
+.nf
+mkdir -p ~/.local/share/bash-completion/completions
+cp /path/to/pacioli/completions/pacioli-complete.bash \\
+    ~/.local/share/bash-completion/completions/pacioli
+.fi
+.RE
+.PP
+Static completion (system-wide):
+.RS
+.nf
+sudo cp /path/to/pacioli/completions/pacioli-complete.bash \\
+    /usr/share/bash-completion/completions/pacioli
+.fi
+.RE
+.PP
+.B Installation for Zsh:
+.PP
+Dynamic completion (add to
+.IR ~/.zshrc ):
+.RS
+.nf
+eval "$(_PACIOLI_COMPLETE=zsh_source pacioli)"
+.fi
+.RE
+.PP
+Static completion (user-level):
+.RS
+.nf
+mkdir -p ~/.local/share/zsh/site-functions
+cp /path/to/pacioli/completions/pacioli-complete.zsh \\
+    ~/.local/share/zsh/site-functions/_pacioli
+.fi
+.RE
+.PP
+Then add to
+.IR ~/.zshrc :
+.RS
+.nf
+fpath=(~/.local/share/zsh/site-functions $fpath)
+.fi
+.RE
+.PP
+Static completion (system-wide):
+.RS
+.nf
+sudo cp /path/to/pacioli/completions/pacioli-complete.zsh \\
+    /usr/share/zsh/site-functions/_pacioli
+.fi
+.RE
+.PP
+.B Note:
+After installation, restart your shell or run
+.B source ~/.bashrc
+(or
+.B source ~/.zshrc
+for Zsh) for completions to take effect.
 .SH EXAMPLES
 .PP
 Generate a balance sheet for year-end:

@@ -49,6 +49,8 @@ packages = [{include = "pacioli", from = "src"}]
 include = [
     "src/pacioli/examples/**/*",
     "man/pacioli.1",
+    "completions/*.bash",
+    "completions/*.zsh",
 ]
 
 [tool.poetry.dependencies]

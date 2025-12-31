@@ -48,6 +48,54 @@ man ./man/pacioli.1
 
 Note: Man pages are not automatically installed by pip. Distribution packages (Debian, Homebrew, etc.) typically handle man page installation.
 
+## Shell Completions
+
+Pacioli includes shell completion support for both Bash and Zsh. Completions provide tab completion for subcommands, options, and file paths.
+
+### Installation
+
+**Bash:**
+
+For a persistent setup, add one of the following to your `~/.bashrc`:
+
+```bash
+# Option 1: Dynamic completion (simplest)
+eval "$(_PACIOLI_COMPLETE=bash_source pacioli)"
+
+# Option 2: Static completion (faster)
+# First, copy the completion file to a completions directory:
+mkdir -p ~/.local/share/bash-completion/completions
+cp /path/to/pacioli/completions/pacioli-complete.bash ~/.local/share/bash-completion/completions/pacioli
+```
+
+For system-wide installation (requires sudo):
+```bash
+sudo cp /path/to/pacioli/completions/pacioli-complete.bash /usr/share/bash-completion/completions/pacioli
+```
+
+**Zsh:**
+
+For a persistent setup, add one of the following to your `~/.zshrc`:
+
+```bash
+# Option 1: Dynamic completion (simplest)
+eval "$(_PACIOLI_COMPLETE=zsh_source pacioli)"
+
+# Option 2: Static completion (faster)
+# First, copy the completion file to a site-functions directory:
+mkdir -p ~/.local/share/zsh/site-functions
+cp /path/to/pacioli/completions/pacioli-complete.zsh ~/.local/share/zsh/site-functions/_pacioli
+# Then add to your ~/.zshrc:
+fpath=(~/.local/share/zsh/site-functions $fpath)
+```
+
+For system-wide installation (requires sudo):
+```bash
+sudo cp /path/to/pacioli/completions/pacioli-complete.zsh /usr/share/zsh/site-functions/_pacioli
+```
+
+**Note:** After installation, restart your shell or run `source ~/.bashrc` (or `source ~/.zshrc` for Zsh) for completions to take effect.
+
 ### Cash Flow Statement
 
 The cash flow statement uses the **direct method** and leverages Ledger's `--related` flag to ensure only **cash-basis transactions** are included. This means:
