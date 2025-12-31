@@ -64,9 +64,13 @@ class BalanceSheet(Pacioli):
             secured_liabilities["secured_liabilities_total"]
             + unsecured_liabilities["unsecured_liabilities_total"]
         )
+        total_equity = total_assets - total_liabilities
+        total_liabilities_equity = total_liabilities + total_equity
         ledger = {
             "total_assets": total_assets,
             "total_liabilities": total_liabilities,
+            "total_equity": total_equity,
+            "total_liabilities_equity": total_liabilities_equity,
             "title": self.title,
             "date": date,
         }

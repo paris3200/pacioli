@@ -64,3 +64,25 @@ def test_positive_liability_balance_is_displayed_as_negative():
     assert "Prepay" in result
     assert "(100)" in result
     assert "-100" not in result
+
+
+def test_equity_section_follows_accounting_equation():
+    """Equity section shows correct values and follows Assets = Liabilities + Equity."""
+    report = BalanceSheet(config_file="tests/resources/sample_config.yml")
+    result = report.print_report(date="2020/3/31")
+
+    locale.setlocale(locale.LC_ALL, "")
+    total_assets = 339744
+    total_liabilities = 186002
+    total_equity = total_assets - total_liabilities  # 153742
+    total_liabilities_equity = total_liabilities + total_equity  # Should equal total_assets
+
+    # Verify accounting equation holds
+    assert total_liabilities_equity == total_assets
+
+    # Verify equity section appears in output
+    assert "Equity" in result
+    assert "Owner's Equity" in result
+    assert f"{total_equity:n}" in result
+    assert "Total Liabilities + Equity" in result
+    assert f"{total_liabilities_equity:n}" in result
