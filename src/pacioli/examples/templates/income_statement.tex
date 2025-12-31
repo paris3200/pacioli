@@ -1,0 +1,57 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{fontspec}
+\usepackage{fcolumn}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\geometry{letterpaper, margin=1in}
+
+% Professional fonts
+\setmainfont{Liberation Serif}
+\setsansfont{Liberation Sans}
+
+% Headers and footers
+\pagestyle{fancy}
+\fancyhf{} % Clear all headers and footers
+\fancyhead[L]{\small\sffamily \VAR{title}}
+\fancyhead[C]{\small\sffamily Income Statement}
+\fancyhead[R]{\small\sffamily \VAR{start_date} to \VAR{end_date}}
+\fancyfoot[C]{\small Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\begin{document}
+
+\noindent
+\begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} l r}
+
+        \multicolumn{3}{l}{\sffamily\Large\textbf{REVENUE}}\\
+        \toprule[1.5pt]
+        BLOCK{ for account, balance in income.items() }
+            & \hspace{0.25in}\VAR{account} & \VAR{balance} \\
+        BLOCK{ endfor }
+        \cmidrule{3-3}
+            & \textbf{Total Revenue} & \textbf{\VAR{income_total}} \\
+        \midrule[1pt]
+
+        & &  \\
+
+        \multicolumn{3}{l}{\sffamily\Large\textbf{EXPENSES}}\\
+        \toprule[1.5pt]
+        BLOCK{ for account, balance in expenses.items() }
+            & \hspace{0.25in}\VAR{account} & \VAR{balance} \\
+        BLOCK{ endfor }
+        \cmidrule{3-3}
+            & \textbf{Total Expenses} & \textbf{\VAR{expenses_total}} \\
+        \midrule[1pt]
+
+        & &  \\
+
+        \multicolumn{2}{l}{\sffamily\Large\textbf{NET INCOME}} & \Large{\textbf{\VAR{net_income}}} \\
+        \bottomrule[2pt]
+
+\end{tabular*}
+
+\end{document}

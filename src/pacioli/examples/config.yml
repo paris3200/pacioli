@@ -1,0 +1,71 @@
+# Example Pacioli Configuration File
+# Copy this to ~/.config/pacioli/config.yml and customize for your needs
+
+# Enable debug logging
+DEBUG: False
+
+# Path to your Ledger CLI journal file
+journal_file: "~/.ledger/main.ldg"
+
+# Paths to LaTeX templates for each report type
+# These paths should point to your customized templates
+balance_sheet_template: "~/.config/pacioli/templates/balance_sheet.tex"
+income_sheet_template: "~/.config/pacioli/templates/income_statement.tex"
+cash_flow_template: "~/.config/pacioli/templates/cash_flow_statement.tex"
+
+# Use effective dates instead of actual transaction dates
+effective: False
+
+# Only include cleared transactions
+cleared: False
+
+# Title to appear on all reports
+title: "My Company LLC"
+
+# Account mappings for Balance Sheet
+# List the Ledger accounts that belong to each category
+Current Assets:
+  - Assets:Current:Checking
+  - Assets:Current:Savings
+
+Longterm Assets:
+  - Assets:Noncurrent:Escrow
+  - Assets:Noncurrent:Real Estate
+  - Assets:Noncurrent:Retirement
+
+Unsecured Liabilities:
+  - Liabilities:Credit Cards:Visa
+  - Liabilities:Credit Cards:Mastercard
+
+Secured Liabilities:
+  - Liabilities:Auto Loan
+  - Liabilities:Mortgage
+
+# Account mappings for Cash Flow Statement
+# These define which accounts are considered cash and how to categorize cash flows
+Cash Accounts:
+  - Assets:Current:Checking
+  - Assets:Current:Savings
+
+Operating Activities:
+  - Income:Salary
+  - Income:Interest
+  - Expenses:Food:Grocery
+  - Expenses:Food:Dining
+  - Expenses:Utilities:Power
+  - Expenses:Utilities:Water
+  - Expenses:Insurance
+  - Expenses:Entertainment
+  - Expenses:Auto:Gas
+  - Expenses:Household
+  - Expenses:Taxes
+
+Investing Activities:
+  - Assets:Noncurrent:Retirement
+  - Assets:Noncurrent:Real Estate
+  - Assets:Noncurrent:Escrow
+
+Financing Activities:
+  - Liabilities:Mortgage
+  - Liabilities:Auto Loan
+  - Liabilities:Credit Cards
