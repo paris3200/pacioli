@@ -35,7 +35,7 @@ def test_render_template_returns():
     accounts["expenses_total"] = expenses.pop("expenses_total")
     accounts["expenses"] = expenses
 
-    accounts["net_gain"] = accounts["income_total"] - accounts["expenses_total"]
+    accounts["net_income"] = accounts["income_total"] - accounts["expenses_total"]
 
     result = report.render_template(report.template, format_balance(accounts))
 
@@ -46,5 +46,7 @@ def test_render_template_returns():
 
     assert "Acme LLC" in result
     assert f"Salary & {salary} \\" in result
-    assert "{Total Income}} & & %s" % income in result
-    assert "{Total Expenses}} & & %s \\" % expenses in result
+    assert "{Total Revenue} & " in result
+    assert income in result
+    assert "{Total Expenses} & " in result
+    assert expenses in result

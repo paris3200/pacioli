@@ -1,84 +1,96 @@
 \documentclass[12pt, letterpaper]{article}
-\usepackage[utf8]{inputenc}
+\usepackage{fontspec}
 \usepackage{fcolumn}
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
 \geometry{letterpaper, margin=1in}
 
+% Professional fonts
+\setmainfont{Liberation Serif}
+\setsansfont{Liberation Sans}
 
-\title{Balance Sheet}
-\date{April 2020}
-
+% Headers and footers
+\pagestyle{fancy}
+\fancyhf{} % Clear all headers and footers
+\fancyhead[L]{\small\sffamily \VAR{title}}
+\fancyhead[C]{\small\sffamily Balance Sheet}
+\fancyhead[R]{\small\sffamily As of \VAR{date}}
+\fancyfoot[C]{\small Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
 
 \begin{document}
-\begin{center}
-    {\huge \VAR{title}}
 
-    Balance Sheet as of \VAR{date}
-\end{center}
+\noindent
+\begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} l r}
 
-\begin{table}[ht]
-    \center
-        \begin{tabular}{l l r}
-
-        \multicolumn{3}{l}{\large{\textbf{Assets}}}\\
-        \toprule
+        \multicolumn{3}{l}{\sffamily\Large\textbf{ASSETS}}\\
+        \toprule[1.5pt]
         \multicolumn{3}{l}{\textbf{Current Assets}}\\
-        & Checking  & \VAR{checking} \\
-        & Savings  & \VAR{savings} \\
+        & \hspace{0.25in}Checking  & \VAR{checking} \\
+        & \hspace{0.25in}Savings  & \VAR{savings} \\
+        \cmidrule{3-3}
+            & \textbf{Total Current Assets} & \textbf{\VAR{current_assets_total}}\\
+        \midrule[1pt]
 
-        \midrule
-            \small{\emph{Total Current Assets}} & & \VAR{current_assets_total}\\
-        \midrule
+        & &  \\
 
         \multicolumn{3}{l}{\textbf{Long-term Assets}} \\
-        & Escrow &  \VAR{escrow} \\
-        & Property &  \VAR{real_estate} \\
-        & Investments &  \VAR{investments} \\
-        & Receivable &  \VAR{receivable} \\
-        \midrule
-        \emph{Total Long-term Assets} & & \VAR{longterm_assets_total}\\
-        \midrule
-        \textbf{Total Assets} & & \textbf{\VAR{total_assets}}\\
-        \midrule
+        & \hspace{0.25in}Escrow &  \VAR{escrow} \\
+        & \hspace{0.25in}Property &  \VAR{real_estate} \\
+        & \hspace{0.25in}Investments &  \VAR{investments} \\
+        & \hspace{0.25in}Receivable &  \VAR{receivable} \\
+        \cmidrule{3-3}
+        & \textbf{Total Long-term Assets} & \textbf{\VAR{longterm_assets_total}}\\
+        \midrule[1pt]
 
         & &  \\
 
-        \multicolumn{3}{l}{\large{\textbf{Liabilities}}}\\
-        \toprule
+        \multicolumn{2}{l}{\textbf{Total Assets}} & \textbf{\VAR{total_assets}}\\
+        \midrule[1.5pt]
+
+        & &  \\
+
+        \multicolumn{3}{l}{\sffamily\Large\textbf{LIABILITIES}}\\
+        \toprule[1.5pt]
         \multicolumn{3}{l}{\textbf{Unsecured Liabilities}}\\
-        & Visa Card  & \VAR{visa}\\
-        & Prepay  & \VAR{prepay}\\
-        \midrule
-        \small{\emph{Total Unsecured Liabilities}}
-        & & \VAR{unsecured_liabilities_total} \\
-        \midrule
+        & \hspace{0.25in}Visa Card  & \VAR{visa}\\
+        & \hspace{0.25in}Prepay  & \VAR{prepay}\\
+        \cmidrule{3-3}
+        & \textbf{Total Unsecured Liabilities} & \textbf{\VAR{unsecured_liabilities_total}} \\
+        \midrule[1pt]
+
+        & &  \\
+
         \multicolumn{3}{l}{\textbf{Secured Liabilities}} \\
-        & Auto Loan &  \VAR{auto_loan} \\
-        & Mortgage &  \VAR{mortgage} \\
-        \midrule
-        \emph{Total Secured Liabilities} & & \VAR{secured_liabilities_total}\\
-        \midrule
-
-        \textbf{Total Liabilities} \hspace{1.75in} & &
-        \textbf{\VAR{total_liabilities}}\\
-        \midrule
+        & \hspace{0.25in}Auto Loan &  \VAR{auto_loan} \\
+        & \hspace{0.25in}Mortgage &  \VAR{mortgage} \\
+        \cmidrule{3-3}
+        & \textbf{Total Secured Liabilities} & \textbf{\VAR{secured_liabilities_total}}\\
+        \midrule[1pt]
 
         & &  \\
 
-        \multicolumn{3}{l}{\large{\textbf{Equity}}}\\
-        \toprule
-        \multicolumn{2}{l}{Owner's Equity} & \VAR{total_equity}\\
-        \midrule
-        \textbf{Total Equity} & & \textbf{\VAR{total_equity}}\\
-        \midrule
+        \multicolumn{2}{l}{\textbf{Total Liabilities}} & \textbf{\VAR{total_liabilities}}\\
+        \midrule[1.5pt]
 
         & &  \\
 
-        \textbf{Total Liabilities + Equity} & & \textbf{\VAR{total_liabilities_equity}}\\
-        \bottomrule
+        \multicolumn{3}{l}{\sffamily\Large\textbf{EQUITY}}\\
+        \toprule[1.5pt]
+        \multicolumn{2}{l}{\hspace{0.25in}Owner's Equity} & \VAR{total_equity}\\
+        \cmidrule{3-3}
+        \multicolumn{2}{l}{\textbf{Total Equity}} & \textbf{\VAR{total_equity}}\\
+        \midrule[1.5pt]
 
-    \end{tabular}
-\end{table}
+        & &  \\
+
+        \multicolumn{2}{l}{\sffamily\Large\textbf{TOTAL LIABILITIES + EQUITY}} & \Large{\textbf{\VAR{total_liabilities_equity}}}\\
+        \bottomrule[2pt]
+
+\end{tabular*}
+
 \end{document}

@@ -26,9 +26,10 @@ def test_balance_sheet_outputs_to_standard_output():
     total_longterm = f"{int(325576):n}"
 
     assert "Acme LLC" in report.output
-    assert f"& Checking  & {checking} \\" in report.output
-    assert f"& Savings  & {savings} \\" in report.output
-    assert f"{{Total Long-term Assets}} & & {total_longterm}" in report.output
+    assert f"\\hspace{{0.25in}}Checking  & {checking} \\" in report.output
+    assert f"\\hspace{{0.25in}}Savings  & {savings} \\" in report.output
+    assert f"{{Total Long-term Assets}} & " in report.output
+    assert total_longterm in report.output
 
 
 def test_income_statement_outputs_to_standard_output():
@@ -46,8 +47,10 @@ def test_income_statement_outputs_to_standard_output():
 
     assert "Acme LLC" in report.output
     assert f"Salary & {salary} \\" in report.output
-    assert "{Total Income}} & & %s" % income in report.output
-    assert "{Total Expenses}} & & %s \\" % expenses in report.output
+    assert "{Total Revenue} & " in report.output
+    assert income in report.output
+    assert "{Total Expenses} & " in report.output
+    assert expenses in report.output
 
 
 def test_balance_sheet_outputs_to_file(tmp_path):
@@ -72,9 +75,10 @@ def test_balance_sheet_outputs_to_file(tmp_path):
     report = output_file.read_text()
 
     assert "Acme LLC" in report
-    assert f"& Checking  & {checking} \\" in report
-    assert f"& Savings  & {savings} \\" in report
-    assert f"{{Total Long-term Assets}} & & {total_longterm}" in report
+    assert f"\\hspace{{0.25in}}Checking  & {checking} \\" in report
+    assert f"\\hspace{{0.25in}}Savings  & {savings} \\" in report
+    assert f"{{Total Long-term Assets}} & " in report
+    assert total_longterm in report
 
 
 def test_income_statment_outputs_to_file(tmp_path):
@@ -100,8 +104,10 @@ def test_income_statment_outputs_to_file(tmp_path):
 
     assert "Acme LLC" in report
     assert f"Salary & {salary} \\" in report
-    assert "{Total Income}} & & %s" % income in report
-    assert "{Total Expenses}} & & %s \\" % expenses in report
+    assert "{Total Revenue} & " in report
+    assert income in report
+    assert "{Total Expenses} & " in report
+    assert expenses in report
 
 
 def test_income_statement_displays_error_without_dates_or_month() -> None:

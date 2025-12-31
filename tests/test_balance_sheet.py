@@ -16,8 +16,8 @@ def test_render_returns_report_formatted_as_tex():
 
     result = report.print_report(date="2020/3/31")
     assert "Acme LLC" in result
-    assert f"& Checking  & {checking} \\" in result
-    assert f"& Savings  & {savings} \\" in result
+    assert f"\\hspace{{0.25in}}Checking  & {checking} \\" in result
+    assert f"\\hspace{{0.25in}}Savings  & {savings} \\" in result
     assert assets in result
     assert "Total Liabilities}" in result
     assert total_liabilities in result  # Value of Total Liabilities
@@ -81,8 +81,8 @@ def test_equity_section_follows_accounting_equation():
     assert total_liabilities_equity == total_assets
 
     # Verify equity section appears in output
-    assert "Equity" in result
+    assert "Equity" in result or "EQUITY" in result
     assert "Owner's Equity" in result
     assert f"{total_equity:n}" in result
-    assert "Total Liabilities + Equity" in result
+    assert "TOTAL LIABILITIES + EQUITY" in result
     assert f"{total_liabilities_equity:n}" in result
