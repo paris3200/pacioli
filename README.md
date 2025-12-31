@@ -1,10 +1,11 @@
-![Build Status](https://github.com/paris3200/pacioli/actions/workflows/main.yml/badge.svg) [![codecov](https://codecov.io/gh/paris3200/pacioli/branch/maain/graph/badge.svg?token=8JRRTMR6QO)](https://codecov.io/gh/paris3200/pacioli)
+![Build Status](https://github.com/paris3200/pacioli/actions/workflows/main.yml/badge.svg) [![codecov](https://codecov.io/gh/paris3200/pacioli/branch/main/graph/badge.svg?token=8JRRTMR6QO)](https://codecov.io/gh/paris3200/pacioli)
 
 # Pacioli
-> Beautiful report creation for plain text accounting.
+> *Named after Luca Pacioli, the father of accounting and double-entry bookkeeping.*
 
-Pacioli generates financial reports typeset with LaTeX from
-[Ledger](http://www.ledger-cli.org) journal files.  The reports can be processed into a PDF using a variety of tools, such as pdflatex.
+**Beautiful financial reports for plain text accounting.**
+
+Pacioli transforms your [Ledger CLI](http://www.ledger-cli.org) journal files into professionally typeset financial statements using LaTeX. Generate publication-ready balance sheets, income statements, and cash flow reports with customizable templates.
 
 Pacioli supports three core financial statements:
 - **Balance Sheet** - Point-in-time snapshot of assets, liabilities, and equity
