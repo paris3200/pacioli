@@ -5,157 +5,90 @@
 
 **Beautiful financial reports for plain text accounting.**
 
-Pacioli transforms your [Ledger CLI](http://www.ledger-cli.org) journal files into professionally typeset financial statements using LaTeX. Generate publication-ready balance sheets, income statements, and cash flow reports with customizable templates.
+Transform your [Ledger CLI](http://www.ledger-cli.org) journal files into professionally typeset financial statements. Stop wrestling with spreadsheets—generate publication-ready reports with LaTeX quality typography.
 
-Pacioli supports three core financial statements:
-- **Balance Sheet** - Point-in-time snapshot of assets, liabilities, and equity
-- **Income Statement** - Period-based revenue and expense summary
-- **Cash Flow Statement** - Cash-basis cash inflows and outflows using the direct method
+## Why Pacioli?
 
-Reports are generated using customizable templates to meet a variety of needs.  An example Balance Sheet using the default template can be seen [here](https://github.com/paris3200/pacioli/blob/master/tests/resources/sample_balance_sheet.pdf)
+- **Professional Output**: LaTeX-typeset reports for small businesses, non-profits, grant applications, and tax preparation
+- **Customizable Templates**: Adapt reports to match your organization's needs using Jinja2 templates
+- **True Cash Flow**: Uses Ledger's `--related` flag for accurate cash-basis reporting required by many small businesses and non-profits
+- **Plain Text First**: Works seamlessly with your existing Ledger workflow—no data import/export
+- **Complete Picture**: Generate all three core financial statements from your journal file
 
+## Features
 
-## Usage example
-```
+**Balance Sheet** - Point-in-time snapshot of financial position
+- Categorize accounts into current/long-term assets and liabilities
+- See your net worth at any date
+- [Example output](https://github.com/paris3200/pacioli/blob/master/src/pacioli/examples/sample_balance_sheet.pdf)
 
-Usage: pacioli [OPTIONS] COMMAND [ARGS]...
+**Income Statement** - Period-based revenue and expense analysis
+- Track profitability over any time period
+- Support for multi-word account names
+- Locale-aware number formatting
+- [Example output](https://github.com/paris3200/pacioli/blob/master/src/pacioli/examples/sample_income_statement.pdf)
 
-  Pacioli generates LaTeX financial reports from Ledger CLI
-  journal files.
+**Cash Flow Statement** - Cash-basis activity using the direct method
+- Operating, Investing, and Financing activities
+- Excludes non-cash transactions (credit card purchases)
+- Reconciles to your actual cash position
+- [Example output](https://github.com/paris3200/pacioli/blob/master/src/pacioli/examples/sample_cash_flow_statement.pdf)
 
-Options:
-  -c, --config TEXT  Path of config file.
-  --help             Show this message and exit.
-
-Commands:
-  balance-sheet        Run a balance report using the account mappings defined...
-  income-statement     Run a income statement for a set time period.
-  cash-flow-statement  Run a cash flow statement for a set time period.
-```
-
-For detailed documentation, a comprehensive man page is included in the repository. To install it:
-```sh
-# From the repository directory
-sudo cp man/pacioli.1 /usr/local/share/man/man1/
-sudo mandb
-man pacioli
-```
-
-Or view it directly without installation:
-```sh
-man ./man/pacioli.1
-```
-
-Note: Man pages are not automatically installed by pip. Distribution packages (Debian, Homebrew, etc.) typically handle man page installation.
-
-## Shell Completions
-
-Pacioli includes shell completion support for both Bash and Zsh. Completions provide tab completion for subcommands, options, and file paths.
-
-### Installation
-
-**Bash:**
-
-For a persistent setup, add one of the following to your `~/.bashrc`:
+## Quick Start
 
 ```bash
-# Option 1: Dynamic completion (simplest)
-eval "$(_PACIOLI_COMPLETE=bash_source pacioli)"
+# Generate a balance sheet for today
+pacioli balance-sheet
 
-# Option 2: Static completion (faster)
-# First, copy the completion file to a completions directory:
-mkdir -p ~/.local/share/bash-completion/completions
-cp /path/to/pacioli/completions/pacioli-complete.bash ~/.local/share/bash-completion/completions/pacioli
+# Income statement for last month
+pacioli income-statement --period "last month"
+
+# Cash flow for Q1 2024
+pacioli cash-flow-statement --period "Jan 2024 to Mar 2024"
+
+# Use custom config
+pacioli -c ~/.config/myreports.yml balance-sheet
 ```
 
-For system-wide installation (requires sudo):
+All reports output LaTeX files that can be compiled to PDF with `pdflatex`.
+
+## Documentation
+
+- **Man page**: `man pacioli` (includes shell completion setup)
+- **Example templates**: Included in the package
+- **Config reference**: See man page for YAML configuration options
+
+## Installation
+
 ```bash
-sudo cp /path/to/pacioli/completions/pacioli-complete.bash /usr/share/bash-completion/completions/pacioli
+pip install pacioli
 ```
 
-**Zsh:**
+Requires [Ledger CLI](http://www.ledger-cli.org) and a LaTeX distribution (for PDF output).
 
-For a persistent setup, add one of the following to your `~/.zshrc`:
+## Development
 
-```bash
-# Option 1: Dynamic completion (simplest)
-eval "$(_PACIOLI_COMPLETE=zsh_source pacioli)"
-
-# Option 2: Static completion (faster)
-# First, copy the completion file to a site-functions directory:
-mkdir -p ~/.local/share/zsh/site-functions
-cp /path/to/pacioli/completions/pacioli-complete.zsh ~/.local/share/zsh/site-functions/_pacioli
-# Then add to your ~/.zshrc:
-fpath=(~/.local/share/zsh/site-functions $fpath)
-```
-
-For system-wide installation (requires sudo):
-```bash
-sudo cp /path/to/pacioli/completions/pacioli-complete.zsh /usr/share/zsh/site-functions/_pacioli
-```
-
-**Note:** After installation, restart your shell or run `source ~/.bashrc` (or `source ~/.zshrc` for Zsh) for completions to take effect.
-
-### Cash Flow Statement
-
-The cash flow statement uses the **direct method** and leverages Ledger's `--related` flag to ensure only **cash-basis transactions** are included. This means:
-
-- Credit card purchases are excluded (they're liabilities, not cash flows)
-- Only transactions that directly affect your cash accounts are included
-- The statement reconciles: Beginning Cash + Net Change = Ending Cash
-
-The statement categorizes cash flows into three activities:
-- **Operating Activities**: Day-to-day business operations (income and expenses)
-- **Investing Activities**: Long-term asset purchases and sales
-- **Financing Activities**: Debt and equity transactions
-
-Configure these categories in your config file by specifying which accounts belong to each category.
-
-## Development setup
-
-Pacioli uses [Poetry](https://python-poetry.org) to manage packaging and dependencies.  Install Poetry and then fork the project.  Pacioli and the required dependencies can be installed with poetry.
+Pacioli uses [Poetry](https://python-poetry.org) for dependency management.
 
 ```sh
 poetry install
+poetry run pytest  # Run tests
+nox                # Run all quality checks
 ```
 
-## Release History
-
-* 0.4.0
-    * Add Cash Flow Statement support using the direct method
-    * Leverage Ledger's --related flag for true cash-basis reporting
-    * Add comprehensive test coverage (97% overall)
-    * Support Python 3.10, 3.11, 3.12, and 3.13
-* 0.3.4
-    * Fix issue with effective and cleared flags not working when false.
-    * Fix template not found error.
-    * Fix issue with liability accounts with a positive balance being displayed as negative balance.
-    * Add feature to use month names for income-statement time period.
-* 0.3.3
-    * Add support for Python 3.10
-* 0.3.2
-    * Code refactoring with increased documentation.
-* 0.3.1
-    * Add support for two word account names on the Income Statement
-* 0.3.0
-    * Add support for locale formatting of balances
-* 0.2.0
-    * Initial Release
-* 0.0.1
-    * Work in progress
-
-## Meta
-
-Jason Paris – paris3200@gmail.com
-
-Distributed under the MIT license. See ``LICENSE`` for more information.
+See [CLAUDE.md](CLAUDE.md) for architecture details and development guidelines.
 
 ## Contributing
 
-1. Fork it
-2. Create your feature branch (`git checkout -b feature/fooBar`)
-3. Commit your changes (`git commit -am 'Add some fooBar'`)
-4. Push to the branch (`git push origin feature/fooBar`)
-5. Create a new Pull Request
+Contributions welcome! Please:
+1. Fork the repository
+2. Create a feature branch
+3. Add tests for new functionality
+4. Ensure all quality checks pass (`nox`)
+5. Submit a pull request
 
-<!-- Markdown link & img dfn's -->
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+Author: Jason Paris (paris3200@gmail.com)
