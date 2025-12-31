@@ -29,7 +29,7 @@ class Config:
         self.template_dir = os.path.dirname(self.config_file)
 
         if not os.path.isfile(self.config_file):
-            raise Exception("Config file not found.")
+            raise FileNotFoundError(f"Config file not found: {self.config_file}")
 
         self.parse_config()
 
@@ -55,7 +55,7 @@ class Config:
     def parse_config(self):
         """Read the config file and import settings."""
         with open(self.config_file) as config:
-            data = yaml.load(config, Loader=yaml.FullLoader)
+            data = yaml.safe_load(config)
             self.DEBUG = data["DEBUG"]
             self.journal_file = data["journal_file"]
             self.balance_sheet_template = os.path.expanduser(data["balance_sheet_template"])

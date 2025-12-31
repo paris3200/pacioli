@@ -148,7 +148,12 @@ class Pacioli:
         if output == "":
             bal = 0
         else:
-            bal = round(float(re.search(r"\d+(?:.(\d+))?", output).group(0)))
+            match = re.search(r"\d+(?:.(\d+))?", output)
+            if not match:
+                raise ValueError(
+                    f"Unable to parse balance from ledger output for account '{account}': {output}"
+                )
+            bal = round(float(match.group(0)))
             if "$-" in output:
                 bal = int(f"-{bal}")
         return bal

@@ -116,12 +116,17 @@ class IncomeStatement(Pacioli):
             i = i.replace(",", "")
             account = re.search(r"([a-zA-Z]+[a-zA-Z ]*[a-zA-Z])+", i)
             if account is not None:
+                balance_match = re.search(r"\d+(?:.(\d+))?", i)
+                if not balance_match:
+                    raise ValueError(
+                        f"Unable to parse balance from ledger output line: {i}"
+                    )
                 if account.group(0) == account_name:
                     result[account_name.lower() + "_total"] = round(
-                        float(re.search(r"\d+(?:.(\d+))?", i).group(0))
+                        float(balance_match.group(0))
                     )
                 else:
                     account = account.group(0)
-                    result[account] = round(float(re.search(r"\d+(?:.(\d+))?", i).group(0)))
+                    result[account] = round(float(balance_match.group(0)))
 
         return result
