@@ -28,7 +28,7 @@ def test_balance_sheet_outputs_to_standard_output():
     assert "Acme LLC" in report.output
     assert f"& Checking  & {checking} \\" in report.output
     assert f"& Savings  & {savings} \\" in report.output
-    assert f"{{Total Longterm Assets}} & & {total_longterm}" in report.output
+    assert f"{{Total Long-term Assets}} & & {total_longterm}" in report.output
 
 
 def test_income_statement_outputs_to_standard_output():
@@ -74,7 +74,7 @@ def test_balance_sheet_outputs_to_file(tmp_path):
     assert "Acme LLC" in report
     assert f"& Checking  & {checking} \\" in report
     assert f"& Savings  & {savings} \\" in report
-    assert f"{{Total Longterm Assets}} & & {total_longterm}" in report
+    assert f"{{Total Long-term Assets}} & & {total_longterm}" in report
 
 
 def test_income_statment_outputs_to_file(tmp_path):
