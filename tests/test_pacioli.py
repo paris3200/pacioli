@@ -110,3 +110,17 @@ def test_render_template_raises_error_on_template_not_found():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     with pytest.raises(FileNotFoundError):
         pacioli.render_template("foo.tex", {"Checking": 100})
+
+
+def test_get_balance_raises_error_on_unparseable_output(monkeypatch):
+    """It raises ValueError when ledger output cannot be parsed."""
+    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
+
+    # Mock run_system_command to return output without digits
+    def mock_run_system_command(cmd):
+        return "INVALID OUTPUT"
+
+    monkeypatch.setattr(pacioli, "run_system_command", mock_run_system_command)
+
+    with pytest.raises(ValueError, match="Unable to parse balance from ledger output"):
+        pacioli.get_balance("Assets:Current:Checking", date="2020/3/31")

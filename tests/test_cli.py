@@ -161,3 +161,16 @@ def test_cash_flow_statement_requires_dates():
     result = runner.invoke(cli, "-c tests/resources/sample_config.yml cash-flow-statement -")
     expected = "Error: Please enter a valid begin-date and end-date or a valid month."
     assert expected in result.output
+
+
+def test_cash_flow_statement_accepts_month_parameter():
+    """Cash flow statement can use --month instead of begin/end dates."""
+    runner = CliRunner()
+    report = runner.invoke(
+        cli,
+        "-c tests/resources/sample_config.yml cash-flow-statement --month March -",
+    )
+
+    assert report.exit_code == 0
+    assert "Acme LLC" in report.output
+    assert "Cash Flow Statement" in report.output
