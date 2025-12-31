@@ -1,4 +1,5 @@
 """Tests for the blance sheet."""
+
 import locale
 
 import pytest
@@ -47,12 +48,8 @@ def test_render_template_returns_correct_data_in_template():
 
     ledger = {}
 
-    ledger.update(
-        report.process_accounts(current_assets, "current_assets", date="2020/3/31")
-    )
-    ledger.update(
-        report.process_accounts(longterm_assets, "longterm_assets", date="2020/3/31")
-    )
+    ledger.update(report.process_accounts(current_assets, "current_assets", date="2020/3/31"))
+    ledger.update(report.process_accounts(longterm_assets, "longterm_assets", date="2020/3/31"))
     ledger.update(
         reverse_sign(
             report.process_accounts(
