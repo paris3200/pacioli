@@ -48,9 +48,7 @@ class BalanceSheet(Pacioli):
             self.config.longterm_assets, "longterm_assets", date=date
         )
         secured_liabilities = reverse_sign(
-            self.process_accounts(
-                self.config.secured_liabilities, "secured_liabilities", date=date
-            )
+            self.process_accounts(self.config.secured_liabilities, "secured_liabilities", date=date)
         )
 
         unsecured_liabilities = reverse_sign(
@@ -60,8 +58,7 @@ class BalanceSheet(Pacioli):
         )
 
         total_assets = (
-            current_assets["current_assets_total"]
-            + longterm_assets["longterm_assets_total"]
+            current_assets["current_assets_total"] + longterm_assets["longterm_assets_total"]
         )
         total_liabilities = (
             secured_liabilities["secured_liabilities_total"]

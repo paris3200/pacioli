@@ -1,4 +1,5 @@
 """Tests for the blance sheet."""
+
 import locale
 
 from pacioli.balance_sheet import BalanceSheet

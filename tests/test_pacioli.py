@@ -1,4 +1,5 @@
 """Tests Pacioli."""
+
 import locale
 import subprocess
 
