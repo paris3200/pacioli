@@ -24,9 +24,7 @@ def cli(ctx, config) -> None:
 
 @cli.command()
 @click.argument("out-file", type=click.Path(allow_dash=True))
-@click.option(
-    "--end-date", "-e", default="", help="Limit the report to transactions before date."
-)
+@click.option("--end-date", "-e", default="", help="Limit the report to transactions before date.")
 @click.pass_context
 def balance_sheet(ctx, out_file, end_date) -> None:
     """
@@ -46,9 +44,7 @@ def balance_sheet(ctx, out_file, end_date) -> None:
 
 @cli.command()
 @click.option("--begin-date", "-b", default="", help="Start date for transactions.")
-@click.option(
-    "--end-date", "-e", default="", help="Limit the report to transactions BEFORE date."
-)
+@click.option("--end-date", "-e", default="", help="Limit the report to transactions BEFORE date.")
 @click.option("--month", "-m", default="", help="Limit report to month.")
 @click.argument("out-file", type=click.Path(allow_dash=True))
 @click.pass_context
@@ -62,9 +58,7 @@ def income_statement(ctx, begin_date, end_date, month, out_file) -> None:
     income_statement = ctx.obj["income_statement"]
 
     if begin_date == end_date == month == "":
-        raise click.UsageError(
-            "Please enter a valid begin-date and end-date or a valid month."
-        )
+        raise click.UsageError("Please enter a valid begin-date and end-date or a valid month.")
     elif month != "":
         begin_date, end_date = month_to_dates(month)
 

@@ -4,6 +4,7 @@ Classes
 -------
 Config
 """
+
 import os
 
 import yaml
@@ -43,13 +44,9 @@ class Config:
             data = yaml.load(config, Loader=yaml.FullLoader)
             self.DEBUG = data["DEBUG"]
             self.journal_file = data["journal_file"]
-            self.balance_sheet_template = os.path.expanduser(
-                data["balance_sheet_template"]
-            )
+            self.balance_sheet_template = os.path.expanduser(data["balance_sheet_template"])
 
-            self.income_sheet_template = os.path.expanduser(
-                data["income_sheet_template"]
-            )
+            self.income_sheet_template = os.path.expanduser(data["income_sheet_template"])
             if data["effective"]:
                 self.effective = "--effective"
             else:

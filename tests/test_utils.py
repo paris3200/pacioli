@@ -1,4 +1,5 @@
 """Tests Utils."""
+
 import datetime
 
 import pytest

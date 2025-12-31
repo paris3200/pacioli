@@ -148,9 +148,13 @@ class Pacioli:
         if output == "":
             bal = 0
         else:
-            bal = round(float(re.search(r"\d+(?:.(\d+))?", output).group(0)))
-            if "$-" in output:
-                bal = int(f"-{bal}")
+            match = re.search(r"\d+(?:.(\d+))?", output)
+            if match is None:
+                bal = 0
+            else:
+                bal = round(float(match.group(0)))
+                if "$-" in output:
+                    bal = int(f"-{bal}")
         return bal
 
     def get_account_short_name(self, account) -> str:

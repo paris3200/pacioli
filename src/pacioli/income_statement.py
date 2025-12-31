@@ -5,6 +5,7 @@ Classes
 -------
 IncomeStatement
 """
+
 import re
 
 from pacioli.pacioli import logging
@@ -120,8 +121,6 @@ class IncomeStatement(Pacioli):
                     )
                 else:
                     account = account.group(0)
-                    result[account] = round(
-                        float(re.search(r"\d+(?:.(\d+))?", i).group(0))
-                    )
+                    result[account] = round(float(re.search(r"\d+(?:.(\d+))?", i).group(0)))
 
         return result
