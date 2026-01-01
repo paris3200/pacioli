@@ -32,8 +32,9 @@ class Pacioli:
         self.journal_file = self.config.journal_file
         self.latex_jinja_env = self.setup_jinja_env()
 
-        if self.config.DEBUG:
-            self.setup_log("DEBUG")
+        # Always create logger, set level based on DEBUG flag
+        log_level = "DEBUG" if self.config.DEBUG else "WARNING"
+        self.setup_log(log_level)
 
     def setup_jinja_env(self):
         """Create jinja2 environment."""
