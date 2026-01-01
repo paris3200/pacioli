@@ -1,8 +1,7 @@
 from typing import Dict
 
 from pacioli.pacioli import Pacioli
-from pacioli.utils import format_balance
-from pacioli.utils import reverse_sign
+from pacioli.utils import format_balance, reverse_sign
 
 
 class BalanceSheet(Pacioli):
@@ -57,13 +56,12 @@ class BalanceSheet(Pacioli):
             )
         )
 
-        total_assets = (
-            current_assets["current_assets_total"] + longterm_assets["longterm_assets_total"]
+        total_assets = current_assets.get("current_assets_total", 0) + longterm_assets.get(
+            "longterm_assets_total", 0
         )
-        total_liabilities = (
-            secured_liabilities["secured_liabilities_total"]
-            + unsecured_liabilities["unsecured_liabilities_total"]
-        )
+        total_liabilities = secured_liabilities.get(
+            "secured_liabilities_total", 0
+        ) + unsecured_liabilities.get("unsecured_liabilities_total", 0)
         total_equity = total_assets - total_liabilities
         total_liabilities_equity = total_liabilities + total_equity
         ledger = {
@@ -82,7 +80,7 @@ class BalanceSheet(Pacioli):
 
         return self.render_template(self.template, format_balance(ledger))
 
-    def process_accounts(self, category, category_name, date) -> Dict[(str, int)]:
+    def process_accounts(self, category, category_name, date) -> dict[(str, int)]:
         """Process account names and balances.
 
         Returns a dictionary of account short names and their corresponding balances

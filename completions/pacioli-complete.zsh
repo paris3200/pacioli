@@ -32,4 +32,3 @@ _pacioli_completion() {
 }
 
 compdef _pacioli_completion pacioli;
-

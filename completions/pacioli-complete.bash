@@ -26,4 +26,3 @@ _pacioli_completion_setup() {
 }
 
 _pacioli_completion_setup;
-

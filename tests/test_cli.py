@@ -4,6 +4,7 @@ import locale
 import os
 
 from click.testing import CliRunner
+
 from pacioli import __version__
 from pacioli.cli import cli
 
@@ -122,8 +123,8 @@ def test_income_statment_outputs_to_file(tmp_path):
 def test_income_statement_displays_error_without_dates_or_month() -> None:
     """A error is displayed if a valid month or begin/end date not defined."""
     runner = CliRunner()
-    result = runner.invoke(cli, "-c tests/resources/sample_config.yml income-statement - ")
-    expected = "Error: Please enter a valid begin-date and end-date or a valid month."
+    result = runner.invoke(cli, "-c tests/resources/sample_config.yml income-statement")
+    expected = "Error: Please enter a valid begin-date and end-date, month, or period."
     assert expected in result.output
 
 
@@ -167,8 +168,8 @@ def test_cash_flow_statement_outputs_to_file(tmp_path):
 def test_cash_flow_statement_requires_dates():
     """Cash flow statement displays error without dates."""
     runner = CliRunner()
-    result = runner.invoke(cli, "-c tests/resources/sample_config.yml cash-flow-statement -")
-    expected = "Error: Please enter a valid begin-date and end-date or a valid month."
+    result = runner.invoke(cli, "-c tests/resources/sample_config.yml cash-flow-statement")
+    expected = "Error: Please enter a valid begin-date and end-date, month, or period."
     assert expected in result.output
 
 
@@ -183,3 +184,67 @@ def test_cash_flow_statement_accepts_month_parameter():
     assert report.exit_code == 0
     assert "Acme LLC" in report.output
     assert "Cash Flow Statement" in report.output
+
+
+def test_income_statement_accepts_period_parameter():
+    """Income statement can use --period with month range."""
+    runner = CliRunner()
+    report = runner.invoke(
+        cli,
+        "-c tests/resources/sample_config.yml income-statement --period 'February 2020 to March 2020' -",
+    )
+
+    assert report.exit_code == 0
+    assert "Acme LLC" in report.output
+    locale.setlocale(locale.LC_ALL, "")
+    salary = f"{int(4913):n}"
+    assert f"Salary & {salary} \\" in report.output
+
+
+def test_income_statement_accepts_period_single_month():
+    """Income statement can use --period with single month."""
+    runner = CliRunner()
+    report = runner.invoke(
+        cli,
+        "-c tests/resources/sample_config.yml income-statement --period 'February 2020' -",
+    )
+
+    assert report.exit_code == 0
+    assert "Acme LLC" in report.output
+
+
+def test_cash_flow_statement_accepts_period_parameter():
+    """Cash flow statement can use --period with month range."""
+    runner = CliRunner()
+    report = runner.invoke(
+        cli,
+        "-c tests/resources/sample_config.yml cash-flow-statement --period 'February 2020 to March 2020' -",
+    )
+
+    assert report.exit_code == 0
+    assert "Acme LLC" in report.output
+    assert "Cash Flow Statement" in report.output
+
+
+def test_cash_flow_statement_accepts_period_single_month():
+    """Cash flow statement can use --period with single month."""
+    runner = CliRunner()
+    report = runner.invoke(
+        cli,
+        "-c tests/resources/sample_config.yml cash-flow-statement --period 'February 2020' -",
+    )
+
+    assert report.exit_code == 0
+    assert "Acme LLC" in report.output
+
+
+def test_income_statement_period_invalid_format():
+    """Income statement shows error with invalid period format."""
+    runner = CliRunner()
+    result = runner.invoke(
+        cli,
+        "-c tests/resources/sample_config.yml income-statement --period 'invalid format' -",
+    )
+
+    assert result.exit_code != 0
+    assert "Invalid period format" in result.output
