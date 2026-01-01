@@ -1,4 +1,4 @@
-.TH PACIOLI 1 "2025-12-31" "pacioli 0.4.0" "User Commands"
+.TH PACIOLI 1 "2025-12-31" "pacioli 1.1.0" "User Commands"
 .SH NAME
 pacioli \- generate LaTeX financial reports from Ledger CLI journal files
 .SH SYNOPSIS
@@ -13,6 +13,9 @@ transforms Ledger CLI journal files into professionally typeset financial statem
 .PP
 Reports are generated using customizable Jinja2 templates with special delimiters designed for LaTeX compatibility. The tool executes Ledger CLI commands via subprocess and formats the output into structured financial statements.
 .SH OPTIONS
+.TP
+.BR \-\-version
+Show version number and exit.
 .TP
 .BR \-c ", " \-\-config " " \fIPATH\fR
 Specify path to configuration file.
@@ -135,6 +138,49 @@ Template paths for reports
 Account category mappings (Current Assets, Long-term Assets, Secured/Unsecured Liabilities)
 .IP \(bu 3
 Title and behavior flags
+.IP \(bu 3
+Market value conversion for commodities (stocks, cryptocurrencies, etc.)
+.RE
+.PP
+.B Configuration Options:
+.RS
+.TP
+.B DEBUG
+Enable debug logging (true/false)
+.TP
+.B journal_file
+Path to Ledger CLI journal file
+.TP
+.B balance_sheet_template
+Path to balance sheet LaTeX template
+.TP
+.B income_sheet_template
+Path to income statement LaTeX template
+.TP
+.B cash_flow_template
+Path to cash flow statement LaTeX template
+.TP
+.B effective
+Use effective dates instead of actual transaction dates (true/false)
+.TP
+.B cleared
+Only include cleared transactions (true/false)
+.TP
+.B market
+Convert commodities to market values. Set to
+.B true
+to use Ledger's
+.B --market
+flag (converts to default currency), or specify a currency string (e.g.,
+.B "$"
+or
+.B "USD"
+) to use
+.B --exchange
+flag for conversion to a specific currency. When disabled or omitted, commodity accounts (like stock portfolios) will show share counts instead of dollar values, which can cause incorrect totals in balance sheets.
+.TP
+.B title
+Title to appear on all reports
 .RE
 .SH TEMPLATES
 Reports are generated using Jinja2 templates with custom delimiters for LaTeX compatibility:
@@ -255,6 +301,29 @@ Use a custom configuration file:
 .RS
 .nf
 pacioli -c ~/my-config.yml balance-sheet balance_sheet.tex
+.fi
+.RE
+.PP
+.B Example configuration file with commodity market conversion:
+.RS
+.nf
+DEBUG: False
+journal_file: "~/.ledger/main.ldg"
+balance_sheet_template: "templates/balance_sheet.tex"
+income_sheet_template: "templates/income_statement.tex"
+cash_flow_template: "templates/cash_flow_statement.tex"
+effective: False
+cleared: False
+market: True  # Convert stocks/crypto to market values
+title: "My Company LLC"
+
+Current Assets:
+  - Assets:Current:Checking
+  - Assets:Current:Savings
+
+Longterm Assets:
+  - Assets:Investments:Brokerage  # Stocks will be valued at market price
+  - Assets:Noncurrent:Real Estate
 .fi
 .RE
 .SH FILES

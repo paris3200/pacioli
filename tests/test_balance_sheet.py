@@ -86,3 +86,49 @@ def test_equity_section_follows_accounting_equation():
     assert f"{total_equity:n}" in result
     assert "TOTAL LIABILITIES + EQUITY" in result
     assert f"{total_liabilities_equity:n}" in result
+
+
+def test_balance_sheet_with_commodities_shows_market_value():
+    """Balance sheet converts commodities to market value and shows correct totals."""
+    report = BalanceSheet(config_file="tests/resources/commodity_config.yml")
+    result = report.print_report(date="2024/3/31")
+
+    locale.setlocale(locale.LC_ALL, "")
+
+    # Current Assets: Checking = $3,525
+    checking = f"{int(3525):n}"
+
+    # Long-term Assets: Brokerage = $7,700 (market value of stocks)
+    # The brokerage account has 15 AAPL @ $180 + 20 MSFT @ $250 = $7,700
+    longterm_assets = f"{int(7700):n}"
+
+    # Total Assets = $3,525 + $7,700 = $11,225
+    total_assets = f"{int(11225):n}"
+
+    assert "Commodity Test LLC" in result
+    assert "Checking" in result
+    assert checking in result
+    # Verify market value of stocks appears (proper dollar value, not share counts)
+    assert longterm_assets in result
+    assert total_assets in result
+
+
+def test_balance_sheet_without_market_conversion_shows_incorrect_totals():
+    """Balance sheet without market conversion shows share counts instead of values."""
+    report = BalanceSheet(config_file="tests/resources/commodity_config_no_market.yml")
+    result = report.print_report(date="2024/3/31")
+
+    locale.setlocale(locale.LC_ALL, "")
+
+    # Current Assets: Checking = $3,525
+    checking = f"{int(3525):n}"
+
+    # Without market conversion, total would be wrong because it adds
+    # $3,525 (checking) + 35 shares (incorrectly treated as $35)
+    # This demonstrates the bug that was fixed
+    assert "Commodity Test LLC" in result
+    assert checking in result
+
+    # The total should NOT be the correct market value
+    correct_total = f"{int(11225):n}"
+    assert correct_total not in result

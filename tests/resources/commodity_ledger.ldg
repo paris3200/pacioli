@@ -1,0 +1,25 @@
+; Test ledger with commodity transactions (stocks)
+
+2024/01/01 * Opening Balances
+    Assets:Current:Checking                          $10,000.00
+    Assets:Investments:Brokerage                              0 AAPL
+    Equity
+
+2024/01/15 * Purchase AAPL Stock
+    Assets:Investments:Brokerage                        10 AAPL @ $150.00
+    Assets:Current:Checking                          $-1,500.00
+
+2024/02/01 * Purchase AAPL Stock
+    Assets:Investments:Brokerage                        5 AAPL @ $155.00
+    Assets:Current:Checking                            $-775.00
+
+2024/02/15 * Purchase MSFT Stock
+    Assets:Investments:Brokerage                        20 MSFT @ $200.00
+    Assets:Current:Checking                          $-4,000.00
+
+2024/03/01 * Regular Expense
+    Expenses:Food:Grocery                              $200.00
+    Assets:Current:Checking
+
+P 2024/03/31 00:00:00 AAPL $180.00
+P 2024/03/31 00:00:00 MSFT $250.00

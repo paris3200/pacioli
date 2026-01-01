@@ -20,6 +20,7 @@ Transform your [Ledger CLI](http://www.ledger-cli.org) journal files into profes
 **Balance Sheet** - Point-in-time snapshot of financial position
 - Categorize accounts into current/long-term assets and liabilities
 - See your net worth at any date
+- **Commodity support**: Automatically convert stocks, cryptocurrencies, and other commodities to market values
 - [Example output](https://github.com/paris3200/pacioli/blob/master/src/pacioli/examples/sample_balance_sheet.pdf)
 
 **Income Statement** - Period-based revenue and expense analysis

@@ -160,6 +160,8 @@ class CashFlowStatement(Pacioli):
             ledger_command.append(self.effective)
         if self.cleared is not None:
             ledger_command.append(self.cleared)
+        if self.market:
+            ledger_command.extend(self.market.split())
 
         # Get all cash-related transactions
         output = self.run_system_command(ledger_command)

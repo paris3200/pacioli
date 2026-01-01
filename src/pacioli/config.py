@@ -72,6 +72,17 @@ class Config:
             else:
                 self.cleared = None
 
+            # Market value conversion for commodities
+            if "market" in data and data["market"]:
+                if isinstance(data["market"], str):
+                    # If market is a currency string like "USD" or "$"
+                    self.market = f"--exchange {data['market']}"
+                else:
+                    # If market is True/boolean, use default --market flag
+                    self.market = "--market"
+            else:
+                self.market = None
+
             # Process Balance Sheet account mappings
             self.current_assets = data["Current Assets"]
             self.longterm_assets = data["Longterm Assets"]

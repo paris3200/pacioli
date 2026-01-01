@@ -21,6 +21,11 @@ effective: False
 # Only include cleared transactions
 cleared: False
 
+# Convert commodities (stocks, cryptocurrencies, etc.) to market values
+# Set to True to use --market flag (converts to default currency)
+# Or specify a currency (e.g., "$" or "USD") to use --exchange flag
+market: True
+
 # Title to appear on all reports
 title: "My Company LLC"
 

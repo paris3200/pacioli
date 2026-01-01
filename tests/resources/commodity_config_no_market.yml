@@ -1,0 +1,22 @@
+DEBUG: True
+journal_file: "tests/resources/commodity_ledger.ldg"
+balance_sheet_template: "test_balance_sheet.tex"
+income_sheet_template: "test_income_sheet.tex"
+cash_flow_template: "test_cash_flow_statement.tex"
+effective: False
+cleared: False
+market: False  # Do NOT convert commodities - will show share counts
+title: Commodity Test LLC
+Current Assets:
+  - Assets:Current:Checking
+Longterm Assets:
+  - Assets:Investments:Brokerage
+Unsecured Liabilities: []
+Secured Liabilities: []
+Cash Accounts:
+  - Assets:Current:Checking
+Operating Activities:
+  - Expenses:Food
+Investing Activities:
+  - Assets:Investments:Brokerage
+Financing Activities:
