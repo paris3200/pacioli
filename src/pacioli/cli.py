@@ -1,4 +1,5 @@
 import click
+from pacioli import __version__
 from pacioli.balance_sheet import BalanceSheet
 from pacioli.cash_flow_statement import CashFlowStatement
 from pacioli.income_statement import IncomeStatement
@@ -6,6 +7,7 @@ from pacioli.utils import month_to_dates
 
 
 @click.group()
+@click.version_option(version=__version__, prog_name="pacioli")
 @click.option(
     "--config",
     "-c",

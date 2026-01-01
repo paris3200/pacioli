@@ -4,6 +4,7 @@ import locale
 import os
 
 from click.testing import CliRunner
+from pacioli import __version__
 from pacioli.cli import cli
 
 
@@ -11,6 +12,14 @@ def test_entrypoint():
     """Is entrypoint script installed? (setup.py)."""
     exit_status = os.system("pacioli --help")
     assert exit_status == 0
+
+
+def test_version_option():
+    """It displays the version when --version flag is used."""
+    runner = CliRunner()
+    result = runner.invoke(cli, ["--version"])
+    assert result.exit_code == 0
+    assert f"pacioli, version {__version__}" in result.output
 
 
 def test_balance_sheet_outputs_to_standard_output():

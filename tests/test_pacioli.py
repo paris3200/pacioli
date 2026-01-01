@@ -12,7 +12,7 @@ from pacioli.utils import format_negative_numbers
 
 def test_version():
     """Tests the version number."""
-    assert __version__ == "1.0.2"
+    assert __version__ == "1.1.0"
 
 
 def test_ledger_available():
@@ -124,3 +124,48 @@ def test_get_balance_raises_error_on_unparseable_output(monkeypatch):
 
     with pytest.raises(ValueError, match="Unable to parse balance from ledger output"):
         pacioli.get_balance("Assets:Current:Checking", date="2020/3/31")
+
+
+def test_commodity_conversion_with_market_flag():
+    """It converts commodities to market value when market flag is enabled."""
+    pacioli = Pacioli(config_file="tests/resources/commodity_config.yml")
+
+    # Brokerage account has:
+    # - 15 AAPL shares @ market price $180 = $2,700
+    # - 20 MSFT shares @ market price $250 = $5,000
+    # Total market value = $7,700
+    brokerage = pacioli.get_balance("Assets:Investments:Brokerage", date="2024/3/31")
+    assert brokerage == 7700
+    assert isinstance(brokerage, int)
+
+
+def test_commodity_without_market_flag_shows_share_count():
+    """It shows share count instead of market value when market flag is disabled."""
+    pacioli = Pacioli(config_file="tests/resources/commodity_config_no_market.yml")
+
+    # Without market conversion, ledger outputs share counts:
+    # - 15 AAPL shares
+    # - 20 MSFT shares
+    # The regex will extract "15" or "20" (share counts), not dollar values
+    # This should be 35 (total shares) or fail to parse properly
+    brokerage = pacioli.get_balance("Assets:Investments:Brokerage", date="2024/3/31")
+
+    # Should NOT be the market value of $7,700
+    assert brokerage != 7700
+    # Should be a small number (share count) - 15 or 20 or 35
+    assert brokerage < 100
+
+
+def test_commodity_checking_account_balance():
+    """It returns correct balance for checking account in commodity test."""
+    pacioli = Pacioli(config_file="tests/resources/commodity_config.yml")
+
+    # Starting: $10,000
+    # - $1,500 (AAPL purchase)
+    # - $775 (AAPL purchase)
+    # - $4,000 (TSLA purchase)
+    # - $200 (Grocery)
+    # = $3,525
+    checking = pacioli.get_balance("Assets:Current:Checking", date="2024/3/31")
+    assert checking == 3525
+    assert isinstance(checking, int)

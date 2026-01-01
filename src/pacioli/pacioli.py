@@ -29,6 +29,7 @@ class Pacioli:
         self.title = self.config.title
         self.effective = self.config.effective
         self.cleared = self.config.cleared
+        self.market = self.config.market
         self.journal_file = self.config.journal_file
         self.latex_jinja_env = self.setup_jinja_env()
 
@@ -143,6 +144,10 @@ class Pacioli:
 
         if self.cleared:
             ledger_command.append("--cleared")
+
+        if self.market:
+            # Add market conversion flag(s)
+            ledger_command.extend(self.market.split())
 
         output = self.run_system_command(ledger_command)
         output = output.replace(",", "")

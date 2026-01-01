@@ -109,6 +109,9 @@ class IncomeStatement(Pacioli):
         if self.cleared is not None:
             ledger_command.append("--cleared")
 
+        if self.market:
+            ledger_command.extend(self.market.split())
+
         output = self.run_system_command(ledger_command).splitlines()
         account_name = account
         result = {}

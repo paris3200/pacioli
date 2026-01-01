@@ -5,6 +5,7 @@ income_sheet_template: "test_income_sheet.tex"
 cash_flow_template: "test_cash_flow_statement.tex"
 effective: True
 cleared: True
+market: True  # Convert commodities to market values (use True for --market, or specify currency like "$" for --exchange)
 title: Acme LLC
 Current Assets:
   - Assets:Current:Checking
