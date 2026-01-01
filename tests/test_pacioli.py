@@ -12,7 +12,7 @@ from pacioli.utils import format_negative_numbers
 
 def test_version():
     """Tests the version number."""
-    assert __version__ == "0.3.4"
+    assert __version__ == "0.4.0"
 
 
 def test_ledger_available():
