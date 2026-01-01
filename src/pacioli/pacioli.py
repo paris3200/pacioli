@@ -149,12 +149,13 @@ class Pacioli:
             bal = 0
         else:
             match = re.search(r"\d+(?:.(\d+))?", output)
-            if match is None:
-                bal = 0
-            else:
-                bal = round(float(match.group(0)))
-                if "$-" in output:
-                    bal = int(f"-{bal}")
+            if not match:
+                raise ValueError(
+                    f"Unable to parse balance from ledger output for account '{account}': {output}"
+                )
+            bal = round(float(match.group(0)))
+            if "$-" in output:
+                bal = int(f"-{bal}")
         return bal
 
     def get_account_short_name(self, account) -> str:
@@ -175,56 +176,3 @@ class Pacioli:
         """
         name = account.split(":")[-1].lower()
         return name.replace(" ", "_")
-
-    def format_balance(self, int_balance):
-        """Format balance.
-
-        Formats balance using the locale seperators for numbers.  Removes
-        negative signs and instead encloses negative balances in parentheses.
-
-        Parameters
-        ----------
-        int_balance: (dict, int)
-
-
-        Returns
-        -------
-        (dict, int)
-           Balance formatted with locale seperator.
-        """
-        locale.setlocale(locale.LC_ALL, "")
-
-        if isinstance(int_balance, int):
-            balance = self.format_negative_numbers(int_balance)
-            return f"{balance:n}"
-
-        if isinstance(int_balance, dict):
-            for account, balance in int_balance.items():
-                if isinstance(balance, dict):
-                    self.format_balance(balance)
-                elif isinstance(balance, int):
-                    balance = self.format_negative_numbers(balance)
-                    if isinstance(balance, str):
-                        int_balance[account] = balance
-                    else:
-                        int_balance[account] = f"{balance:n}"
-
-        return int_balance
-
-    def format_negative_numbers(self, number) -> str:
-        """Return the absolute value of a number and wrap in parentheses if negative.
-
-        Paramaters
-        ----------
-        number: int
-            Number to be formatted
-
-        Returns
-        -------
-        Str
-            Number as a string, if negative enclosed in parentheses.
-        """
-        if number < 0:
-            return "(" + self.format_balance(abs(number)) + ")"
-
-        return number

@@ -6,11 +6,13 @@ import subprocess
 import pytest
 from pacioli import __version__
 from pacioli.pacioli import Pacioli
+from pacioli.utils import format_balance
+from pacioli.utils import format_negative_numbers
 
 
 def test_version():
     """Tests the version number."""
-    assert __version__ == "0.3.3"
+    assert __version__ == "1.0.0"
 
 
 def test_ledger_available():
@@ -73,7 +75,7 @@ def test_format_balance_dict_input_returns_formatted_dict():
     checking = f"{11000:n}"
     savings = f"{25000:n}"
     test_numbers = {"Checking": 11000, "Savings": 25000}
-    result = pacioli.format_balance(test_numbers)
+    result = format_balance(test_numbers)
 
     assert {"Checking": checking, "Savings": savings} == result
 
@@ -83,17 +85,16 @@ def test_format_balance_int_input_returns_formmated_str():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     locale.setlocale(locale.LC_ALL, "")
     checking = f"{11000:n}"
-    result = pacioli.format_balance(11000)
+    result = format_balance(11000)
     assert checking == result
 
 
 def test_format_net_gain_returns_negative_number_in_parentheses_with_locale_formatting():
     """It formats negative number with locacle formatting."""
-    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     locale.setlocale(locale.LC_ALL, "")
     n = int(-1000)
     n_positive = n * -1
-    result = pacioli.format_negative_numbers(n)
+    result = format_negative_numbers(n)
     assert f"({n_positive:n})" == result
 
 
@@ -109,3 +110,17 @@ def test_render_template_raises_error_on_template_not_found():
     pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
     with pytest.raises(FileNotFoundError):
         pacioli.render_template("foo.tex", {"Checking": 100})
+
+
+def test_get_balance_raises_error_on_unparseable_output(monkeypatch):
+    """It raises ValueError when ledger output cannot be parsed."""
+    pacioli = Pacioli(config_file="tests/resources/sample_config.yml")
+
+    # Mock run_system_command to return output without digits
+    def mock_run_system_command(cmd):
+        return "INVALID OUTPUT"
+
+    monkeypatch.setattr(pacioli, "run_system_command", mock_run_system_command)
+
+    with pytest.raises(ValueError, match="Unable to parse balance from ledger output"):
+        pacioli.get_balance("Assets:Current:Checking", date="2020/3/31")

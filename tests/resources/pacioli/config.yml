@@ -24,33 +24,9 @@ Cash Accounts:
   - Assets:Current:Savings
 Operating Activities:
   - Income:Salary
-  - Income:Interest
-  - Expenses:Food:Grocery
-  - Expenses:Food:Dining
-  - Expenses:Utilities:Power
-  - Expenses:Utilities:Water
-  - Expenses:Insurance:Life
-  - Expenses:Insurance:Auto
-  - Expenses:Insurance:Health
-  - Expenses:Personal Care
-  - Expenses:Subscriptions
-  - Expenses:Entertainment
-  - Expenses:Auto:Gas
-  - Expenses:Household:Home Improvements
-  - Expenses:Taxes:Social Security
-  - Expenses:Taxes:Medicare
-  - Expenses:Taxes:State
-  - Expenses:Taxes:Federal
-  - Expenses:Interest:Auto
-  - Expenses:Interest:Mortgage
-  - Expenses:Interest:Visa
-  - Assets:Reimbursements
+  - Expenses:Food
 Investing Activities:
-  - Assets:Noncurrent:Retirement:401k
-  - Assets:Noncurrent:Real Estate
-  - Assets:Noncurrent:Escrow
+  - Assets:Noncurrent:Retirement
 Financing Activities:
   - Liabilities:Mortgage
   - Liabilities:Auto Loan
-  - Liabilities:Visa
-  - Liabilities:Prepay

@@ -1,0 +1,71 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{fontspec}
+\usepackage{fcolumn}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\geometry{letterpaper, margin=1in}
+
+% Professional fonts
+\setmainfont{Liberation Serif}
+\setsansfont{Liberation Sans}
+
+% Headers and footers
+\pagestyle{fancy}
+\fancyhf{} % Clear all headers and footers
+\fancyhead[L]{\small\sffamily \VAR{title}}
+\fancyhead[C]{\small\sffamily Cash Flow Statement}
+\fancyhead[R]{\small\sffamily \VAR{start_date} to \VAR{end_date}}
+\fancyfoot[C]{\small Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\begin{document}
+
+\noindent
+\begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} l r}
+
+        \multicolumn{3}{l}{\sffamily\Large\textbf{OPERATING ACTIVITIES}}\\
+        \toprule[1.5pt]
+        BLOCK{ for account, balance in operating_activities.items() }
+            & \hspace{0.25in}\VAR{account} & \VAR{balance} \\
+        BLOCK{ endfor }
+        \cmidrule{3-3}
+            & \textbf{Net Cash from Operating Activities} & \textbf{\VAR{operating_activities_total}} \\
+        \midrule[1pt]
+
+        & &  \\
+
+        \multicolumn{3}{l}{\sffamily\Large\textbf{INVESTING ACTIVITIES}}\\
+        \toprule[1.5pt]
+        BLOCK{ for account, balance in investing_activities.items() }
+            & \hspace{0.25in}\VAR{account} & \VAR{balance} \\
+        BLOCK{ endfor }
+        \cmidrule{3-3}
+            & \textbf{Net Cash from Investing Activities} & \textbf{\VAR{investing_activities_total}} \\
+        \midrule[1pt]
+
+        & &  \\
+
+        \multicolumn{3}{l}{\sffamily\Large\textbf{FINANCING ACTIVITIES}}\\
+        \toprule[1.5pt]
+        BLOCK{ for account, balance in financing_activities.items() }
+            & \hspace{0.25in}\VAR{account} & \VAR{balance} \\
+        BLOCK{ endfor }
+        \cmidrule{3-3}
+            & \textbf{Net Cash from Financing Activities} & \textbf{\VAR{financing_activities_total}} \\
+        \midrule[1.5pt]
+
+        & &  \\
+
+        \multicolumn{2}{l}{\textbf{Net Change in Cash}} & \textbf{\VAR{net_change_in_cash}} \\
+        \multicolumn{2}{l}{Beginning Cash Balance} & \VAR{beginning_cash} \\
+        \cmidrule{3-3}
+        \multicolumn{2}{l}{\sffamily\Large\textbf{ENDING CASH BALANCE}} & \Large{\textbf{\VAR{ending_cash}}} \\
+        \bottomrule[2pt]
+
+\end{tabular*}
+
+\end{document}

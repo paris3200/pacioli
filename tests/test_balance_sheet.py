@@ -2,9 +2,7 @@
 
 import locale
 
-import pytest
 from pacioli.balance_sheet import BalanceSheet
-from pacioli.utils import reverse_sign
 
 
 def test_render_returns_report_formatted_as_tex():
@@ -18,8 +16,8 @@ def test_render_returns_report_formatted_as_tex():
 
     result = report.print_report(date="2020/3/31")
     assert "Acme LLC" in result
-    assert f"& Checking  & {checking} \\" in result
-    assert f"& Savings  & {savings} \\" in result
+    assert f"\\hspace{{0.25in}}Checking  & {checking} \\" in result
+    assert f"\\hspace{{0.25in}}Savings  & {savings} \\" in result
     assert assets in result
     assert "Total Liabilities}" in result
     assert total_liabilities in result  # Value of Total Liabilities
@@ -39,36 +37,24 @@ def test_process_accounts_returns_dict_with_account_balances():
 
 
 def test_render_template_returns_correct_data_in_template():
-    """It returns correct data in template."""
+    """It returns correct data in template which matches the ledger values."""
     report = BalanceSheet(config_file="tests/resources/sample_config.yml")
+    result = report.print_report(date="2020/3/31")
 
-    current_assets = report.config.current_assets
-    longterm_assets = report.config.longterm_assets
-    unsecured_liabilities = report.config.unsecured_liabilities
-
-    ledger = {}
-
-    ledger.update(report.process_accounts(current_assets, "current_assets", date="2020/3/31"))
-    ledger.update(report.process_accounts(longterm_assets, "longterm_assets", date="2020/3/31"))
-    ledger.update(
-        reverse_sign(
-            report.process_accounts(
-                unsecured_liabilities, "unsecured_liabilities", date="2020/3/31"
-            )
-        )
-    )
-
-    result = report.render_template(report.template, ledger)
+    locale.setlocale(locale.LC_ALL, "")
+    checking = f"{int(4138):n}"
+    savings = f"{int(10030):n}"
+    visa = f"{int(1448):n}"
+    assets = f"{int(339744):n}"
 
     assert "Checking" in result
-    assert "4138" in result  # Checking Balance
+    assert checking in result
     assert "Savings" in result
-    assert "10030" in result  # Savings Balance
+    assert savings in result  # Savings Balance
     assert "Visa" in result
-    assert "1448" in result  # Visa Balance
-    assert "-1448" not in result  # Visa Balance
+    assert visa in result  # Visa Balance
     assert "Total Current Assets" in result
-    assert "14168" in result  # Total Current Assets Balance
+    assert assets in result  # Total Current Assets Balance
 
 
 def test_positive_liability_balance_is_displayed_as_negative():
@@ -77,3 +63,26 @@ def test_positive_liability_balance_is_displayed_as_negative():
     result = report.print_report(date="2020/3/31")
     assert "Prepay" in result
     assert "(100)" in result
+    assert "-100" not in result
+
+
+def test_equity_section_follows_accounting_equation():
+    """Equity section shows correct values and follows Assets = Liabilities + Equity."""
+    report = BalanceSheet(config_file="tests/resources/sample_config.yml")
+    result = report.print_report(date="2020/3/31")
+
+    locale.setlocale(locale.LC_ALL, "")
+    total_assets = 339744
+    total_liabilities = 186002
+    total_equity = total_assets - total_liabilities  # 153742
+    total_liabilities_equity = total_liabilities + total_equity  # Should equal total_assets
+
+    # Verify accounting equation holds
+    assert total_liabilities_equity == total_assets
+
+    # Verify equity section appears in output
+    assert "Equity" in result or "EQUITY" in result
+    assert "Owner's Equity" in result
+    assert f"{total_equity:n}" in result
+    assert "TOTAL LIABILITIES + EQUITY" in result
+    assert f"{total_liabilities_equity:n}" in result

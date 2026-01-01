@@ -1,13 +1,25 @@
 [project]
 name = "pacioli"
-version = "0.3.4"
+version = "1.0.0"
 description = "Beautiful report creation for plain text accounting"
 authors = [
     {name = "Jason Paris", email = "paris3200@gmail.com"}
 ]
 readme = "README.md"
-license = {text = "MIT"}
+license = "MIT"
 requires-python = ">=3.10"
+keywords = [
+    "accounting",
+    "finance",
+    "ledger",
+    "ledger-cli",
+    "plain-text-accounting",
+    "financial-reports",
+    "balance-sheet",
+    "income-statement",
+    "cash-flow",
+    "latex",
+]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Financial and Insurance Industry",
@@ -17,6 +29,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business :: Financial :: Accounting",
 ]
 dependencies = [
     "pyyaml>=6.0.2",
@@ -34,6 +47,12 @@ Issues = "https://github.com/paris3200/pacioli/issues"
 
 [tool.poetry]
 packages = [{include = "pacioli", from = "src"}]
+include = [
+    "src/pacioli/examples/**/*",
+    "man/pacioli.1",
+    "completions/*.bash",
+    "completions/*.zsh",
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"

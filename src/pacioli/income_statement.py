@@ -10,6 +10,7 @@ import re
 
 from pacioli.pacioli import logging
 from pacioli.pacioli import Pacioli
+from pacioli.utils import format_balance
 
 
 class IncomeStatement(Pacioli):
@@ -64,10 +65,10 @@ class IncomeStatement(Pacioli):
         result["expenses_total"] = expenses.pop("expenses_total")
         result["expenses"] = expenses
 
-        result["net_gain"] = result["income_total"] - result["expenses_total"]
+        result["net_income"] = result["income_total"] - result["expenses_total"]
 
         logging.debug(result)
-        return self.render_template(self.template, self.format_balance(result))
+        return self.render_template(self.template, format_balance(result))
 
     def process_accounts(self, account, start_date, end_date):
         """Proccess acount balances within time period.
@@ -115,12 +116,13 @@ class IncomeStatement(Pacioli):
             i = i.replace(",", "")
             account = re.search(r"([a-zA-Z]+[a-zA-Z ]*[a-zA-Z])+", i)
             if account is not None:
+                balance_match = re.search(r"\d+(?:.(\d+))?", i)
+                if not balance_match:
+                    raise ValueError(f"Unable to parse balance from ledger output line: {i}")
                 if account.group(0) == account_name:
-                    result[account_name.lower() + "_total"] = round(
-                        float(re.search(r"\d+(?:.(\d+))?", i).group(0))
-                    )
+                    result[account_name.lower() + "_total"] = round(float(balance_match.group(0)))
                 else:
                     account = account.group(0)
-                    result[account] = round(float(re.search(r"\d+(?:.(\d+))?", i).group(0)))
+                    result[account] = round(float(balance_match.group(0)))
 
         return result
