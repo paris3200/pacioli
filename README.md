@@ -76,8 +76,6 @@ poetry run pytest  # Run tests
 nox                # Run all quality checks
 ```
 
-See [CLAUDE.md](CLAUDE.md) for architecture details and development guidelines.
-
 ## Contributing
 
 Contributions welcome! Please:
