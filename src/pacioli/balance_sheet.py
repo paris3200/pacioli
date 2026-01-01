@@ -1,8 +1,7 @@
 from typing import Dict
 
 from pacioli.pacioli import Pacioli
-from pacioli.utils import format_balance
-from pacioli.utils import reverse_sign
+from pacioli.utils import format_balance, reverse_sign
 
 
 class BalanceSheet(Pacioli):
@@ -82,7 +81,7 @@ class BalanceSheet(Pacioli):
 
         return self.render_template(self.template, format_balance(ledger))
 
-    def process_accounts(self, category, category_name, date) -> Dict[(str, int)]:
+    def process_accounts(self, category, category_name, date) -> dict[(str, int)]:
         """Process account names and balances.
 
         Returns a dictionary of account short names and their corresponding balances

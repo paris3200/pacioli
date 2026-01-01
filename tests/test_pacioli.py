@@ -4,10 +4,10 @@ import locale
 import subprocess
 
 import pytest
+
 from pacioli import __version__
 from pacioli.pacioli import Pacioli
-from pacioli.utils import format_balance
-from pacioli.utils import format_negative_numbers
+from pacioli.utils import format_balance, format_negative_numbers
 
 
 def test_version():

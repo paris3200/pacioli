@@ -31,13 +31,13 @@ Run a balance sheet report using the account mappings defined in the config file
 .B pacioli
 balance-sheet
 [\fB\-e\fR \fIDATE\fR]
-\fIOUT_FILE\fR
+[\fIOUT_FILE\fR]
 .PP
 .B Arguments:
 .RS
 .TP
 .I OUT_FILE
-Path to write the LaTeX file. Use '\fB-\fR' to print to standard output.
+Path to write the LaTeX file. Defaults to standard output if not specified. Use '\fB-\fR' for explicit stdout.
 .RE
 .PP
 .B Options:
@@ -54,13 +54,14 @@ income-statement
 [\fB\-b\fR \fIDATE\fR]
 [\fB\-e\fR \fIDATE\fR]
 [\fB\-m\fR \fIMONTH\fR]
-\fIOUT_FILE\fR
+[\fB\-p\fR \fIPERIOD\fR]
+[\fIOUT_FILE\fR]
 .PP
 .B Arguments:
 .RS
 .TP
 .I OUT_FILE
-Path to write the LaTeX file. Use '\fB-\fR' to print to standard output.
+Path to write the LaTeX file. Defaults to standard output if not specified. Use '\fB-\fR' for explicit stdout.
 .RE
 .PP
 .B Options:
@@ -73,11 +74,30 @@ Start date for transactions.
 Limit the report to transactions before the specified date.
 .TP
 .BR \-m ", " \-\-month " " \fIMONTH\fR
-Limit report to a specific month. When specified, overrides begin-date and end-date.
+.B (DEPRECATED)
+Use --period instead. Limit report to a specific month. When specified, overrides begin-date and end-date.
+.TP
+.BR \-p ", " \-\-period " " \fIPERIOD\fR
+Specify a time period using natural language. When specified, overrides all other date options. Supported formats:
+.RS
+.IP \(bu 3
+\fBlast month\fR, \fBthis month\fR
+.IP \(bu 3
+\fBJan to Mar\fR (month ranges without year - uses current year for end date, handles year rollovers automatically)
+.IP \(bu 3
+\fBJan 2024 to Mar 2024\fR (month ranges with explicit years, full or abbreviated names)
+.IP \(bu 3
+\fBJanuary 2024\fR (single month with year)
+.IP \(bu 3
+\fB2024/01/15 to 2024/03/31\fR (explicit date ranges)
+.RE
+.PP
+.B Note on year rollovers:
+When using month ranges without years (e.g., \fBDec to January\fR), the current year is used for the end month. If the end month comes before the start month, the start month uses the previous year. For example, running \fBDec to January\fR in January 2026 gives December 2025 to January 2026.
 .RE
 .PP
 .B Note:
-At least one of --begin-date/--end-date or --month must be specified.
+At least one of --begin-date/--end-date, --month, or --period must be specified.
 .SS "cash-flow-statement"
 Run a cash flow statement for a set time period using the direct method. Generates a cash-basis report of inflows and outflows.
 .PP
@@ -86,13 +106,14 @@ cash-flow-statement
 [\fB\-b\fR \fIDATE\fR]
 [\fB\-e\fR \fIDATE\fR]
 [\fB\-m\fR \fIMONTH\fR]
-\fIOUT_FILE\fR
+[\fB\-p\fR \fIPERIOD\fR]
+[\fIOUT_FILE\fR]
 .PP
 .B Arguments:
 .RS
 .TP
 .I OUT_FILE
-Path to write the LaTeX file. Use '\fB-\fR' to print to standard output.
+Path to write the LaTeX file. Defaults to standard output if not specified. Use '\fB-\fR' for explicit stdout.
 .RE
 .PP
 .B Options:
@@ -105,11 +126,15 @@ Start date for transactions.
 Limit the report to transactions before the specified date.
 .TP
 .BR \-m ", " \-\-month " " \fIMONTH\fR
-Limit report to a specific month. When specified, overrides begin-date and end-date.
+.B (DEPRECATED)
+Use --period instead. Limit report to a specific month. When specified, overrides begin-date and end-date.
+.TP
+.BR \-p ", " \-\-period " " \fIPERIOD\fR
+Specify a time period using natural language. When specified, overrides all other date options. See income-statement command for supported period formats.
 .RE
 .PP
 .B Note:
-At least one of --begin-date/--end-date or --month must be specified.
+At least one of --begin-date/--end-date, --month, or --period must be specified.
 .PP
 The cash flow statement uses the \fBdirect method\fR and leverages Ledger's \fB--related\fR flag to ensure only cash-basis transactions are included. This means credit card purchases (liabilities) are excluded, and only transactions that directly affect cash accounts are included. The statement reconciles: Beginning Cash + Net Change = Ending Cash.
 .PP
@@ -279,7 +304,7 @@ pacioli balance-sheet -e 2024-12-31 balance_sheet.tex
 Generate an income statement for a specific month:
 .RS
 .nf
-pacioli income-statement -m January balance_sheet.tex income.tex
+pacioli income-statement -m January income.tex
 .fi
 .RE
 .PP
@@ -287,6 +312,34 @@ Generate an income statement for a date range:
 .RS
 .nf
 pacioli income-statement -b 2024-01-01 -e 2024-12-31 income.tex
+.fi
+.RE
+.PP
+Generate an income statement for last month using natural language:
+.RS
+.nf
+pacioli income-statement --period "last month" income.tex
+.fi
+.RE
+.PP
+Generate an income statement for Q1 of current year:
+.RS
+.nf
+pacioli income-statement --period "Jan to Mar" income.tex
+.fi
+.RE
+.PP
+Generate a cash flow statement for Q1 2024:
+.RS
+.nf
+pacioli cash-flow-statement --period "Jan 2024 to Mar 2024" cashflow.tex
+.fi
+.RE
+.PP
+Generate a report spanning year end (Dec 2025 to Jan 2026):
+.RS
+.nf
+pacioli income-statement --period "Dec to January" income.tex
 .fi
 .RE
 .PP

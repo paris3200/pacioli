@@ -8,8 +8,7 @@ IncomeStatement
 
 import re
 
-from pacioli.pacioli import logging
-from pacioli.pacioli import Pacioli
+from pacioli.pacioli import Pacioli, logging
 from pacioli.utils import format_balance
 
 
@@ -89,9 +88,6 @@ class IncomeStatement(Pacioli):
             Short account names and their balances.
 
         """
-        if self.cleared is not None:
-            cleared = "--cleared"
-
         ledger_command = [
             "ledger",
             "-f",
@@ -102,11 +98,14 @@ class IncomeStatement(Pacioli):
             start_date,
             "-e",
             end_date,
-            self.effective,
             "--depth",
             "2",
         ]
-        if self.cleared is not None:
+
+        if self.effective:
+            ledger_command.append("--effective")
+
+        if self.cleared:
             ledger_command.append("--cleared")
 
         if self.market:

@@ -1,6 +1,7 @@
 """Test the Config Class."""
 
 import pytest
+
 from pacioli.config import Config
 
 

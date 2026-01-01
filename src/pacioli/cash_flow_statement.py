@@ -8,8 +8,7 @@ CashFlowStatement
 
 from typing import Dict
 
-from pacioli.pacioli import logging
-from pacioli.pacioli import Pacioli
+from pacioli.pacioli import Pacioli, logging
 from pacioli.utils import format_balance
 
 
@@ -115,7 +114,7 @@ class CashFlowStatement(Pacioli):
             total += self.get_balance(account, date)
         return total
 
-    def process_accounts(self, category, start_date, end_date) -> Dict[str, int]:
+    def process_accounts(self, category, start_date, end_date) -> dict[str, int]:
         """Process account cash flow changes within time period.
 
         Uses Ledger's --related flag to get only cash-basis transactions.
@@ -156,10 +155,10 @@ class CashFlowStatement(Pacioli):
         for cash_account in self.config.cash_accounts:
             ledger_command.append(cash_account)
 
-        if self.effective is not None:
-            ledger_command.append(self.effective)
-        if self.cleared is not None:
-            ledger_command.append(self.cleared)
+        if self.effective:
+            ledger_command.append("--effective")
+        if self.cleared:
+            ledger_command.append("--cleared")
         if self.market:
             ledger_command.extend(self.market.split())
 
