@@ -57,12 +57,17 @@ class IncomeStatement(Pacioli):
         }
 
         income = self.process_accounts("Income", start_date, end_date)
-        result["income_total"] = income.pop("income_total")
+        result["income_total"] = income.pop("income_total", 0)
         result["income"] = income
 
         expenses = self.process_accounts("Expenses", start_date, end_date)
-        result["expenses_total"] = expenses.pop("expenses_total")
+        result["expenses_total"] = expenses.pop("expenses_total", 0)
         result["expenses"] = expenses
+
+        if result["income_total"] == 0 and not income:
+            logging.warning("No income accounts found for the specified period")
+        if result["expenses_total"] == 0 and not expenses:
+            logging.warning("No expense accounts found for the specified period")
 
         result["net_income"] = result["income_total"] - result["expenses_total"]
 

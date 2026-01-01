@@ -63,16 +63,23 @@ class CashFlowStatement(Pacioli):
 
         # Process activity categories
         operating = self.process_accounts(self.config.operating_activities, start_date, end_date)
-        result["operating_activities_total"] = operating.pop("category_total")
+        result["operating_activities_total"] = operating.pop("category_total", 0)
         result["operating_activities"] = operating
 
         investing = self.process_accounts(self.config.investing_activities, start_date, end_date)
-        result["investing_activities_total"] = investing.pop("category_total")
+        result["investing_activities_total"] = investing.pop("category_total", 0)
         result["investing_activities"] = investing
 
         financing = self.process_accounts(self.config.financing_activities, start_date, end_date)
-        result["financing_activities_total"] = financing.pop("category_total")
+        result["financing_activities_total"] = financing.pop("category_total", 0)
         result["financing_activities"] = financing
+
+        if result["operating_activities_total"] == 0 and not operating:
+            logging.warning("No operating activities found for the specified period")
+        if result["investing_activities_total"] == 0 and not investing:
+            logging.warning("No investing activities found for the specified period")
+        if result["financing_activities_total"] == 0 and not financing:
+            logging.warning("No financing activities found for the specified period")
 
         # Calculate totals
         result["net_change_in_cash"] = (

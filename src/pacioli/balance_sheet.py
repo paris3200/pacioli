@@ -56,13 +56,12 @@ class BalanceSheet(Pacioli):
             )
         )
 
-        total_assets = (
-            current_assets["current_assets_total"] + longterm_assets["longterm_assets_total"]
+        total_assets = current_assets.get("current_assets_total", 0) + longterm_assets.get(
+            "longterm_assets_total", 0
         )
-        total_liabilities = (
-            secured_liabilities["secured_liabilities_total"]
-            + unsecured_liabilities["unsecured_liabilities_total"]
-        )
+        total_liabilities = secured_liabilities.get(
+            "secured_liabilities_total", 0
+        ) + unsecured_liabilities.get("unsecured_liabilities_total", 0)
         total_equity = total_assets - total_liabilities
         total_liabilities_equity = total_liabilities + total_equity
         ledger = {
