@@ -1,6 +1,6 @@
 [project]
 name = "pacioli"
-version = "1.0.0"
+version = "1.0.1"
 description = "Beautiful report creation for plain text accounting"
 authors = [
     {name = "Jason Paris", email = "paris3200@gmail.com"}
